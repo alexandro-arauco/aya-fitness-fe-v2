@@ -10,7 +10,7 @@ import {
 export default function SelectFilter() {
   return (
     <Select onValueChange={(value) => console.log(value)} defaultValue="all">
-      <SelectTrigger className="!h-10 w-full md:w-1/3 border border-gray-300">
+      <SelectTrigger className="!h-10 w-full md:w-1/3 border border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]">
         <SelectValue placeholder="Select an option" />
       </SelectTrigger>
       <SelectContent>
