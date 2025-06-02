@@ -1,14 +1,23 @@
 "use client";
 
-import { Form } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
 import InputWithValidation from "@/components/InputWithValidation";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+import { LoginSchema, LoginType } from "@/schemas/login-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 export default function LoginForm() {
-  const form = useForm();
+  const form = useForm<LoginType>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onBlur",
+  });
 
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: LoginType) => {
     console.log(values);
   };
 
@@ -24,10 +33,10 @@ export default function LoginForm() {
         />
         <InputWithValidation
           form={form}
-          id="email"
-          name="email"
-          label="Email"
-          placeholder="Enter your email"
+          id="password"
+          name="password"
+          label="Password"
+          placeholder="********"
         />
 
         <Button className="w-full">LOGIN</Button>
