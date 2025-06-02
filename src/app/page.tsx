@@ -1,3 +1,4 @@
+import LoginForm from "@/components/login/LoginForm";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 
@@ -19,7 +20,9 @@ export default function Home() {
             <div className="text-2xl font-normal italic">FITNESS</div>
           </div>
         </CardHeader>
-        <CardContent></CardContent>
+        <CardContent>
+          <LoginForm />
+        </CardContent>
       </Card>
     </div>
   );
