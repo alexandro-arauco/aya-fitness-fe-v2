@@ -1,7 +1,26 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <>Sign UP</>
+    <div className="flex justify-center items-center min-h-screen">
+      <Card className="rounded-md shadow-2xl w-1/3 space-y-3">
+        <CardHeader className="justify-center items-center space-y-3">
+          <Image
+            className="mx-auto"
+            src="/logo.png"
+            alt="Logo Aya Fitness"
+            width={120}
+            height={120}
+          />
+
+          <div className="flex flex-row space-x-2 mx-auto items-center">
+            <div className="text-2xl font-bold">AYA</div>
+            <div className="text-2xl font-normal italic">FITNESS</div>
+          </div>
+        </CardHeader>
+        <CardContent></CardContent>
+      </Card>
+    </div>
   );
 }
