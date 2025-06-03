@@ -41,20 +41,16 @@ export async function NewGymAction(values: GymCreate, userId: number) {
     const formData = new FormData();
 
     Object.entries(values).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        // Special handling if "logo" is a File or Blob
-        if (key === "logo" && value instanceof File) {
-          formData.append("logo", value);
-        } else {
-          formData.append(key, value as any); // cast for TS, can fine-tune types
-        }
+      if (value) {
+        if (key === "logo") formData.append("logo", value);
+
+        formData.append(key, value);
       }
     });
 
     const response = await axiosInstance.post("/gyms/", formData, {
       headers: {
-        "X-User-ID": userId.toString(),
-        "Content-Type": "multipart/form-data",
+        "X-User-ID": userId,
       },
     });
 

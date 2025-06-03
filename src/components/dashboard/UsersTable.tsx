@@ -17,8 +17,6 @@ const fetchUsers = async (
 ) => {
   if (!userId || !userType) throw new Error("Missing user info");
 
-  console.log({ userId, userType, page });
-
   const url = userType === "admin" ? "/admins/gyms" : `/gyms/${userId}/clients`;
   const headers =
     userType === "gym"

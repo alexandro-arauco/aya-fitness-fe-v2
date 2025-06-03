@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { NewGymAction } from "@/actions/dashboard";
+import axiosInstance from "@/lib/api";
 
 export default function GymForm({ userId }: { userId: number }) {
   const form = useForm<GymCreate>({
@@ -41,6 +42,24 @@ export default function GymForm({ userId }: { userId: number }) {
 
   const onSubmit = (values: GymCreate) => {
     mutate(values);
+  };
+
+  const createNewGym = async (values: GymCreate) => {
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) {
+        if (key === "logo") formData.append("logo", value);
+
+        formData.append(key, value);
+      }
+    });
+
+    await axiosInstance.post("/gyms/", formData, {
+      headers: {
+        "X-User-ID": userId,
+      },
+    });
   };
 
   return (
@@ -94,9 +113,10 @@ export default function GymForm({ userId }: { userId: number }) {
             <InputWithValidation
               form={form}
               id="phone_number"
-              name="phome_number"
+              name="phone_number"
               label="Phone Number"
               placeholder="Ex. +1 123456789"
+              type="text"
             />
           </div>
         </div>
