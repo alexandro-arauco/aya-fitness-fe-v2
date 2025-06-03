@@ -7,6 +7,7 @@ import axiosInstance from "@/lib/api";
 import { useEffect, useState } from "react";
 import { ClientTable, Gym } from "@/schemas/dashboard-schema";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useRouter } from "next/navigation";
 
 const fetchUsers = async (
   userId: number,
@@ -44,6 +45,7 @@ export default function UsersTable() {
     type: string;
   } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
 
   // Load user information on mount and when localStorage changes
   useEffect(() => {
@@ -66,19 +68,11 @@ export default function UsersTable() {
     }
   }, [information?.id, information?.type]);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["users", currentPage, information?.id, information?.type],
     queryFn: () => fetchUsers(information!.id, information!.type, currentPage),
     enabled: !!information?.id && !!information?.type,
-    retry: 2,
-    staleTime: 5 * 60 * 1000, // 5 minutes
   });
-
-  // Handle error state
-  if (error) {
-    console.error("Error fetching users:", error);
-    return <div>Error loading data. Please try again.</div>;
-  }
 
   // Handle no data
   if (!data) {
@@ -114,6 +108,20 @@ export default function UsersTable() {
           itemsPerPage={data.pagination?.items_per_page || 10}
           onPageChange={onPageChange}
           currentPage={currentPage}
+          actions={{
+            onView: (item) => {
+              if (information.type === "admin") {
+                router.push(`/profile/${item.id}`);
+                return;
+              }
+
+              if (information.type === "gym") {
+                router.push(`/profile/${item.id}`);
+                return;
+              }
+            },
+            onDelete: (item) => console.log("Delete", item),
+          }}
         />
       )}
     </>

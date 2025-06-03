@@ -1,11 +1,11 @@
+import HeaderDashboard from "@/components/dashboard/HeaderDashboard";
 import Menu from "@/components/dashboard/Menu";
 import UsersTable from "@/components/dashboard/UsersTable";
-import Header from "@/components/Header";
 
 export default function DashboardPage() {
   return (
     <>
-      <Header title="Dashboard" />
+      <HeaderDashboard />
 
       <div className="px-10 py-5 space-y-4">
         <Menu />

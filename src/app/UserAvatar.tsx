@@ -12,8 +12,7 @@ export default function UserAvatar() {
   return (
     <Avatar className="bg-gray-300 flex items-center justify-center w-15 h-15 font-bold text-2xl tracking-widest">
       {isClient && information
-        ? getInitials(`${information.first_name} ${information.last_name}`) ||
-          ""
+        ? getInitials(`${information.first_name} ${information.last_name}`)
         : ""}
     </Avatar>
   );
