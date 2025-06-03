@@ -1,10 +1,10 @@
 import Header from "@/components/Header";
 
-export default function ClientProfilePage({
-  params,
-}: {
+interface PageProps {
   params: { id: string };
-}) {
+}
+
+export default function ClientProfilePage({ params }: PageProps) {
   const { id } = params;
   return (
     <>

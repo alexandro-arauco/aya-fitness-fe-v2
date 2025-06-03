@@ -1,10 +1,10 @@
 import Header from "@/components/Header";
 
-export default function ClientAssessmentPage({
-  params,
-}: {
+interface PageProps {
   params: { id: string; assessment_id: string };
-}) {
+}
+
+export default function ClientAssessmentPage({ params }: PageProps) {
   const { id: client_id, assessment_id } = params;
 
   return (
