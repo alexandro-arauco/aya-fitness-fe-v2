@@ -53,3 +53,14 @@ export function getCurrentDate(): string {
   const year = today.getFullYear();
   return `${year}-${month}-${day}`;
 }
+
+export function getInitials(fullName: string) {
+  console.log(fullName);
+  const parts = fullName.trim().split(/\s+/);
+  const firstInitial = parts[0]?.[0]?.toUpperCase() || "";
+  const lastInitial =
+    parts.length > 1
+      ? parts[Math.floor(parts.length / 2)]?.[0]?.toUpperCase()
+      : "";
+  return firstInitial + lastInitial;
+}

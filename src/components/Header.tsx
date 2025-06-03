@@ -18,7 +18,7 @@ export default function Header({ title }: HeaderProps) {
         </div>
 
         <MenuUser>
-          <UserAvatar text={"AA"} />
+          <UserAvatar/>
         </MenuUser>
       </CardHeader>
     </Card>

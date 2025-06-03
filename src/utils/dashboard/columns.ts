@@ -45,7 +45,9 @@ export const columnsClientsList: Column<ClientTable>[] = [
     key: "fitness_level",
     header: "Fitness Level",
     render: (item) =>
-      item.fitness_level.charAt(0).toUpperCase() + item.fitness_level.slice(1),
+      item.fitness_level
+        ? item.fitness_level.charAt(0).toUpperCase() + item.fitness_level.slice(1)
+        : "---",
   },
   {
     key: "last_assessment",

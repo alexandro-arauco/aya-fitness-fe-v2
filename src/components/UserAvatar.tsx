@@ -1,13 +1,15 @@
+"use client";
+
 import { Avatar } from "@/components/ui/avatar";
+import useGetFromQuery from "@/hooks/useGetFromQuery";
 
-interface UserAvatarProps {
-  text: string;
-}
+export default function UserAvatar() {
+  const { information } = useGetFromQuery("user-info");
 
-export default function UserAvatar({ text }: UserAvatarProps) {
+  console.log({ information });
   return (
     <Avatar className="bg-gray-300 flex items-center justify-center w-15 h-15 font-bold text-2xl tracking-widest">
-      {text}
+      ...
     </Avatar>
   );
 }
