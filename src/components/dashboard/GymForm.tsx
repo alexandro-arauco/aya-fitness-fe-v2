@@ -7,8 +7,10 @@ import { Label } from "@/components/ui/label";
 import { GymCreate, GymSchema } from "@/schemas/dashboard-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { NewGymAction } from "@/actions/dashboard";
 
-export default function GymForm() {
+export default function GymForm({ userId }: { userId: number }) {
   const form = useForm<GymCreate>({
     resolver: zodResolver(GymSchema.omit({ id: true })),
     defaultValues: {
@@ -26,11 +28,19 @@ export default function GymForm() {
       country: "",
       logo: "",
     },
-    mode: "onBlur"
+    mode: "onBlur",
+  });
+
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (values: GymCreate) => NewGymAction(values, userId),
+    onSuccess: async (data) =>
+      await queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onError: (error) => console.error(error),
   });
 
   const onSubmit = (values: GymCreate) => {
-    console.log(values); //TODO: endpoint create new gym
+    mutate(values);
   };
 
   return (
@@ -179,7 +189,9 @@ export default function GymForm() {
           </div>
         </div>
 
-        <Button className="w-full mt-4 cursor-pointer">Create</Button>
+        <Button className="w-full mt-4 cursor-pointer">
+          {isPending ? "Creating" : "Create"}
+        </Button>
       </form>
     </Form>
   );

@@ -48,7 +48,6 @@ export default function UserForm({ userId }: { userId: number }) {
   });
 
   const onSubmit = (values: ClientCreate) => {
-    console.log({ values });
     mutate(values);
   };
 
@@ -149,7 +148,9 @@ export default function UserForm({ userId }: { userId: number }) {
           </div>
         </div>
 
-        <Button className="w-full mt-4 cursor-pointer">Create</Button>
+        <Button className="w-full mt-4 cursor-pointer">
+          {isPending ? "Creating" : "Create"}
+        </Button>
       </form>
     </Form>
   );

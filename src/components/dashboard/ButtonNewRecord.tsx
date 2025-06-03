@@ -30,12 +30,17 @@ export default function ButtonNewRecord() {
       <AlertDialogContent className="min-w-5/12">
         <AlertDialogHeader>
           <div className="flex justify-between items-center">
-            <AlertDialogTitle>Add New</AlertDialogTitle>
+            <AlertDialogTitle>
+              Add New{" "}
+              {information && information.type === "admin" ? "Gym" : "Member"}
+            </AlertDialogTitle>
             <AlertDialogCancel>
               <XIcon className="hover:opacity-55 cursor-pointer" />
             </AlertDialogCancel>
           </div>
-          {information && information.type === "admin" && <GymForm />}
+          {information && information.type === "admin" && (
+            <GymForm userId={information.id} />
+          )}
           {information && information.type === "gym" && (
             <UserForm userId={information.id} />
           )}
