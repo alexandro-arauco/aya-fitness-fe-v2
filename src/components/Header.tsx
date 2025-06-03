@@ -1,8 +1,8 @@
 import Logo from "@/components/Logo";
 import { Card, CardHeader } from "@/components/ui/card";
 
-import UserAvatar from "@/components/UserAvatar";
 import MenuUser from "@/components/MenuUser";
+import UserAvatar from "@/app/UserAvatar";
 
 interface HeaderProps {
   title: string;
@@ -18,7 +18,7 @@ export default function Header({ title }: HeaderProps) {
         </div>
 
         <MenuUser>
-          <UserAvatar/>
+          <UserAvatar />
         </MenuUser>
       </CardHeader>
     </Card>

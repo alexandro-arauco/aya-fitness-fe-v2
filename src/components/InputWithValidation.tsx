@@ -41,7 +41,6 @@ export default function InputWithValidation({
                 type={type}
                 accept="image/png"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  console.log({ e });
                   form.setValue(
                     name,
                     e.target.files ? e.target.files[0] : null

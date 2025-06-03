@@ -4,6 +4,7 @@ import { LoginAction } from "@/actions/login";
 import InputWithValidation from "@/components/InputWithValidation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { LoginSchema, LoginType } from "@/schemas/login-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -23,14 +24,14 @@ export default function LoginForm() {
   const queryClient = useQueryClient();
   type LoginResponse = { user: Record<string, any> } | {};
   const router = useRouter();
+  const { setItem } = useLocalStorage();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: LoginType): Promise<LoginResponse> =>
       (await LoginAction(values)) as LoginResponse,
     onSuccess: (data) => {
-      console.log("data", { data });
       if ("user" in data && data.user) {
-        queryClient.setQueryData(["user-info"], data.user);
+        setItem("user-info", data.user);
         router.push("/dashboard");
       }
     },

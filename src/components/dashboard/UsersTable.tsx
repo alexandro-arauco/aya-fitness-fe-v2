@@ -3,10 +3,10 @@
 import { columnsClientsList, columnsGymsList } from "@/utils/dashboard/columns";
 import Table, { Column } from "@/components/Table";
 import { useQuery } from "@tanstack/react-query";
-import useGetFromQuery from "@/hooks/useGetFromQuery";
 import axiosInstance from "@/lib/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClientTable, Gym } from "@/schemas/dashboard-schema";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const fetchUsers = async (
   userId: number,
@@ -16,11 +16,13 @@ const fetchUsers = async (
 ) => {
   if (!userId || !userType) throw new Error("Missing user info");
 
+  console.log({ userId, userType, page });
+
   const url = userType === "admin" ? "/admins/gyms" : `/gyms/${userId}/clients`;
   const headers =
     userType === "gym"
       ? {
-          "X-User-ID": userId,
+          "X-User-ID": userId.toString(),
         }
       : {};
 
@@ -36,48 +38,84 @@ const fetchUsers = async (
 };
 
 export default function UsersTable() {
-  const { information } = useGetFromQuery("user-info");
+  const { getItem } = useLocalStorage<Record<string, any>>();
+  const [information, setInformation] = useState<{
+    id: number;
+    type: string;
+  } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading } = useQuery({
+  // Load user information on mount and when localStorage changes
+  useEffect(() => {
+    const userInfo = getItem("user-info");
+
+    if (userInfo && userInfo.id && userInfo.type) {
+      setInformation({
+        id: Number(userInfo.id), // Ensure it's a number
+        type: userInfo.type,
+      });
+    } else {
+      setInformation(null);
+    }
+  }, [getItem]);
+
+  // Reset page when user info changes
+  useEffect(() => {
+    if (information) {
+      setCurrentPage(1);
+    }
+  }, [information?.id, information?.type]);
+
+  const { data, isLoading, error } = useQuery({
     queryKey: ["users", currentPage, information?.id, information?.type],
-    queryFn: () => fetchUsers(information.id, information.type, currentPage),
-    retryOnMount: true,
-    enabled: information !== undefined,
+    queryFn: () => fetchUsers(information!.id, information!.type, currentPage),
+    enabled: !!information?.id && !!information?.type,
+    retry: 2,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  if (!information) return;
+  // Handle error state
+  if (error) {
+    console.error("Error fetching users:", error);
+    return <div>Error loading data. Please try again.</div>;
+  }
+
+  // Handle no data
+  if (!data) {
+    return <></>;
+  }
 
   type TableEntity = Gym | ClientTable;
 
   let columnsResponse: Column<TableEntity>[] = [];
   let dataResponse: TableEntity[] = [];
 
-  if (information.type === "admin") {
+  if (information!.type === "admin") {
     columnsResponse = columnsGymsList as Column<TableEntity>[];
-    dataResponse = data.data as Gym[];
-  } else {
-    console.log({ data });
+    dataResponse = (data.data as Gym[]) || [];
+  } else if (information!.type === "gym") {
     columnsResponse = columnsClientsList as Column<TableEntity>[];
-    dataResponse = data.data as ClientTable[];
+    dataResponse = (data.data as ClientTable[]) || [];
   }
 
-  const onPageChance = async (page: number) => {
+  const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
 
   return (
     <>
-      {data && !isLoading ? (
+      {isLoading || !information ? (
+        <div>Loading...</div>
+      ) : (
         <Table<TableEntity>
-          data={dataResponse || []}
+          data={dataResponse}
           columns={columnsResponse}
-          totalItems={data.pagination.total_items}
-          itemsPerPage={data.pagination.items_per_page}
-          onPageChange={onPageChance}
+          totalItems={data.pagination?.total_items || 0}
+          itemsPerPage={data.pagination?.items_per_page || 10}
+          onPageChange={onPageChange}
           currentPage={currentPage}
         />
-      ) : null}
+      )}
     </>
   );
 }

@@ -55,7 +55,6 @@ export function getCurrentDate(): string {
 }
 
 export function getInitials(fullName: string) {
-  console.log(fullName);
   const parts = fullName.trim().split(/\s+/);
   const firstInitial = parts[0]?.[0]?.toUpperCase() || "";
   const lastInitial =
