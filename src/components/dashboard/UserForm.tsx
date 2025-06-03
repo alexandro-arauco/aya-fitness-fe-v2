@@ -5,6 +5,7 @@ import SelectWithValidation from "@/components/SelectWithValidation";
 import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import DatePicker from "../DatePicker";
+import InputSelectWithValidation from "../InputSelectWithValidation";
 
 export default function UserForm() {
   const form = useForm();
@@ -71,6 +72,27 @@ export default function UserForm() {
           </div>
           <div className="w-full">
             <DatePicker form={form} label="Date of Birth" />
+          </div>
+        </div>
+
+        <div className="flex space-x-4">
+          <div className="w-full">
+            <InputSelectWithValidation
+              form={form}
+              id="height"
+              label="Height"
+              name="height"
+              placeholder="E.x. 180"
+            />
+          </div>
+          <div className="w-full">
+            <InputSelectWithValidation
+              form={form}
+              id="height"
+              label="Height"
+              name="height"
+              placeholder="E.x. 180"
+            />
           </div>
         </div>
       </form>
