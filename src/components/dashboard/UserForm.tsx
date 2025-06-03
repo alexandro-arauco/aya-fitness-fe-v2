@@ -1,5 +1,6 @@
 "use client";
 
+import { NewClientAction } from "@/actions/dashboard";
 import DatePicker from "@/components/DatePicker";
 import InputSelectWithValidation from "@/components/InputSelectWithValidation";
 import InputWithValidation from "@/components/InputWithValidation";
@@ -7,6 +8,7 @@ import SelectWithValidation from "@/components/SelectWithValidation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { ClientCreate, ClientSchema } from "@/schemas/dashboard-schema";
+import { LoginType } from "@/schemas/login-schema";
 import {
   DATA_FITNESS_LEVEL,
   DATA_GENDERS,
@@ -15,9 +17,10 @@ import {
   getCurrentDate,
 } from "@/utils/dashboard/commons";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
-export default function UserForm() {
+export default function UserForm({ userId }: { userId: number }) {
   const form = useForm<ClientCreate>({
     resolver: zodResolver(ClientSchema.omit({ id: true })),
     defaultValues: {
@@ -36,8 +39,17 @@ export default function UserForm() {
     mode: "onBlur",
   });
 
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (values: ClientCreate) => NewClientAction(values, userId),
+    onSuccess: async (data) =>
+      await queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onError: (error) => console.log(error),
+  });
+
   const onSubmit = (values: ClientCreate) => {
-    console.log({ values }); //TODO: endpoint create new client
+    console.log({ values });
+    mutate(values);
   };
 
   return (

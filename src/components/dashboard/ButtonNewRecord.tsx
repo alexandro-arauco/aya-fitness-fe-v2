@@ -1,3 +1,7 @@
+"use client";
+
+import GymForm from "@/components/dashboard/GymForm";
+import UserForm from "@/components/dashboard/UserForm";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -5,19 +9,21 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { PlusIcon, XIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import UserForm from "./UserForm";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
-import GymForm from "./GymForm";
+import { PlusIcon, XIcon } from "lucide-react";
 
 export default function ButtonNewRecord() {
+  const { getItem } = useLocalStorage<Record<string, any>>();
+  const information = getItem("user-info");
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button className="font-semibold cursor-pointer">
           <PlusIcon />
-          Add Member
+          Add {information && information.type === "admin" ? "Gym" : "Member"}
         </Button>
       </AlertDialogTrigger>
 
@@ -29,8 +35,10 @@ export default function ButtonNewRecord() {
               <XIcon className="hover:opacity-55 cursor-pointer" />
             </AlertDialogCancel>
           </div>
-          {/* <UserForm /> */}
-          <GymForm />
+          {information && information.type === "admin" && <GymForm />}
+          {information && information.type === "gym" && (
+            <UserForm userId={information.id} />
+          )}
         </AlertDialogHeader>
       </AlertDialogContent>
     </AlertDialog>

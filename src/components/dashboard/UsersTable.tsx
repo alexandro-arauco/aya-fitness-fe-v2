@@ -71,6 +71,8 @@ export default function UsersTable() {
   const { data, isLoading } = useQuery({
     queryKey: ["users", currentPage, information?.id, information?.type],
     queryFn: () => fetchUsers(information!.id, information!.type, currentPage),
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
     enabled: !!information?.id && !!information?.type,
   });
 

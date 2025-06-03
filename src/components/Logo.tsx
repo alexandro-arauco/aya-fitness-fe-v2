@@ -2,6 +2,7 @@
 
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import Image from "next/image";
+import Link from "next/link";
 
 interface LogoProps {
   width?: number;
@@ -18,12 +19,14 @@ export default function Logo({ width = 120, height = 120 }: LogoProps) {
       : "/logo.png";
 
   return (
-    <Image
-      className="mx-auto"
-      src={logo}
-      alt="Logo Aya Fitness"
-      width={width}
-      height={height}
-    />
+    <Link href="/dashboard">
+      <Image
+        className="mx-auto"
+        src={logo}
+        alt="Logo Aya Fitness"
+        width={width}
+        height={height}
+      />
+    </Link>
   );
 }
