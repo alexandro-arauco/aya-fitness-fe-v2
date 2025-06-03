@@ -1,11 +1,11 @@
 import Header from "@/components/Header";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function ClientProfilePage({ params }: PageProps) {
-  const { id } = params;
+export default async function ClientProfilePage({ params }: PageProps) {
+  const { id } = await params;
   return (
     <>
       <Header title="Profile" />
