@@ -120,6 +120,7 @@ export default function UserForm() {
               placeholder="E.x. 180"
               dataSelect={DATA_HEIGHT_METRIC}
               selectName="height_metric"
+              error={form.formState.errors.height?.message || ""}
             />
           </div>
           <div className="w-full">
@@ -131,6 +132,7 @@ export default function UserForm() {
               placeholder="E.x. 180"
               dataSelect={DATA_WEIGHT_METRIC}
               selectName="weight_metric"
+              error={form.formState.errors.weight?.message || ""}
             />
           </div>
         </div>

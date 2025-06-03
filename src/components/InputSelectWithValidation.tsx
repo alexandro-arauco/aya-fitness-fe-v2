@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import clsx from "clsx";
 import { UseFormReturn } from "react-hook-form";
 
 interface InputSelectWithValidationProps {
@@ -23,6 +24,7 @@ interface InputSelectWithValidationProps {
   placeholder: string;
   dataSelect: { value: string; label: string }[];
   selectName: string;
+  error: string;
 }
 
 export default function InputSelectWithValidation({
@@ -33,7 +35,9 @@ export default function InputSelectWithValidation({
   placeholder,
   dataSelect,
   selectName,
+  error,
 }: InputSelectWithValidationProps) {
+  console.log({ error });
   return (
     <FormField
       control={form.control}
@@ -41,7 +45,14 @@ export default function InputSelectWithValidation({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <div className="flex border border-gray-300 rounded-md">
+          <div
+            className={clsx(
+              "flex border border-gray-300 rounded-md",
+              error
+                ? "border-red-500 focus-within:border-ring-destructive focus-within:ring-ring/50 focus-within:ring-[3px]"
+                : "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]"
+            )}
+          >
             <FormControl>
               <Input
                 className="h-10 border-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-none"
