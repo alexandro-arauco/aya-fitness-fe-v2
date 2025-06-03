@@ -9,6 +9,7 @@ export default function ClientProfilePage({
   return (
     <>
       <Header title="Profile" />
+      <div>{id}</div>
     </>
   );
 }

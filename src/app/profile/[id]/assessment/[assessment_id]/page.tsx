@@ -10,6 +10,9 @@ export default function ClientAssessmentPage({
   return (
     <>
       <Header title="Client Assessment - Evaluation Data" />
+      <div>
+        {client_id} {assessment_id}
+      </div>
     </>
   );
 }
