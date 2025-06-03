@@ -1,19 +1,49 @@
 "use client";
 
+import DatePicker from "@/components/DatePicker";
+import InputSelectWithValidation from "@/components/InputSelectWithValidation";
 import InputWithValidation from "@/components/InputWithValidation";
 import SelectWithValidation from "@/components/SelectWithValidation";
 import { Form } from "@/components/ui/form";
+import { ClientCreate, ClientSchema } from "@/schemas/dashboard-schema";
+import {
+  DATA_FITNESS_LEVEL,
+  DATA_GENDERS,
+  DATA_HEIGHT_METRIC,
+  DATA_WEIGHT_METRIC,
+  getCurrentDate,
+} from "@/utils/dashboard/commons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import DatePicker from "../DatePicker";
-import InputSelectWithValidation from "../InputSelectWithValidation";
+import { Button } from "../ui/button";
 
 export default function UserForm() {
-  const form = useForm();
+  const form = useForm<ClientCreate>({
+    resolver: zodResolver(ClientSchema.omit({ id: true })),
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      sex: DATA_GENDERS[0].value,
+      email: "",
+      phone_number: "",
+      fitness_level: DATA_FITNESS_LEVEL[0].value,
+      dob: getCurrentDate(),
+      height: "",
+      height_metric: DATA_HEIGHT_METRIC[0].value,
+      weight: "",
+      weight_metric: DATA_WEIGHT_METRIC[0].value,
+    },
+    mode: "onBlur",
+  });
+
+  const onSubmit = (values: ClientCreate) => {
+    console.log({ values });
+  };
 
   return (
     <Form {...form}>
-      <form className="space-y-4">
-        <div className="flex space-x-4">
+      <form className="space-y-4 py-5" onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
           <div className="w-full">
             <InputWithValidation
               form={form}
@@ -34,17 +64,22 @@ export default function UserForm() {
           </div>
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
           <div className="w-full">
-            <SelectWithValidation form={form} id="sex" name="sex" label="Sex" />
+            <SelectWithValidation
+              form={form}
+              name="sex"
+              label="Sex"
+              data={DATA_GENDERS}
+            />
           </div>
           <div className="w-full">
             <InputWithValidation
               form={form}
-              id="last_name"
-              name="last_name"
-              label="Last Name"
-              placeholder="Enter your Last Name"
+              id="email"
+              name="email"
+              label="Email"
+              placeholder="Ex. jhon.doe@test.com"
             />
           </div>
         </div>
@@ -61,13 +96,13 @@ export default function UserForm() {
           </div>
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
           <div className="w-full">
             <SelectWithValidation
               form={form}
-              id="fitness_level"
               name="fitness_level"
               label="Fitness Level"
+              data={DATA_FITNESS_LEVEL}
             />
           </div>
           <div className="w-full">
@@ -75,26 +110,32 @@ export default function UserForm() {
           </div>
         </div>
 
-        <div className="flex space-x-4">
+        <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
           <div className="w-full">
             <InputSelectWithValidation
               form={form}
               id="height"
-              label="Height"
+              label={`Height (${form.watch("height_metric")})`}
               name="height"
               placeholder="E.x. 180"
+              dataSelect={DATA_HEIGHT_METRIC}
+              selectName="height_metric"
             />
           </div>
           <div className="w-full">
             <InputSelectWithValidation
               form={form}
-              id="height"
-              label="Height"
-              name="height"
+              id="weight"
+              label={`Weight (${form.watch("weight_metric")})`}
+              name="weight"
               placeholder="E.x. 180"
+              dataSelect={DATA_WEIGHT_METRIC}
+              selectName="weight_metric"
             />
           </div>
         </div>
+
+        <Button className="w-full mt-3">Create</Button>
       </form>
     </Form>
   );

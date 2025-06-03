@@ -1,10 +1,8 @@
-import { UseFormReturn } from "react-hook-form";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
@@ -13,19 +11,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { UseFormReturn } from "react-hook-form";
 
 interface SelectWithValidationProps {
   form: UseFormReturn<any, any, any>;
-  id: string;
   name: string;
   label: string;
+  data: { value: string; label: string }[];
 }
 
 export default function SelectWithValidation({
   form,
-  id,
   name,
   label,
+  data,
 }: SelectWithValidationProps) {
   return (
     <FormField
@@ -41,11 +40,11 @@ export default function SelectWithValidation({
               </SelectTrigger>
 
               <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="day">Last Day</SelectItem>
-                <SelectItem value="week">Last Week</SelectItem>
-                <SelectItem value="month">Last Month</SelectItem>
-                <SelectItem value="year">Last Year</SelectItem>
+                {data.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </FormControl>

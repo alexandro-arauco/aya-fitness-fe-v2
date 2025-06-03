@@ -70,7 +70,10 @@ export const ClientSchema = BaseUserSchema.extend({
 });
 
 export type Gym = z.infer<typeof GymSchema>; //Gym Record
-export type Client = z.infer<typeof ClientSchema>; //Client Record
+//export type Client = z.infer<ReturnType<typeof ClientSchema.omit<{ id: true }>>>; //Client Record
+export type Client = z.infer<typeof ClientSchema>;
+
+export type ClientCreate = Omit<Client, "id">;
 
 export interface ClientTable extends Client {
   last_assessment: string;

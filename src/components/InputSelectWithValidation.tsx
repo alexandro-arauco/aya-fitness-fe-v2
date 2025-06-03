@@ -16,11 +16,13 @@ import {
 import { UseFormReturn } from "react-hook-form";
 
 interface InputSelectWithValidationProps {
-  form: UseFormReturn;
+  form: UseFormReturn<any, any, any>;
   id: string;
   name: string;
   label: string;
   placeholder: string;
+  dataSelect: { value: string; label: string }[];
+  selectName: string;
 }
 
 export default function InputSelectWithValidation({
@@ -29,6 +31,8 @@ export default function InputSelectWithValidation({
   name,
   label,
   placeholder,
+  dataSelect,
+  selectName,
 }: InputSelectWithValidationProps) {
   return (
     <FormField
@@ -37,8 +41,8 @@ export default function InputSelectWithValidation({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <FormControl>
-            <div className="flex border border-gray-300 rounded-md">
+          <div className="flex border border-gray-300 rounded-md">
+            <FormControl>
               <Input
                 className="h-10 border-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-none"
                 id={id}
@@ -46,23 +50,28 @@ export default function InputSelectWithValidation({
                 autoComplete="off"
                 {...field}
               />
-              <Select>
+            </FormControl>
+            <FormControl>
+              <Select
+                onValueChange={(value) => form.setValue(selectName, value)}
+                value={form.getValues(selectName)}
+              >
                 <SelectTrigger className="!h-10 border-t-0 border-r-0 border-b-0 border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-none">
                   <SelectValue placeholder="Select an option" />
                 </SelectTrigger>
 
                 <SelectContent>
-                  <SelectItem value="all">All</SelectItem>
-                  <SelectItem value="day">Last Day</SelectItem>
-                  <SelectItem value="week">Last Week</SelectItem>
-                  <SelectItem value="month">Last Month</SelectItem>
-                  <SelectItem value="year">Last Year</SelectItem>
+                  {dataSelect.map((item) => (
+                    <SelectItem key={item.value} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-            </div>
-          </FormControl>
+            </FormControl>
+          </div>
 
-          <FormMessage />
+          <FormMessage className="text-sm italic" />
         </FormItem>
       )}
     />

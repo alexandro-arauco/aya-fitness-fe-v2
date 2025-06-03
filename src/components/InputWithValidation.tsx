@@ -43,7 +43,7 @@ export default function InputWithValidation({
             />
           </FormControl>
 
-          <FormMessage />
+          <FormMessage className="text-sm italic" />
         </FormItem>
       )}
     />
