@@ -1,10 +1,13 @@
 "use client";
 
+import { LoginAction } from "@/actions/login";
 import InputWithValidation from "@/components/InputWithValidation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { LoginSchema, LoginType } from "@/schemas/login-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 export default function LoginForm() {
@@ -17,8 +20,27 @@ export default function LoginForm() {
     mode: "onBlur",
   });
 
+  const queryClient = useQueryClient();
+  type LoginResponse = { user: Record<string, any> } | {};
+  const router = useRouter();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (values: LoginType): Promise<LoginResponse> =>
+      (await LoginAction(values)) as LoginResponse,
+    onSuccess: (data) => {
+      console.log("data", { data });
+      if ("user" in data && data.user) {
+        queryClient.setQueryData(["user-info"], data.user);
+        router.push("/dashboard");
+      }
+    },
+    onError: (error) => {
+      form.setError("password", { message: "Invalid credentials..." });
+    },
+  });
+
   const onSubmit = (values: LoginType) => {
-    console.log(values);
+    mutate(values);
   };
 
   return (
@@ -40,7 +62,9 @@ export default function LoginForm() {
           placeholder="********"
         />
 
-        <Button className="w-full">LOGIN</Button>
+        <Button className="w-full" disabled={isPending}>
+          {isPending ? "LOGGING IN" : "LOGIN"}
+        </Button>
       </form>
     </Form>
   );

@@ -1,7 +1,6 @@
 import LoginForm from "@/components/login/LoginForm";
 import Logo from "@/components/Logo";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import Image from "next/image";
 
 export default function Home() {
   return (
