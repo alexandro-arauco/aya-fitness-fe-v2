@@ -4,6 +4,7 @@ import DatePicker from "@/components/DatePicker";
 import InputSelectWithValidation from "@/components/InputSelectWithValidation";
 import InputWithValidation from "@/components/InputWithValidation";
 import SelectWithValidation from "@/components/SelectWithValidation";
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { ClientCreate, ClientSchema } from "@/schemas/dashboard-schema";
 import {
@@ -15,7 +16,6 @@ import {
 } from "@/utils/dashboard/commons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "../ui/button";
 
 export default function UserForm() {
   const form = useForm<ClientCreate>({
@@ -37,7 +37,7 @@ export default function UserForm() {
   });
 
   const onSubmit = (values: ClientCreate) => {
-    console.log({ values });
+    console.log({ values }); //TODO: endpoint create new client
   };
 
   return (

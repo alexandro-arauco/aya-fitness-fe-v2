@@ -33,14 +33,31 @@ export default function InputWithValidation({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input
-              className="h-10 border-gray-300 rounded-md"
-              id={id}
-              placeholder={placeholder}
-              type={type}
-              autoComplete="off"
-              {...field}
-            />
+            {type === "file" ? (
+              <Input
+                className="h-10 border-gray-300 rounded-md border-dashed"
+                id={id}
+                placeholder={placeholder}
+                type={type}
+                accept="image/png"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  console.log({ e });
+                  form.setValue(
+                    name,
+                    e.target.files ? e.target.files[0] : null
+                  );
+                }}
+              />
+            ) : (
+              <Input
+                className="h-10 border-gray-300 rounded-md"
+                id={id}
+                placeholder={placeholder}
+                type={type}
+                autoComplete="off"
+                {...field}
+              />
+            )}
           </FormControl>
 
           <FormMessage className="text-sm italic" />

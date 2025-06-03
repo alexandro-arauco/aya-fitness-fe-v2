@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { FormControl, FormField, FormItem, FormLabel } from "./ui/form";
+import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { cn } from "@/lib/utils";
 

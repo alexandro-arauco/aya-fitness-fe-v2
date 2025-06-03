@@ -6,7 +6,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { PlusIcon, XIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import UserForm from "./UserForm";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import GymForm from "./GymForm";

@@ -1,20 +1,41 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import InputWithValidation from "@/components/InputWithValidation";
+import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
-import InputWithValidation from "@/components/InputWithValidation";
+import { GymCreate, GymSchema } from "@/schemas/dashboard-schema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function GymForm() {
-  const form = useForm();
+  const form = useForm<GymCreate>({
+    resolver: zodResolver(GymSchema.omit({ id: true })),
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone_number: "",
+      job_title: "",
+      gym_name: "",
+      gym_website: "",
+      street_address: "",
+      city: "",
+      state_province: "",
+      postal_code: "",
+      country: "",
+      logo: "",
+    },
+    mode: "onBlur"
+  });
 
-  const onSubmit = (values: any) => {
-    console.log(values);
+  const onSubmit = (values: GymCreate) => {
+    console.log(values); //TODO: endpoint create new gym
   };
 
   return (
     <Form {...form}>
-      <form className="space-y-4 py-3">
+      <form className="space-y-4 py-3" onSubmit={form.handleSubmit(onSubmit)}>
         <Label>Primary Contact Information</Label>
         <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
           <div className="w-full">
@@ -157,6 +178,8 @@ export default function GymForm() {
             </p>
           </div>
         </div>
+
+        <Button className="w-full mt-4 cursor-pointer">Create</Button>
       </form>
     </Form>
   );

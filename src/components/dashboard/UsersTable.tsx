@@ -1,7 +1,7 @@
 "use client";
 
 import { columnsGymsList } from "@/utils/dashboard/columns";
-import Table from "../Table";
+import Table from "@/components/Table";
 
 export default function UsersTable() {
   return (
