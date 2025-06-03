@@ -13,8 +13,8 @@ interface InputWithValidationProps {
   id: string;
   name: string;
   label: string;
-  placeholder: string;
-  type?: "text";
+  placeholder?: string;
+  type?: "text" | "password" | "date";
 }
 
 export default function InputWithValidation({
@@ -22,7 +22,7 @@ export default function InputWithValidation({
   id,
   name,
   label,
-  placeholder,
+  placeholder = "",
   type = "text",
 }: InputWithValidationProps) {
   return (
@@ -38,6 +38,7 @@ export default function InputWithValidation({
               id={id}
               placeholder={placeholder}
               type={type}
+              autoComplete="off"
               {...field}
             />
           </FormControl>

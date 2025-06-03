@@ -4,16 +4,14 @@ import { Input } from "@/components/ui/input";
 
 import SelectFilter from "@/components/dashboard/SelectFilter";
 import { PlusIcon, SearchIcon } from "lucide-react";
+import ButtonNewRecord from "@/components/dashboard/ButtonNewRecord";
 
 export default function Menu() {
   return (
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row items-center justify-between">
         <div className="text-3xl">Member List</div>
-        <Button className="font-semibold">
-          <PlusIcon />
-          Add Member
-        </Button>
+        <ButtonNewRecord />
       </div>
 
       <Card className="rounded-md shadow-md">

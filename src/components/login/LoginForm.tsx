@@ -36,6 +36,7 @@ export default function LoginForm() {
           id="password"
           name="password"
           label="Password"
+          type="password"
           placeholder="********"
         />
 
