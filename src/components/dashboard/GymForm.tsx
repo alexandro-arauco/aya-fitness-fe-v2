@@ -36,30 +36,19 @@ export default function GymForm({ userId }: { userId: number }) {
   const { mutate, isPending } = useMutation({
     mutationFn: (values: GymCreate) => NewGymAction(values, userId),
     onSuccess: async (data) =>
-      await queryClient.invalidateQueries({ queryKey: ["users"] }),
-    onError: (error) => console.error(error),
+      await queryClient.invalidateQueries({
+        queryKey: ["users"],
+        exact: false,
+      }),
+    onError: async (error) =>
+      await queryClient.invalidateQueries({
+        queryKey: ["users"],
+        exact: false,
+      }),
   });
 
   const onSubmit = (values: GymCreate) => {
     mutate(values);
-  };
-
-  const createNewGym = async (values: GymCreate) => {
-    const formData = new FormData();
-
-    Object.entries(values).forEach(([key, value]) => {
-      if (value) {
-        if (key === "logo") formData.append("logo", value);
-
-        formData.append(key, value);
-      }
-    });
-
-    await axiosInstance.post("/gyms/", formData, {
-      headers: {
-        "X-User-ID": userId,
-      },
-    });
   };
 
   return (

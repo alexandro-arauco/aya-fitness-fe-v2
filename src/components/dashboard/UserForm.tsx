@@ -43,8 +43,15 @@ export default function UserForm({ userId }: { userId: number }) {
   const { mutate, isPending } = useMutation({
     mutationFn: (values: ClientCreate) => NewClientAction(values, userId),
     onSuccess: async (data) =>
-      await queryClient.invalidateQueries({ queryKey: ["users"] }),
-    onError: (error) => console.log(error),
+      await queryClient.invalidateQueries({
+        queryKey: ["users"],
+        exact: false,
+      }),
+    onError: async (error) =>
+      await queryClient.invalidateQueries({
+        queryKey: ["users"],
+        exact: false,
+      }),
   });
 
   const onSubmit = (values: ClientCreate) => {

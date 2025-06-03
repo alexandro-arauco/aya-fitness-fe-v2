@@ -25,6 +25,8 @@ const fetchUsers = async (
         }
       : {};
 
+  console.log({ url });
+
   const response = await axiosInstance.get(url, {
     params: {
       page,
@@ -71,7 +73,7 @@ export default function UsersTable() {
     queryFn: () => fetchUsers(information!.id, information!.type, currentPage),
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: !!information?.id && !!information?.type,
+    enabled: !!information?.id && !!information?.type,  
   });
 
   // Handle no data
