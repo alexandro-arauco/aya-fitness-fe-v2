@@ -14,7 +14,7 @@ interface InputWithValidationProps {
   name: string;
   label: string;
   placeholder?: string;
-  type?: "text" | "password" | "date";
+  type?: "text" | "password" | "date" | "file";
 }
 
 export default function InputWithValidation({

@@ -1,3 +1,5 @@
+import Header from "@/components/Header";
+
 export default function ClientAssessmentPage({
   params,
 }: {
@@ -7,7 +9,7 @@ export default function ClientAssessmentPage({
 
   return (
     <>
-      Client Assessment Page {client_id} {assessment_id}
+      <Header title="Client Assessment - Evaluation Data" />
     </>
   );
 }

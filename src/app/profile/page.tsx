@@ -1,3 +1,9 @@
+import Header from "@/components/Header";
+
 export default function UserProfilePage() {
-  return <>User Profile</>;
+  return (
+    <>
+      <Header title="Profile" />
+    </>
+  );
 }

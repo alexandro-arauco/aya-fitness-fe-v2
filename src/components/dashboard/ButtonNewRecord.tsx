@@ -9,6 +9,7 @@ import { PlusIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import UserForm from "./UserForm";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
+import GymForm from "./GymForm";
 
 export default function ButtonNewRecord() {
   return (
@@ -28,7 +29,8 @@ export default function ButtonNewRecord() {
               <XIcon className="hover:opacity-55 cursor-pointer" />
             </AlertDialogCancel>
           </div>
-          <UserForm />
+          {/* <UserForm /> */}
+          <GymForm />
         </AlertDialogHeader>
       </AlertDialogContent>
     </AlertDialog>
