@@ -42,7 +42,7 @@ export default function UserForm() {
 
   return (
     <Form {...form}>
-      <form className="space-y-4 py-5" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="space-y-4 py-3" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
           <div className="w-full">
             <InputWithValidation
@@ -137,7 +137,7 @@ export default function UserForm() {
           </div>
         </div>
 
-        <Button className="w-full mt-3">Create</Button>
+        <Button className="w-full mt-4 cursor-pointer">Create</Button>
       </form>
     </Form>
   );

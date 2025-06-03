@@ -37,7 +37,6 @@ export default function InputSelectWithValidation({
   selectName,
   error,
 }: InputSelectWithValidationProps) {
-  console.log({ error });
   return (
     <FormField
       control={form.control}
