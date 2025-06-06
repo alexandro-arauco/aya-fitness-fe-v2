@@ -1,4 +1,7 @@
-import { AssessmentsResponse } from "@/interfaces/profile-assessment/profile-assessment";
+import {
+  AssessmentsResponse,
+  ExercisesResponse,
+} from "@/interfaces/profile-assessment/profile-assessment";
 import axiosInstance from "@/lib/api";
 
 export async function GetClient(clientId: number) {
@@ -36,6 +39,21 @@ export async function GetAssessmentByMemberId(
           items_per_page: itemsPerPage,
         },
       }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function GetExercisesByAssessmentClient(
+  assessmentId: number,
+  clientId: number
+) {
+  try {
+    const response = await axiosInstance.get<ExercisesResponse[]>(
+      `/assessments/${assessmentId}/${clientId}/exercises`
     );
 
     return response.data;

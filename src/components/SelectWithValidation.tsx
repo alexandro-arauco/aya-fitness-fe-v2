@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UseFormReturn } from "react-hook-form";
+import Dropdown from "./Dropdown";
 
 interface SelectWithValidationProps {
   form: UseFormReturn<any, any, any>;
@@ -34,19 +35,11 @@ export default function SelectWithValidation({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger className="!h-10 w-full border border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]">
-                <SelectValue placeholder="Select an option" />
-              </SelectTrigger>
-
-              <SelectContent>
-                {data.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Dropdown
+              data={data}
+              onChange={field.onChange}
+              value={field.value}
+            />
           </FormControl>
         </FormItem>
       )}

@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import AssessmentClientPage from "@/components/profile/AssessmentClientPage";
 
 interface PageProps {
   params: Promise<{
@@ -13,9 +14,11 @@ export default async function ClientAssessmentPage({ params }: PageProps) {
   return (
     <>
       <Header title="Client Assessment - Evaluation Data" />
-      <div>
-        {client_id} {assessment_id}
-      </div>
+
+      <AssessmentClientPage
+        assessmentId={+assessment_id}
+        clientId={+client_id}
+      />
     </>
   );
 }

@@ -5,12 +5,14 @@ import Table from "../Table";
 import { useQuery } from "@tanstack/react-query";
 import { GetAssessmentByMemberId } from "@/request/profile-assessment";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface AssessmentsListProps {
   userId: number;
 }
 
 export default function AssessmentsList({ userId }: AssessmentsListProps) {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, isLoading, error } = useQuery({
@@ -36,6 +38,11 @@ export default function AssessmentsList({ userId }: AssessmentsListProps) {
       itemsPerPage={data.pagination.items_per_page}
       currentPage={currentPage}
       onPageChange={onPageChange}
+      actions={{
+        onView: (item) => {
+          router.push(`/profile/${userId}/assessment/${item.id}`);
+        },
+      }}
     />
   );
 }
