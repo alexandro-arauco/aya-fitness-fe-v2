@@ -22,6 +22,6 @@ export async function LoginAction(data: LoginType) {
       user: response.data,
     };
   } catch (error) {
-    return error;
+    throw error;
   }
 }

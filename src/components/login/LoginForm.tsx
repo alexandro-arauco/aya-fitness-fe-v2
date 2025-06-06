@@ -36,6 +36,7 @@ export default function LoginForm() {
       }
     },
     onError: (error) => {
+      console.log(error);
       form.setError("password", { message: "Invalid credentials..." });
     },
   });

@@ -7,8 +7,8 @@ import InputWithValidation from "@/components/InputWithValidation";
 import SelectWithValidation from "@/components/SelectWithValidation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { ClientCreate, ClientSchema } from "@/schemas/dashboard-schema";
-import { LoginType } from "@/schemas/login-schema";
 import {
   DATA_FITNESS_LEVEL,
   DATA_GENDERS,
@@ -20,28 +20,45 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
-export default function UserForm({ userId }: { userId: number }) {
+interface UserFormProps {
+  userId: number;
+  labelAction?: string;
+  defaultValues?: ClientCreate | null;
+}
+
+export default function UserForm({
+  userId,
+  labelAction = "Create",
+  defaultValues = null,
+}: UserFormProps) {
+  const { getItem } = useLocalStorage<Record<string, any>>();
+  const information = getItem("user-info");
+
+  const userGymId = information?.id;
+
   const form = useForm<ClientCreate>({
     resolver: zodResolver(ClientSchema.omit({ id: true })),
-    defaultValues: {
-      first_name: "",
-      last_name: "",
-      sex: DATA_GENDERS[0].value,
-      email: "",
-      phone_number: "",
-      fitness_level: DATA_FITNESS_LEVEL[0].value,
-      dob: getCurrentDate(),
-      height: "",
-      height_metric: DATA_HEIGHT_METRIC[0].value,
-      weight: "",
-      weight_metric: DATA_WEIGHT_METRIC[0].value,
-    },
+    defaultValues: defaultValues
+      ? defaultValues
+      : {
+          first_name: "",
+          last_name: "",
+          sex: DATA_GENDERS[0].value,
+          email: "",
+          phone_number: "",
+          fitness_level: DATA_FITNESS_LEVEL[0].value,
+          dob: getCurrentDate(),
+          height: "",
+          height_metric: DATA_HEIGHT_METRIC[0].value,
+          weight: "",
+          weight_metric: DATA_WEIGHT_METRIC[0].value,
+        },
     mode: "onBlur",
   });
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: (values: ClientCreate) => NewClientAction(values, userId),
+    mutationFn: (values: ClientCreate) => NewClientAction(values, userGymId),
     onSuccess: async (data) =>
       await queryClient.invalidateQueries({
         queryKey: ["users"],
@@ -155,9 +172,7 @@ export default function UserForm({ userId }: { userId: number }) {
           </div>
         </div>
 
-        <Button className="w-full mt-4 cursor-pointer">
-          {isPending ? "Creating" : "Create"}
-        </Button>
+        <Button className="w-full mt-4 cursor-pointer">{labelAction}</Button>
       </form>
     </Form>
   );
