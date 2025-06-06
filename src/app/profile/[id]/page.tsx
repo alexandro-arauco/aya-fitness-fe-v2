@@ -1,17 +1,7 @@
-import UserForm from "@/components/dashboard/UserForm";
+import AssessmentsList from "@/components/profile/AssessmentsList";
 import HeaderProfile from "@/components/profile/HeaderProfile";
 import UserProfileForm from "@/components/profile/UserProfileForm";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface PageProps {
@@ -51,34 +41,17 @@ export default async function ClientProfilePage({ params }: PageProps) {
           </TabsList>
 
           <TabsContent value="account">
-            <Card className="px-10">
+            <Card className="px-10 rounded-md">
               <CardContent className="w-1/2 mx-auto">
                 <UserProfileForm userId={+id} />
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="password">
-            <Card>
-              <CardHeader>
-                <CardTitle>Password</CardTitle>
-                <CardDescription>
-                  Change your password here. After saving, you&apos;ll be logged
-                  out.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-6">
-                <div className="grid gap-3">
-                  <Label htmlFor="tabs-demo-current">Current password</Label>
-                  <Input id="tabs-demo-current" type="password" />
-                </div>
-                <div className="grid gap-3">
-                  <Label htmlFor="tabs-demo-new">New password</Label>
-                  <Input id="tabs-demo-new" type="password" />
-                </div>
+            <Card className="px-10 rounded-md">
+              <CardContent className="mx-auto">
+                <AssessmentsList />
               </CardContent>
-              <CardFooter>
-                <Button>Save password</Button>
-              </CardFooter>
             </Card>
           </TabsContent>
         </Tabs>
