@@ -17,7 +17,7 @@ export default async function ClientProfilePage({ params }: PageProps) {
         <Tabs defaultValue="account">
           <TabsList className="mx-auto flex w-full bg-white p-8 space-x-3 rounded-md shadow-md">
             <TabsTrigger
-              className="flex-none w-[100px]
+              className="flex-none
                data-[state=active]:bg-black 
                data-[state=active]:text-white 
                data-[state=active]:font-bold 
@@ -28,29 +28,29 @@ export default async function ClientProfilePage({ params }: PageProps) {
               Profile
             </TabsTrigger>
             <TabsTrigger
-              className="flex-none w-[100px]
+              className="flex-none
                data-[state=active]:bg-black 
                data-[state=active]:text-white 
                data-[state=active]:font-bold 
-               px-4 py-4 rounded-md 
+               px-4 py-4 rounded-md
                bg-gray-300 text-black cursor-pointer hover:underline"
               value="password"
             >
-              Password
+              Assessments
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="account">
-            <Card className="px-10 rounded-md">
+            <Card className="rounded-md">
               <CardContent className="w-1/2 mx-auto">
                 <UserProfileForm userId={+id} />
               </CardContent>
             </Card>
           </TabsContent>
           <TabsContent value="password">
-            <Card className="px-10 rounded-md">
-              <CardContent className="mx-auto">
-                <AssessmentsList />
+            <Card className="rounded-md">
+              <CardContent className="w-full mx-auto">
+                <AssessmentsList userId={+id} />
               </CardContent>
             </Card>
           </TabsContent>

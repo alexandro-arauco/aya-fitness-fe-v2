@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import UserForm from "../dashboard/UserForm";
-import { GetClient } from "@/request/dashboard";
+import { GetClient } from "@/request/profile-assessment";
 
 interface UserProfilePromProps {
   userId: number;

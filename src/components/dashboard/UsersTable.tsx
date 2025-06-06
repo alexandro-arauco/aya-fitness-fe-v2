@@ -1,42 +1,13 @@
 "use client";
 
-import { columnsClientsList, columnsGymsList } from "@/utils/dashboard/columns";
 import Table, { Column } from "@/components/Table";
-import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "@/lib/api";
-import { useEffect, useState } from "react";
-import { ClientTable, Gym } from "@/schemas/dashboard-schema";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { fetchUsers } from "@/request/dashboard";
+import { ClientTable, Gym } from "@/schemas/dashboard-schema";
+import { columnsClientsList, columnsGymsList } from "@/utils/dashboard/columns";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-
-const fetchUsers = async (
-  userId: number,
-  userType: string,
-  page: number,
-  itemsPerPage: number = 10
-) => {
-  if (!userId || !userType) throw new Error("Missing user info");
-
-  const url = userType === "admin" ? "/admins/gyms" : `/gyms/${userId}/clients`;
-  const headers =
-    userType === "gym"
-      ? {
-          "X-User-ID": userId.toString(),
-        }
-      : {};
-
-  console.log({ url });
-
-  const response = await axiosInstance.get(url, {
-    params: {
-      page,
-      items_per_page: itemsPerPage,
-    },
-    headers: { ...headers },
-  });
-
-  return response.data;
-};
+import { useEffect, useState } from "react";
 
 export default function UsersTable() {
   const { getItem } = useLocalStorage<Record<string, any>>();
@@ -73,7 +44,7 @@ export default function UsersTable() {
     queryFn: () => fetchUsers(information!.id, information!.type, currentPage),
     refetchOnMount: true,
     refetchOnWindowFocus: true,
-    enabled: !!information?.id && !!information?.type,  
+    enabled: !!information?.id && !!information?.type,
   });
 
   // Handle no data
