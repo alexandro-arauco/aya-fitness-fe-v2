@@ -1,7 +1,7 @@
 "use client";
 
+import Header from "@/components/Header";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import Header from "../Header";
 
 export default function HeaderDashboard() {
   const { getItem } = useLocalStorage<Record<string, any>>();

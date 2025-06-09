@@ -10,6 +10,7 @@ interface PageProps {
 
 export default async function ClientProfilePage({ params }: PageProps) {
   const { id } = await params;
+
   return (
     <>
       <HeaderProfile />

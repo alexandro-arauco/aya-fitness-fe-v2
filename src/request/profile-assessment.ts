@@ -61,3 +61,14 @@ export async function GetExercisesByAssessmentClient(
     throw error;
   }
 }
+
+export async function GetAllExercises() {
+  try {
+    const response = await axiosInstance.get<ExercisesResponse[]>(
+      "/assessments/exercises/"
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

@@ -4,6 +4,7 @@ import GymForm from "@/components/dashboard/GymForm";
 import UserForm from "@/components/dashboard/UserForm";
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -11,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
+
 import { PlusIcon, XIcon } from "lucide-react";
 
 export default function ButtonNewRecord() {
@@ -34,17 +35,19 @@ export default function ButtonNewRecord() {
               Add New{" "}
               {information && information.type === "admin" ? "Gym" : "Member"}
             </AlertDialogTitle>
-            <AlertDialogCancel>
+            <AlertDialogCancel className="border-none shadow-none">
               <XIcon className="hover:opacity-55 cursor-pointer" />
             </AlertDialogCancel>
           </div>
-          {information && information.type === "admin" && (
-            <GymForm userId={information.id} />
-          )}
-          {information && information.type === "gym" && (
-            <UserForm userId={information.id} />
-          )}
         </AlertDialogHeader>
+
+        {information && information.type === "admin" && (
+          <GymForm userId={information.id} />
+        )}
+
+        {information && information.type === "gym" && (
+          <UserForm userId={information.id} />
+        )}
       </AlertDialogContent>
     </AlertDialog>
   );
