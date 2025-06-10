@@ -7,8 +7,8 @@ import { GetAllExercises } from "@/request/profile-assessment";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import FileAssessment from "./FileAssessment";
 
 interface AssessmentExercise {
@@ -237,7 +237,11 @@ export default function ExercisesAssessment() {
           ))}
 
           <section>
-            {exerciseSelected.length === 1 && <Button>Upload</Button>}
+            {exerciseSelected.length === 1 && (
+              <Button disabled={errorsUploadAssessmentExercise.length > 0}>
+                Upload
+              </Button>
+            )}
             {exerciseSelected.length > 1 && (
               <div className="space-x-2">
                 <Button

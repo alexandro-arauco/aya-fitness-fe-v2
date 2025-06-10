@@ -1,7 +1,7 @@
 "use client";
 
 import { columns } from "@/utils/profile/columns";
-import Table from "../Table";
+import Table from "@/components/Table";
 import { useQuery } from "@tanstack/react-query";
 import { GetAssessmentByMemberId } from "@/request/profile-assessment";
 import { useState } from "react";

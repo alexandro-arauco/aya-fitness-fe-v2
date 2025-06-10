@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import UserForm from "../dashboard/UserForm";
+import UserForm from "@/components/dashboard/UserForm";
 import { GetClient } from "@/request/profile-assessment";
 
 interface UserProfilePromProps {

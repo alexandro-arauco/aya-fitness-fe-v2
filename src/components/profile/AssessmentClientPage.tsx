@@ -3,8 +3,8 @@
 import { GetExercisesByAssessmentClient } from "@/request/profile-assessment";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import Dropdown from "../Dropdown";
-import { Label } from "../ui/label";
+import Dropdown from "@/components/Dropdown";
+import { Label } from "@/components/ui/label";
 
 interface AssessmentClientPageProps {
   assessmentId: number;
