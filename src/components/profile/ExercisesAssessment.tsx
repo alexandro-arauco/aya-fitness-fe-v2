@@ -45,6 +45,13 @@ export default function ExercisesAssessment() {
     const tmp = [...assessmentExercise];
     const errors: string[] = [];
 
+    if (!tmp.length) {
+      setErrorsUploadAssessmentExercise([
+        "Upload Files for the Exercises Selected",
+      ]);
+      return;
+    }
+
     tmp.forEach((item) => {
       const exercise = exerciseSelected.filter(
         (value) => value.id === item.exerciseId
@@ -68,6 +75,14 @@ export default function ExercisesAssessment() {
     if (index === -1) {
       tmp.push(value);
     } else {
+      const tmpAssessmentExercise = [...assessmentExercise];
+      const indexTmpAssessmentExercise = tmpAssessmentExercise.findIndex(
+        (item) => item.exerciseId === tmp[index].id
+      );
+
+      tmpAssessmentExercise.splice(indexTmpAssessmentExercise, 1);
+      setAssessmentExercise(tmpAssessmentExercise);
+
       tmp.splice(index, 1);
     }
     tmp.sort((a, b) => a.id - b.id);
