@@ -9,6 +9,13 @@ import clsx from "clsx";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import FileAssessment from "./FileAssessment";
+
+interface AssessmentExercise {
+  exerciseId: number;
+  left: File[];
+  right: File[];
+}
 
 export default function ExercisesAssessment() {
   const [exerciseSelected, setExerciseSelected] = useState<ExercisesResponse[]>(
@@ -16,6 +23,9 @@ export default function ExercisesAssessment() {
   );
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [assessmentExercise, setAssessmentExercise] = useState<
+    AssessmentExercise[]
+  >([]);
 
   const { data } = useQuery({
     queryKey: ["exercises"],
@@ -39,6 +49,49 @@ export default function ExercisesAssessment() {
     }
 
     setExerciseSelected(tmp);
+  };
+
+  const onSelectFile = (key: string, value: File) => {
+    const exercise = exerciseSelected[currentIndex]
+      ? exerciseSelected[currentIndex]
+      : null;
+
+    if (!exercise) return;
+
+    setAssessmentExercise((prev) => {
+      const tmp = [...prev];
+      const index = tmp.findIndex((item) => item.exerciseId === exercise.id);
+
+      if (index !== -1) {
+        const updated = { ...tmp[index] };
+        if (key === "left") {
+          updated.left = [...updated.left, value];
+        } else {
+          updated.right = [...updated.right, value];
+        }
+        tmp[index] = updated;
+      } else {
+        tmp.push({
+          exerciseId: exercise.id,
+          left: key === "left" ? [value] : [],
+          right: key === "right" ? [value] : [],
+        });
+      }
+
+      return tmp;
+    });
+  };
+
+  const getSelectedFiles = (side: "left" | "right") => {
+    const tmp = [...assessmentExercise];
+    const exerciseId: number = exerciseSelected[currentIndex]
+      ? exerciseSelected[currentIndex].id
+      : -1;
+    const index = tmp.findIndex((item) => item.exerciseId === exerciseId);
+
+    if (index === -1) return [];
+
+    return tmp[index][side];
   };
 
   return (
@@ -82,6 +135,23 @@ export default function ExercisesAssessment() {
               Upload Assessment to {exerciseSelected[currentIndex].name} (
               {exerciseSelected[currentIndex].body_part.toUpperCase()})
             </Label>
+          </section>
+
+          <section className="flex space-x-3">
+            <FileAssessment
+              key={`left-${currentIndex}`}
+              title="Left Side"
+              side="left"
+              onSelectFile={onSelectFile}
+              selectedFiles={getSelectedFiles("left")}
+            />
+            <FileAssessment
+              key={`right-${currentIndex}`}
+              title="Right Side"
+              side="right"
+              onSelectFile={onSelectFile}
+              selectedFiles={getSelectedFiles("right")}
+            />
           </section>
 
           <section>
