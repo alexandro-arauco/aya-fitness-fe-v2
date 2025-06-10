@@ -6,9 +6,9 @@ import { ExercisesResponse } from "@/interfaces/profile-assessment/profile-asses
 import { GetAllExercises } from "@/request/profile-assessment";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { useState } from "react";
-import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import FileAssessment from "./FileAssessment";
 
 interface AssessmentExercise {
@@ -27,10 +27,39 @@ export default function ExercisesAssessment() {
     AssessmentExercise[]
   >([]);
 
+  const [trainerName, setTrainerName] = useState("");
+  const [errorsUploadAssessmentExercise, setErrorsUploadAssessmentExercise] =
+    useState<string[]>([]);
+
   const { data } = useQuery({
     queryKey: ["exercises"],
     queryFn: GetAllExercises,
   });
+
+  useEffect(() => {
+    validateAssessmentsExercises();
+    if (exerciseSelected.length === 0) setTrainerName("");
+  }, [exerciseSelected, JSON.stringify(assessmentExercise)]);
+
+  const validateAssessmentsExercises = () => {
+    const tmp = [...assessmentExercise];
+    const errors: string[] = [];
+
+    tmp.forEach((item) => {
+      const exercise = exerciseSelected.filter(
+        (value) => value.id === item.exerciseId
+      );
+
+      const totalLeftFiles = item.left.length;
+      const totalRightFiles = item.right.length;
+
+      if (totalRightFiles + totalLeftFiles !== 8) {
+        errors.push(`Exercise ${exercise[0].name} has pending files to upload`);
+      }
+    });
+
+    setErrorsUploadAssessmentExercise(errors);
+  };
 
   const handleSelectExercise = (value: ExercisesResponse) => {
     const tmp = [...exerciseSelected];
@@ -145,6 +174,8 @@ export default function ExercisesAssessment() {
             <Input
               className="border-gray-300 h-10 rounded-md"
               placeholder="E.x Jhon Doe"
+              value={trainerName}
+              onChange={(e) => setTrainerName(e.target.value)}
             />
           </section>
           <section>
@@ -154,7 +185,7 @@ export default function ExercisesAssessment() {
             </Label>
           </section>
 
-          <section className="flex space-x-3">
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-full">
             <FileAssessment
               key={`left-${currentIndex}`}
               title="Left Side"
@@ -172,6 +203,23 @@ export default function ExercisesAssessment() {
               removeSelectedFile={removeSelectedFile}
             />
           </section>
+
+          {errorsUploadAssessmentExercise.map((item, idx) => (
+            <div
+              key={item + idx}
+              className="flex items-center space-x-2 bg-red-50 border border-red-200 rounded p-2 my-1"
+              role="alert"
+              aria-live="polite"
+            >
+              <span aria-hidden="true" className="text-red-600">
+                ⚠️
+              </span>
+              <p className="italic text-red-700 text-sm">
+                {item}. Please ensure all required files are uploaded before
+                proceeding.
+              </p>
+            </div>
+          ))}
 
           <section>
             {exerciseSelected.length === 1 && <Button>Upload</Button>}
@@ -193,6 +241,10 @@ export default function ExercisesAssessment() {
                       setCurrentIndex(currentIndex + 1);
                     }
                   }}
+                  disabled={
+                    currentIndex + 1 > exerciseSelected.length - 1 &&
+                    errorsUploadAssessmentExercise.length > 0
+                  }
                 >
                   {currentIndex + 1 > exerciseSelected.length - 1
                     ? "Upload"

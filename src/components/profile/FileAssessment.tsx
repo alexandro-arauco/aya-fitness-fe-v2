@@ -7,6 +7,7 @@ interface FileProps {
   side: "left" | "right";
   removeSelectedFile: (key: "left" | "right", index: number) => void;
   selectedFiles: File[];
+  className?: string;
 }
 
 interface UploadedFile {
@@ -23,6 +24,7 @@ export default function FileUpload({
   side,
   removeSelectedFile,
   selectedFiles,
+  className = "",
 }: FileProps) {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -157,12 +159,14 @@ export default function FileUpload({
   const hasFiles = uploadedFiles.length > 0;
 
   return (
-    <div className="w-full md:w-1/2 space-y-3">
+    <div className="w-full max-w-md overflow-hidden relative mx-auto">
       {/* Compact Header */}
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-base font-semibold text-gray-800">{title}</h3>
-        <div className="flex items-center space-x-1 text-xs">
-          <div className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+      <div className="flex items-center justify-between mb-3 min-w-0">
+        <h3 className="text-base font-semibold text-gray-800 truncate">
+          {title}
+        </h3>
+        <div className="flex items-center space-x-1 text-xs flex-shrink-0">
+          <div className="bg-gray-300 text-black px-2 py-1 rounded-full text-xs font-medium">
             CSV
           </div>
           <span className="text-gray-500">
@@ -174,12 +178,12 @@ export default function FileUpload({
       {/* Upload Area */}
       <div
         className={`
-          relative rounded-xl border-2 border-dashed transition-all duration-300 ease-in-out
+          relative rounded-xl border border-dashed transition-all duration-300 ease-in-out mb-3 overflow-hidden
           ${
             isDragOver
-              ? "border-blue-400 bg-blue-50 scale-[1.02] shadow-lg"
+              ? "border-gray-300 bg-blue-50 scale-[1.02] shadow-lg"
               : canUploadMore
-              ? "border-gray-300 hover:border-blue-300 hover:bg-blue-50/50"
+              ? "border-gray-300 hover:border-gray-300 hover:bg-gray-50/50"
               : "border-gray-200 bg-gray-50"
           }
           ${canUploadMore ? "cursor-pointer" : "cursor-not-allowed"}
@@ -199,16 +203,18 @@ export default function FileUpload({
           disabled={!canUploadMore}
         />
 
-        <div className="p-4 text-center">
+        <div className="p-4 text-center min-w-0">
           {canUploadMore ? (
             <>
-              <div className="inline-flex items-center justify-center w-12 h-12 mb-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
+              <div className="inline-flex items-center justify-center w-12 h-12 mb-3 bg-gradient-to-br bg-gray-500 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
                 <Upload className="w-6 h-6 text-white" />
               </div>
-              <h4 className="text-sm font-semibold text-gray-800 mb-1">
+              <h4 className="text-sm font-semibold text-gray-800 mb-1 truncate">
                 Drop CSV files here
               </h4>
-              <p className="text-xs text-gray-600 mb-2">or click to browse</p>
+              <p className="text-xs text-gray-600 mb-2 truncate">
+                or click to browse
+              </p>
               <div className="flex items-center justify-center space-x-2 text-xs text-gray-500">
                 <FileText className="w-3 h-3" />
                 <span>Max {MAX_FILES} files</span>
@@ -219,10 +225,10 @@ export default function FileUpload({
               <div className="inline-flex items-center justify-center w-12 h-12 mb-3 bg-gray-300 rounded-xl">
                 <Upload className="w-6 h-6 text-gray-500" />
               </div>
-              <h4 className="text-sm font-medium text-gray-600 mb-1">
+              <h4 className="text-sm font-medium text-gray-600 mb-1 truncate">
                 Maximum files reached
               </h4>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 truncate">
                 Remove files to upload new ones
               </p>
             </>
@@ -230,65 +236,56 @@ export default function FileUpload({
         </div>
       </div>
 
-      {/* Files List */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      {/* Files List - Fixed positioning and z-index */}
+      <div className="bg-white rounded-md border border-gray-200 overflow-hidden relative z-10">
         <div className="bg-gray-50 px-4 py-2 border-b border-gray-200">
           <div className="flex items-center justify-between">
             <h4 className="text-sm font-semibold text-gray-800 flex items-center">
               <FileText className="w-4 h-4 mr-1 text-gray-600" />
               Files
             </h4>
-            {hasFiles && (
-              <button
-                onClick={handleUploadClick}
-                disabled={!canUploadMore}
-                className={`
-                  flex items-center space-x-1 px-2 py-1 rounded-md text-xs font-medium transition-all
-                  ${
-                    canUploadMore
-                      ? "bg-blue-600 text-white hover:bg-blue-700"
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }
-                `}
-              >
-                <Plus className="w-3 h-3" />
-                <span>Add</span>
-              </button>
-            )}
           </div>
         </div>
 
-        <div className="p-3">
+        <div
+          className="p-3 relative"
+          style={{
+            maxHeight: uploadedFiles.length > 3 ? "240px" : "auto",
+            // Ensure it stays within bounds
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
           {hasFiles ? (
             <div className="space-y-2">
               {uploadedFiles.map((file, index) => (
                 <div
                   key={`${file.name}-${index}`}
-                  className="group flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all duration-200"
+                  className="group flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all duration-200 relative"
                 >
-                  <div className="flex items-center space-x-2 flex-1 min-w-0">
+                  <div className="flex items-center space-x-2 flex-1 min-w-0 overflow-hidden">
                     <div className="flex-shrink-0">
                       <div className="w-6 h-6 bg-green-100 rounded-md flex items-center justify-center">
                         <FileText className="w-3 h-3 text-green-600" />
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 overflow-hidden">
                       <p
                         className="text-xs font-medium text-gray-900 truncate"
                         title={file.name}
                       >
                         {file.name}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 truncate">
                         {(file.file.size / 1024).toFixed(1)} KB
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 relative z-20">
                     <button
                       type="button"
-                      className="flex items-center space-x-1 px-2 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors"
+                      className="flex items-center space-x-1 px-2 py-1 text-xs font-medium text-black bg-blue-50 rounded-md hover:bg-gray-300 transition-colors whitespace-nowrap"
                       onClick={(e) => handleReplaceFile(e, index)}
                       aria-label={`Replace ${file.name}`}
                     >
@@ -297,7 +294,7 @@ export default function FileUpload({
                     </button>
                     <button
                       type="button"
-                      className="flex items-center justify-center w-6 h-6 text-red-500 bg-red-50 rounded-md hover:bg-red-100 transition-colors"
+                      className="flex items-center justify-center w-6 h-6 text-red-600 bg-red-50 rounded-md hover:bg-red-100 transition-colors flex-shrink-0"
                       onClick={(e) => handleRemoveFile(e, index)}
                       aria-label={`Remove ${file.name}`}
                     >
@@ -318,13 +315,6 @@ export default function FileUpload({
               <p className="text-xs text-gray-500 mb-3">
                 Upload your first CSV file
               </p>
-              <button
-                onClick={handleUploadClick}
-                className="inline-flex items-center space-x-1 px-3 py-2 bg-blue-600 text-white rounded-md text-xs font-medium hover:bg-blue-700 transition-colors"
-              >
-                <Upload className="w-3 h-3" />
-                <span>Choose Files</span>
-              </button>
             </div>
           )}
         </div>
