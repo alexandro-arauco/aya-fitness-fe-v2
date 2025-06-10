@@ -7,8 +7,8 @@ import { GetAllExercises } from "@/request/profile-assessment";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useState } from "react";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import FileAssessment from "./FileAssessment";
 
 interface AssessmentExercise {
@@ -94,6 +94,23 @@ export default function ExercisesAssessment() {
     return tmp[index][side];
   };
 
+  const removeSelectedFile = (key: "left" | "right", index: number) => {
+    setAssessmentExercise((prev) =>
+      prev
+        .map((exercise) =>
+          exercise.exerciseId === exerciseSelected[currentIndex].id
+            ? {
+                ...exercise,
+                [key]: exercise[key].filter((_, i) => i !== index),
+              }
+            : exercise
+        )
+        .filter(
+          (exercise) => exercise.left.length > 0 || exercise.right.length > 0
+        )
+    );
+  };
+
   return (
     <>
       <div className="flex rounded-md border border-dashed border-gray-500 py-5 px-2 space-x-4 items-center">
@@ -144,6 +161,7 @@ export default function ExercisesAssessment() {
               side="left"
               onSelectFile={onSelectFile}
               selectedFiles={getSelectedFiles("left")}
+              removeSelectedFile={removeSelectedFile}
             />
             <FileAssessment
               key={`right-${currentIndex}`}
@@ -151,6 +169,7 @@ export default function ExercisesAssessment() {
               side="right"
               onSelectFile={onSelectFile}
               selectedFiles={getSelectedFiles("right")}
+              removeSelectedFile={removeSelectedFile}
             />
           </section>
 

@@ -24,7 +24,7 @@ export default function ButtonNewAssessment() {
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="min-w-5/12">
+      <AlertDialogContent className="min-w-1/2">
         <AlertDialogHeader>
           <div className="flex justify-between items-center">
             <AlertDialogTitle>Upload Assessment</AlertDialogTitle>
