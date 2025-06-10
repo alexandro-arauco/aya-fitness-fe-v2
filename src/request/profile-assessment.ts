@@ -1,6 +1,7 @@
 import {
   AssessmentsResponse,
   ExercisesResponse,
+  RegressionResponse,
 } from "@/interfaces/profile-assessment/profile-assessment";
 import axiosInstance from "@/lib/api";
 
@@ -67,6 +68,26 @@ export async function GetAllExercises() {
     const response = await axiosInstance.get<ExercisesResponse[]>(
       "/assessments/exercises/"
     );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function GetEvaluationData(
+  assessmentId: number,
+  exerciseSelected: string,
+  clientId: number
+) {
+  try {
+    const exerciseSelectedParsed = JSON.parse(
+      exerciseSelected
+    ) as ExercisesResponse;
+
+    const response = await axiosInstance.get<RegressionResponse>(
+      `/assessments/regression/${assessmentId}/${exerciseSelectedParsed.id}/${clientId}`
+    );
+
     return response.data;
   } catch (error) {
     throw error;

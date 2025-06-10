@@ -1,6 +1,9 @@
 "use client";
 
-import { GetExercisesByAssessmentClient } from "@/request/profile-assessment";
+import {
+  GetEvaluationData,
+  GetExercisesByAssessmentClient,
+} from "@/request/profile-assessment";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import Dropdown from "@/components/Dropdown";
@@ -18,8 +21,15 @@ export default function AssessmentClientPage({
   const [exerciseSelected, setExerciseSelected] = useState<string | null>(null);
 
   const { data } = useQuery({
-    queryKey: ["evaluation-data", assessmentId, clientId],
+    queryKey: ["assessment-exercises", assessmentId, clientId],
     queryFn: () => GetExercisesByAssessmentClient(assessmentId, clientId),
+  });
+
+  const { data: evaluationData } = useQuery({
+    queryKey: ["evaluation-data", assessmentId, clientId, exerciseSelected],
+    queryFn: () =>
+      GetEvaluationData(assessmentId, exerciseSelected ?? "", clientId),
+    enabled: exerciseSelected !== null,
   });
 
   useEffect(() => {
@@ -31,20 +41,24 @@ export default function AssessmentClientPage({
   }
 
   return (
-    <div className="px-10 py-3">
-      <div className="bg-white flex py-5 rounded-md shadow-xl px-3">
-        <div className="w-1/2 space-y-3">
-          <Label className="font-bold">Exercises</Label>
-          <Dropdown
-            data={data.map((item) => ({
-              value: JSON.stringify(item),
-              label: item.name,
-            }))}
-            onChange={(value) => setExerciseSelected(value)}
-            value={exerciseSelected}
-          />
+    <>
+      <div className="px-10 py-3">
+        <div className="bg-white flex py-5 rounded-md shadow-xl px-3">
+          <div className="w-1/2 space-y-3">
+            <Label className="font-bold">Exercises</Label>
+            <Dropdown
+              data={data.map((item) => ({
+                value: JSON.stringify(item),
+                label: item.name,
+              }))}
+              onChange={(value) => setExerciseSelected(value)}
+              value={exerciseSelected}
+            />
+          </div>
         </div>
       </div>
-    </div>
+
+      {}
+    </>
   );
 }

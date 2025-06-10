@@ -102,7 +102,6 @@ export default function ExercisesAssessment() {
     tmp.sort((a, b) => a.id - b.id);
 
     if (!tmp[currentIndex] && currentIndex > 0) {
-      console.log("Here");
       setCurrentIndex(currentIndex - 1);
     }
 
