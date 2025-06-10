@@ -1,15 +1,16 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ExercisesResponse } from "@/interfaces/profile-assessment/profile-assessment";
 import { GetAllExercises } from "@/request/profile-assessment";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import FileAssessment from "./FileAssessment";
+import { UploadAssessment } from "@/actions/assessment";
 
 interface AssessmentExercise {
   exerciseId: number;
@@ -18,6 +19,8 @@ interface AssessmentExercise {
 }
 
 export default function ExercisesAssessment() {
+  const queryClient = useQueryClient();
+  const userId = queryClient.getQueryData(["userId"]);
   const [exerciseSelected, setExerciseSelected] = useState<ExercisesResponse[]>(
     []
   );
@@ -34,6 +37,17 @@ export default function ExercisesAssessment() {
   const { data } = useQuery({
     queryKey: ["exercises"],
     queryFn: GetAllExercises,
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: () =>
+      UploadAssessment(userId as string, trainerName, assessmentExercise),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["assessments"],
+        exact: false,
+      });
+    },
   });
 
   useEffect(() => {
@@ -155,6 +169,10 @@ export default function ExercisesAssessment() {
     );
   };
 
+  const handleUploadAssessment = () => {
+    mutate();
+  };
+
   return (
     <>
       <div className="flex rounded-md border border-dashed border-gray-500 py-5 px-2 space-x-4 items-center">
@@ -238,7 +256,10 @@ export default function ExercisesAssessment() {
 
           <section>
             {exerciseSelected.length === 1 && (
-              <Button disabled={errorsUploadAssessmentExercise.length > 0}>
+              <Button
+                disabled={errorsUploadAssessmentExercise.length > 0}
+                onClick={handleUploadAssessment}
+              >
                 Upload
               </Button>
             )}
@@ -255,7 +276,7 @@ export default function ExercisesAssessment() {
                   className={clsx("cursor-pointer")}
                   onClick={() => {
                     if (currentIndex + 1 > exerciseSelected.length - 1) {
-                      //handleUploadAssessmentExercisesFiles();
+                      handleUploadAssessment();
                     } else {
                       setCurrentIndex(currentIndex + 1);
                     }

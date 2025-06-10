@@ -8,10 +8,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { PlusIcon, XIcon } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useQuery } from "@tanstack/react-query";
-import { GetAllExercises } from "@/request/profile-assessment";
 import ExercisesAssessment from "./ExercisesAssessment";
 
 export default function ButtonNewAssessment() {

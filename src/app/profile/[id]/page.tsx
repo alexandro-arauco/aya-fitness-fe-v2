@@ -13,7 +13,7 @@ export default async function ClientProfilePage({ params }: PageProps) {
 
   return (
     <>
-      <HeaderProfile />
+      <HeaderProfile userId={+id} />
       <div className="py-5 px-10">
         <Tabs defaultValue="account">
           <TabsList className="mx-auto flex w-full bg-white p-8 space-x-3 rounded-md shadow-md">

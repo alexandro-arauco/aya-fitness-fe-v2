@@ -1,13 +1,16 @@
 "use client";
 
 import Header from "@/components/Header";
-import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { PlusIcon } from "lucide-react";
 import ButtonNewAssessment from "./ButtonNewAssessment";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function HeaderProfile() {
+export default function HeaderProfile({ userId }: { userId: number }) {
   const { getItem } = useLocalStorage<Record<string, any>>();
+
+  const queryClient = useQueryClient();
+  queryClient.setQueryData(["userId"], userId);
+
   const information = getItem("user-info");
   const title =
     information && information.type === "admin" ? "Customer" : "Member";
