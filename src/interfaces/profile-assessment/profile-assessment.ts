@@ -19,6 +19,9 @@ export interface RegressionResponse {
 export interface DataSide {
   data: ItemDataSide[];
   weightImpulse: WeightImpulse;
+  sex: string;
+  metric: string;
+  userWeight: number
 }
 
 export interface ItemDataSide {
