@@ -4,13 +4,18 @@ import Dropdown from "@/components/Dropdown";
 import ModelBody from "@/components/profile/ModelBody";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { ExercisesResponse } from "@/interfaces/profile-assessment/profile-assessment";
+import {
+  ExercisesResponse,
+  RegressionResponse,
+} from "@/interfaces/profile-assessment/profile-assessment";
 import {
   GetEvaluationData,
   GetExercisesByAssessmentClient,
 } from "@/request/profile-assessment";
+import calculateSymmetry from "@/utils/assessment/calculations";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import GaugeSymmetry from "@/components/profile/chart/Gauge";
 
 interface AssessmentClientPageProps {
   assessmentId: number;
@@ -22,13 +27,14 @@ export default function AssessmentClientPage({
   clientId,
 }: AssessmentClientPageProps) {
   const [exerciseSelected, setExerciseSelected] = useState<string | null>(null);
+  const [symmetryValue, setSymmetryValue] = useState(0);
 
   const { data } = useQuery({
     queryKey: ["assessment-exercises", assessmentId, clientId],
     queryFn: () => GetExercisesByAssessmentClient(assessmentId, clientId),
   });
 
-  const { data: evaluationData } = useQuery({
+  const { data: evaluationData, isLoading } = useQuery({
     queryKey: ["evaluation-data", assessmentId, clientId, exerciseSelected],
     queryFn: () =>
       GetEvaluationData(assessmentId, exerciseSelected ?? "", clientId),
@@ -38,6 +44,29 @@ export default function AssessmentClientPage({
   useEffect(() => {
     if (!exerciseSelected) return;
   }, [exerciseSelected]);
+
+  const calculateValues = () => {
+    if (!evaluationData) return;
+
+    const { left, right } = evaluationData as unknown as RegressionResponse;
+    const averageLeftROFD = (
+      left.data.reduce((acc, current) => acc + current.rofd, 0) /
+      left.data.length
+    ).toFixed(0);
+
+    const averageRightROFD = (
+      right.data.reduce((acc, current) => acc + current.rofd, 0) /
+      right.data.length
+    ).toFixed(0);
+
+    setSymmetryValue(calculateSymmetry(+averageLeftROFD, +averageRightROFD));
+  };
+
+  useEffect(() => {
+    if (!evaluationData && isLoading) return;
+
+    calculateValues();
+  }, [evaluationData, isLoading]);
 
   if (!data) {
     return <></>;
@@ -132,7 +161,7 @@ export default function AssessmentClientPage({
             <Card className="rounded-md shadow-xl">
               <CardContent>
                 <CardTitle>Symmetry Score</CardTitle>
-                <pre>{JSON.stringify(evaluationData, null, 2)}</pre>
+                <GaugeSymmetry value={symmetryValue} />
               </CardContent>
             </Card>
           </div>
