@@ -1,12 +1,10 @@
 "use client";
 
 import Dropdown from "@/components/Dropdown";
-import DonutChart from "@/components/profile/chart/Donut";
 import GaugeSymmetry from "@/components/profile/chart/Gauge";
 import ModelBody from "@/components/profile/ModelBody";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
 import {
   ExercisesResponse,
   RegressionResponse,
@@ -52,17 +50,10 @@ export default function AssessmentClientPage({
     if (!evaluationData) return;
 
     const { left, right } = evaluationData as unknown as RegressionResponse;
-    const averageLeftROFD = (
-      left.data.reduce((acc, current) => acc + current.rofd, 0) /
-      left.data.length
-    ).toFixed(0);
 
-    const averageRightROFD = (
-      right.data.reduce((acc, current) => acc + current.rofd, 0) /
-      right.data.length
-    ).toFixed(0);
-
-    setSymmetryValue(calculateSymmetry(+averageLeftROFD, +averageRightROFD));
+    setSymmetryValue(
+      calculateSymmetry(left.weightImpulse.weight, right.weightImpulse.weight)
+    );
   };
 
   useEffect(() => {
@@ -96,14 +87,17 @@ export default function AssessmentClientPage({
           <>
             <TrainingLevels />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-2">
-              <ModelBody
-                bodyPart={
-                  (JSON.parse(exerciseSelected) as ExercisesResponse).body_part
-                }
-                sex={evaluationData.left.sex}
-                leftWeightImpulse={evaluationData.left.weightImpulse}
-                rightWeightImpulse={evaluationData.right.weightImpulse}
-              />
+              {symmetryValue ? (
+                <ModelBody
+                  bodyPart={
+                    (JSON.parse(exerciseSelected) as ExercisesResponse)
+                      .body_part
+                  }
+                  sex={evaluationData.left.sex}
+                  leftWeightImpulse={evaluationData.left.weightImpulse}
+                  rightWeightImpulse={evaluationData.right.weightImpulse}
+                />
+              ) : null}
 
               {/* Symmetry Score Card */}
               <Card className="rounded-md shadow-xl">

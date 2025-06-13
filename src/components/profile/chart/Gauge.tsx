@@ -15,22 +15,22 @@ export default function GaugeSymmetry({ value, bodyPart }: GaugeProps) {
   const getColors = () => {
     if (bodyPart.toLowerCase() === "back") {
       return [
-        [0.3333, "#EE6666"], // -30 to -10 → red
-        [0.3667, "#FAC858"], // -10 to -8  → yellow
-        [0.5, "#91CC75"], // -8 to 0     → green
-        [0.6333, "#91CC75"], // 0 to 8      → green
-        [0.6667, "#FAC858"], // 8 to 10     → yellow
-        [1, "#EE6666"], // 10 to 30    → red
+        [0.3333, "red"], // -30 to -10 → red
+        [0.3667, "yellow"], // -10 to -8  → yellow
+        [0.5, "green"], // -8 to 0     → green
+        [0.6333, "green"], // 0 to 8      → green
+        [0.6667, "yellow"], // 8 to 10     → yellow
+        [1, "red"], // 10 to 30    → red
       ];
     }
 
     return [
-      [0.25, "#EE6666"], // -30 to -15 → red
-      [0.3333, "#FAC858"], // -15 to -10 → yellow
-      [0.5, "#91CC75"], // -10 to 0   → green
-      [0.6667, "#91CC75"], // 0 to 10    → green
-      [0.75, "#FAC858"], // 10 to 15   → yellow
-      [1, "#EE6666"], // 15 to 30   → red
+      [0.25, "red"], // -30 to -15 → red
+      [0.3333, "yellow"], // -15 to -10 → yellow
+      [0.5, "green"], // -10 to 0   → green
+      [0.6667, "green"], // 0 to 10    → green
+      [0.75, "yellow"], // 10 to 15   → yellow
+      [1, "red"], // 15 to 30   → red
     ];
   };
 

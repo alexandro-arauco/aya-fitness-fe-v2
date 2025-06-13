@@ -24,7 +24,7 @@ export default function DonutChart({ value, color }: DonutChartProps) {
         top: "center",
         style: {
           text: value + "%", // Text in the center
-          fontSize: 50,
+          fontSize: 20,
           fontWeight: "bold",
           fill: "#333",
         },
@@ -84,7 +84,7 @@ export default function DonutChart({ value, color }: DonutChartProps) {
   }, []);
 
   return (
-    <div className="w-64 h-64 md:w-80 md:h-80">
+    <div className="w-30 h-30 md:w-40 md:h-40">
       <div ref={chartRef} style={{ width: "100%", height: "100%" }} />
     </div>
   );

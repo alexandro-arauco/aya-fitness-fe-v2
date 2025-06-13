@@ -4,8 +4,8 @@ export default function calculateSymmetry(
 ): number {
   const division =
     firstValue > secondValue
-      ? firstValue / secondValue
-      : secondValue / firstValue;
+      ? secondValue / firstValue
+      : firstValue / secondValue;
 
   return +(100 * (1 - division)).toFixed(0);
 }
