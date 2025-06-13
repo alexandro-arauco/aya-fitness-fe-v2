@@ -5,13 +5,37 @@ import { useEffect, useRef } from "react";
 
 interface GaugeProps {
   value: number;
+  bodyPart: string;
 }
 
-export default function GaugeSymmetry({ value }: GaugeProps) {
+export default function GaugeSymmetry({ value, bodyPart }: GaugeProps) {
   const transformedValue = (value + 30) * (100 / 60); // real -> gauge range
   const chartRef = useRef(null);
 
-  console.log({ transformedValue });
+  const getColors = () => {
+    if (bodyPart.toLowerCase() === "back") {
+      return [
+        [0.3333, "#EE6666"], // -30 to -10 → red
+        [0.3667, "#FAC858"], // -10 to -8  → yellow
+        [0.5, "#91CC75"], // -8 to 0     → green
+        [0.6333, "#91CC75"], // 0 to 8      → green
+        [0.6667, "#FAC858"], // 8 to 10     → yellow
+        [1, "#EE6666"], // 10 to 30    → red
+      ];
+    }
+
+    return [
+      [0.25, "#EE6666"], // -30 to -15 → red
+      [0.3333, "#FAC858"], // -15 to -10 → yellow
+      [0.5, "#91CC75"], // -10 to 0   → green
+      [0.6667, "#91CC75"], // 0 to 10    → green
+      [0.75, "#FAC858"], // 10 to 15   → yellow
+      [1, "#EE6666"], // 15 to 30   → red
+    ];
+  };
+
+  const side_1 = bodyPart.toLowerCase() === "back" ? "Left" : "Right";
+  const side_2 = bodyPart.toLowerCase() === "back" ? "Right" : "Left";
 
   useEffect(() => {
     const chart = init(chartRef.current, null);
@@ -35,7 +59,7 @@ export default function GaugeSymmetry({ value }: GaugeProps) {
           left: "15%",
           top: "10%",
           style: {
-            text: "Left",
+            text: side_1,
             fontSize: 26,
             fontWeight: "bold",
             fill: "#333",
@@ -46,7 +70,7 @@ export default function GaugeSymmetry({ value }: GaugeProps) {
           right: "15%",
           top: "10%",
           style: {
-            text: "Right",
+            text: side_2,
             fontSize: 26,
             fontWeight: "bold",
             fill: "#333",
@@ -64,12 +88,7 @@ export default function GaugeSymmetry({ value }: GaugeProps) {
           axisLine: {
             lineStyle: {
               width: 30,
-              color: [
-                [0.25, "#EE6666"], // -30 to -15 → green
-                [0.5, "#91CC75"], // -15 to 0 → red
-                [0.75, "#91CC75"], // 0 to +15 → red
-                [1, "#EE6666"], // +15 to +30 → green
-              ],
+              color: getColors(),
             },
           },
           radius: "90%",

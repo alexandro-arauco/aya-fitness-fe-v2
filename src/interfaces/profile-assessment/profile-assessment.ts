@@ -21,7 +21,7 @@ export interface DataSide {
   weightImpulse: WeightImpulse;
   sex: string;
   metric: string;
-  userWeight: number
+  userWeight: number;
 }
 
 export interface ItemDataSide {
@@ -41,7 +41,7 @@ interface GraphicItemDataSide {
   time: number;
 }
 
-interface WeightImpulse {
+export interface WeightImpulse {
   estimate: number;
   intercept: number;
   slope: number;

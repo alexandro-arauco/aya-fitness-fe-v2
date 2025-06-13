@@ -18,6 +18,7 @@ import {
 import calculateSymmetry from "@/utils/assessment/calculations";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import TrainingLevels from "./TrainingLevels";
 
 interface AssessmentClientPageProps {
   assessmentId: number;
@@ -74,32 +75,6 @@ export default function AssessmentClientPage({
     return <></>;
   }
 
-  const getLeftValueWeight = () => {
-    if (!exerciseSelected) return 0;
-    const exercise = JSON.parse(exerciseSelected) as ExercisesResponse;
-
-    const bodyPart = exercise.body_part.toLowerCase();
-
-    if (bodyPart === "back") {
-      return evaluationData?.left.weightImpulse.weight.toFixed(0);
-    } else {
-      return evaluationData?.right.weightImpulse.weight.toFixed(0);
-    }
-  };
-
-  const getRightValueWeight = () => {
-    if (!exerciseSelected) return 0;
-    const exercise = JSON.parse(exerciseSelected || "") as ExercisesResponse;
-
-    const bodyPart = exercise.body_part.toLowerCase();
-
-    if (bodyPart === "back") {
-      return evaluationData?.right.weightImpulse.weight.toFixed(0);
-    } else {
-      return evaluationData?.left.weightImpulse.weight.toFixed(0);
-    }
-  };
-
   return (
     <>
       <div className="px-10 py-3">
@@ -117,138 +92,30 @@ export default function AssessmentClientPage({
           </div>
         </div>
 
-        {exerciseSelected ? (
+        {exerciseSelected && evaluationData ? (
           <>
+            <TrainingLevels />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-2">
-              <Card className="rounded-md shadow-xl">
-                <CardContent className="flex flex-row justify-between items-center space-x-4">
-                  {/* Left side */}
-                  <div className="flex-1 text-end text-3xl">
-                    <div>
-                      {(() => {
-                        try {
-                          const exercise = JSON.parse(
-                            exerciseSelected || ""
-                          ) as ExercisesResponse;
-                          return exercise.body_part.toLowerCase() === "back"
-                            ? "Left"
-                            : "Right";
-                        } catch {
-                          return "";
-                        }
-                      })()}
-                    </div>
-                    <div className="text-xl">
-                      {`${getLeftValueWeight()} ${
-                        evaluationData?.left?.metric ?? ""
-                      }`}
-                    </div>
-                  </div>
-
-                  {/* Model */}
-                  {evaluationData && (
-                    <ModelBody
-                      bodyPart={(() => {
-                        try {
-                          return (
-                            JSON.parse(
-                              exerciseSelected || ""
-                            ) as ExercisesResponse
-                          ).body_part;
-                        } catch {
-                          return "";
-                        }
-                      })()}
-                      side="left"
-                      sex={evaluationData.left?.sex ?? ""}
-                    />
-                  )}
-
-                  {/* Right side */}
-                  <div className="flex-1 text-start text-3xl">
-                    <div>
-                      {(() => {
-                        try {
-                          const exercise = JSON.parse(
-                            exerciseSelected || ""
-                          ) as ExercisesResponse;
-                          return exercise.body_part.toLowerCase() === "back"
-                            ? "Right"
-                            : "Left";
-                        } catch {
-                          return "";
-                        }
-                      })()}
-                    </div>
-                    <div className="text-xl">
-                      {`${getRightValueWeight()} ${
-                        evaluationData?.left?.metric ?? ""
-                      }`}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <ModelBody
+                bodyPart={
+                  (JSON.parse(exerciseSelected) as ExercisesResponse).body_part
+                }
+                sex={evaluationData.left.sex}
+                leftWeightImpulse={evaluationData.left.weightImpulse}
+                rightWeightImpulse={evaluationData.right.weightImpulse}
+              />
 
               {/* Symmetry Score Card */}
               <Card className="rounded-md shadow-xl">
                 <CardContent>
                   <CardTitle className="text-3xl">Symmetry Score</CardTitle>
-                  <GaugeSymmetry value={symmetryValue} />
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2 md:gap-4 mt-2">
-              <Card className="rounded-md shadow-xl">
-                <CardContent className="space-y-10">
-                  <CardTitle className="text-center text-3xl font-semibold mb-4">
-                    Fitness Training Level
-                  </CardTitle>
-
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center items-center justify-items-center">
-                    <div>
-                      <DonutChart value={25} color="red" />
-                      <div className="space-y-3">
-                        <h2 className="text-2xl font-bold">Beginner</h2>
-                        <Progress value={25} />
-                      </div>
-                    </div>
-
-                    <div>
-                      <DonutChart value={50} color="orange" />
-                      <div className="space-y-3">
-                        <h2 className="text-2xl font-bold">Novice</h2>
-                        <Progress value={50} />
-                      </div>
-                    </div>
-
-                    <div>
-                      <DonutChart value={75} color="blue" />
-                      <div className="space-y-3">
-                        <h2 className="text-2xl font-bold">Intermediate</h2>
-                        <Progress value={75} />
-                      </div>
-                    </div>
-
-                    <div>
-                      <DonutChart value={100} color="green" />
-                      <div className="space-y-3">
-                        <h2 className="text-2xl font-bold">Advanced</h2>
-                        <Progress value={100} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col items-center justify-center">
-                    <h2 className="text-2xl font-bold text-center">Individual Component</h2>
-                    <div>
-                      <DonutChart value={75} color="blue" />
-                      <div className="space-y-3">
-                        <h2 className="text-2xl font-bold text-center">Intermediate</h2>
-                        <Progress value={75} />
-                      </div>
-                    </div>
-                  </div>
+                  <GaugeSymmetry
+                    value={symmetryValue}
+                    bodyPart={
+                      (JSON.parse(exerciseSelected) as ExercisesResponse)
+                        .body_part
+                    }
+                  />
                 </CardContent>
               </Card>
             </div>
