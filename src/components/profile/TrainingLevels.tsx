@@ -8,12 +8,23 @@ import clsx from "clsx";
 interface TrainingLevelsProps {
   levels: Levels[];
   exercise: string;
+  trainingLevel: string;
+  percentage_BW: number;
 }
 
 export default function TrainingLevels({
   levels,
   exercise,
+  trainingLevel,
+  percentage_BW,
 }: TrainingLevelsProps) {
+  const levelColors = {
+    Beginner: "bg-[#ff9f9f]",
+    Novice: "bg-[#ffbf94]",
+    Intermediate: "bg-[#94f5ec]",
+    Advanced: "bg-[#a7d7ff]",
+  };
+
   return (
     <div className="grid grid-cols-1 gap-2 md:gap-4 mt-2">
       <Card className="rounded-md shadow-xl">
@@ -27,10 +38,7 @@ export default function TrainingLevels({
               <Badge
                 className={clsx(
                   "text-xl italic text-black",
-                  index === 0 && "bg-[#ff9f9f]",
-                  index === 1 && "bg-[#ffbf94]",
-                  index === 2 && "bg-[#94f5ec]",
-                  index === 3 && "bg-[#a7d7ff]"
+                  `${levelColors[item.title as keyof typeof levelColors]}`
                 )}
               >
                 Level {item.level} ({item.title}):{" "}
@@ -44,12 +52,19 @@ export default function TrainingLevels({
           </div>
 
           <div className="flex justify-center items-center space-x-8">
-            <div className="rounded-md text-6xl font-bold text-white bg-orange-400 px-3 py-5">
-              29%
+            <div
+              className={clsx(
+                "rounded-md text-6xl font-bold text-white px-3 py-5",
+                `${levelColors[trainingLevel as keyof typeof levelColors]}`
+              )}
+            >
+              {percentage_BW} %
             </div>
             <div>
               <div className="text-2xl">{exercise} Assessment Score:</div>
-              <div className="text-center text-4xl font-bold">NOVICE</div>
+              <div className="text-center text-4xl font-bold">
+                {trainingLevel}
+              </div>
             </div>
           </div>
         </CardContent>

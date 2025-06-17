@@ -34,19 +34,41 @@ export default function ModelBody({
     }
   };
 
+  const getValuePercentageBWBySide = (side: string) => {
+    if (side.toLowerCase() === "left") {
+      return `${(leftWeightImpulse.percentageBW * 100).toFixed(0)} %`;
+    }
+
+    if (side.toLowerCase() === "right") {
+      return `${(rightWeightImpulse.percentageBW * 100).toFixed(0)} %`;
+    }
+  };
+
   return (
     <Card className="rounded-md shadow-xl">
       <CardContent className="flex flex-row justify-between items-center space-x-4">
-        <div className="flex-1 text-end text-3xl">
-          <div>{side_1}</div>
-          <div className="text-xl">{getValueWeightBySide(side_1)}</div>
+        <div className="flex flex-col space-y-5">
+          <div className="flex text-2xl space-x-2 justify-between">
+            <h2 className="font-bold">1 RM:</h2>
+            <h2>{getValueWeightBySide(side_1)}</h2>
+          </div>
+          <div className="flex text-2xl space-x-2 justify-between">
+            <h2 className="font-bold">% BW:</h2>
+            <h2>{getValuePercentageBWBySide(side_1)}</h2>
+          </div>
         </div>
 
         <ModelBodyImage bodyPart={bodyPart} side="left" sex={sex} />
 
-        <div className="flex-1 text-start text-3xl">
-          <div>{side_2}</div>
-          <div className="text-xl">{getValueWeightBySide(side_2)}</div>
+        <div className="flex flex-col space-y-5">
+          <div className="flex text-2xl space-x-2 justify-between">
+            <h2 className="font-bold">1 RM:</h2>
+            <h2>{getValueWeightBySide(side_2)}</h2>
+          </div>
+          <div className="flex text-2xl space-x-2 justify-between">
+            <h2 className="font-bold">% BW:</h2>
+            <h2>{getValuePercentageBWBySide(side_2)}</h2>
+          </div>
         </div>
       </CardContent>
     </Card>

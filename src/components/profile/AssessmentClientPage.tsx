@@ -3,7 +3,7 @@
 import Dropdown from "@/components/Dropdown";
 import GaugeSymmetry from "@/components/profile/chart/Gauge";
 import ModelBody from "@/components/profile/ModelBody";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
   ExercisesResponse,
@@ -17,6 +17,7 @@ import calculateSymmetry from "@/utils/assessment/calculations";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import TrainingLevels from "./TrainingLevels";
+import { Badge } from "@/components/ui/badge";
 
 interface AssessmentClientPageProps {
   assessmentId: number;
@@ -69,10 +70,33 @@ export default function AssessmentClientPage({
 
   return (
     <>
-      <div className="px-10 py-3">
-        <div className="bg-white flex py-5 rounded-md shadow-xl px-3">
-          <div className="w-1/2 space-y-3">
-            <Label className="font-bold">Exercises</Label>
+      <div className="px-10 py-3 space-y-3">
+        <Card className="rounded-md shadow-xl">
+          <CardHeader>
+            <CardTitle className="text-3xl mx-auto">
+              Strength Assessment Summary Report
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-2xl">
+              This infographic provides a comprehensive overview of an
+              individual's <span className="font-bold">strength capacity</span>.
+              Understanding these data points helps in maintaining and improving
+              overall health, fitness, and wellness.
+            </p>
+            <div className="text-center">
+              <Badge className="text-2xl">
+                “Health is wealth, invest wisely. ” - <span className="font-normal italic">Unknown</span>
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-md shadow-xl">
+          <CardHeader>
+            <CardTitle>Exercises</CardTitle>
+          </CardHeader>
+          <CardContent className="w-1/3">
             <Dropdown
               data={data.map((item) => ({
                 value: JSON.stringify(item),
@@ -81,8 +105,8 @@ export default function AssessmentClientPage({
               onChange={(value) => setExerciseSelected(value)}
               value={exerciseSelected}
             />
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {exerciseSelected && evaluationData ? (
           <>
@@ -91,6 +115,8 @@ export default function AssessmentClientPage({
               exercise={
                 (JSON.parse(exerciseSelected) as ExercisesResponse).name
               }
+              trainingLevel={evaluationData.training_level}
+              percentage_BW={evaluationData.percentage_BW}
             />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-2">
               {symmetryValue ? (
@@ -111,8 +137,12 @@ export default function AssessmentClientPage({
 
               {/* Symmetry Score Card */}
               <Card className="rounded-md shadow-xl">
+                <CardHeader>
+                  <CardTitle className="text-3xl mx-auto">
+                    Symmetry Score
+                  </CardTitle>
+                </CardHeader>
                 <CardContent>
-                  <CardTitle className="text-3xl">Symmetry Score</CardTitle>
                   <GaugeSymmetry
                     value={symmetryValue}
                     bodyPart={

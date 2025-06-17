@@ -14,7 +14,8 @@ export interface ExercisesResponse {
 export interface RegressionResponse {
   regression: Regression;
   levels: Levels[];
-  training_level: number;
+  training_level: string;
+  percentage_BW: number;
 }
 
 export interface Regression {
