@@ -28,6 +28,7 @@ export interface Levels {
   level: number;
   min: number;
   max: number;
+  title: string;
 }
 
 export interface DataSide {

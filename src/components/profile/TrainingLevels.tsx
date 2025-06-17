@@ -1,11 +1,19 @@
 "use client";
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import DonutChart from "@/components/profile/chart/Donut";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
+import { Levels } from "@/interfaces/profile-assessment/profile-assessment";
+import clsx from "clsx";
 
-export default function TrainingLevels() {
+interface TrainingLevelsProps {
+  levels: Levels[];
+  exercise: string;
+}
+
+export default function TrainingLevels({
+  levels,
+  exercise,
+}: TrainingLevelsProps) {
   return (
     <div className="grid grid-cols-1 gap-2 md:gap-4 mt-2">
       <Card className="rounded-md shadow-xl">
@@ -15,18 +23,24 @@ export default function TrainingLevels() {
           </CardTitle>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center items-center justify-items-center">
-            <Badge className="text-xl italic bg-[#ff9f9f] text-black">
-              Level 1 (Beginner): 0 - 29%
-            </Badge>
-            <Badge className="text-xl italic bg-[#ffbf94] text-black">
-              Level 1 (Beginner): 0 - 29%
-            </Badge>
-            <Badge className="text-xl italic bg-[#94f5ec] text-black">
-              Level 1 (Beginner): 0 - 29%
-            </Badge>
-            <Badge className="text-xl italic bg-[#a7d7ff] text-black">
-              Level 1 (Beginner): 0 - 29%
-            </Badge>
+            {levels.map((item, index) => (
+              <Badge
+                className={clsx(
+                  "text-xl italic text-black",
+                  index === 0 && "bg-[#ff9f9f]",
+                  index === 1 && "bg-[#ffbf94]",
+                  index === 2 && "bg-[#94f5ec]",
+                  index === 3 && "bg-[#a7d7ff]"
+                )}
+              >
+                Level {item.level} ({item.title}):{" "}
+                {`${
+                  index !== levels.length - 1
+                    ? `${item.min} - ${item.max}`
+                    : `${item.min}+`
+                } %`}
+              </Badge>
+            ))}
           </div>
 
           <div className="flex justify-center items-center space-x-8">
@@ -34,7 +48,7 @@ export default function TrainingLevels() {
               29%
             </div>
             <div>
-              <div className="text-2xl">Chest Press Assessment Score:</div>
+              <div className="text-2xl">{exercise} Assessment Score:</div>
               <div className="text-center text-4xl font-bold">NOVICE</div>
             </div>
           </div>

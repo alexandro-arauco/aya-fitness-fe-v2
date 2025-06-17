@@ -86,7 +86,12 @@ export default function AssessmentClientPage({
 
         {exerciseSelected && evaluationData ? (
           <>
-            <TrainingLevels />
+            <TrainingLevels
+              levels={evaluationData.levels}
+              exercise={
+                (JSON.parse(exerciseSelected) as ExercisesResponse).name
+              }
+            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-2">
               {symmetryValue ? (
                 <ModelBody
@@ -95,8 +100,12 @@ export default function AssessmentClientPage({
                       .body_part
                   }
                   sex={evaluationData.regression.left.sex}
-                  leftWeightImpulse={evaluationData.regression.left.weightImpulse}
-                  rightWeightImpulse={evaluationData.regression.right.weightImpulse}
+                  leftWeightImpulse={
+                    evaluationData.regression.left.weightImpulse
+                  }
+                  rightWeightImpulse={
+                    evaluationData.regression.right.weightImpulse
+                  }
                 />
               ) : null}
 
