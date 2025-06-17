@@ -3,6 +3,7 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import DonutChart from "@/components/profile/chart/Donut";
 import { Progress } from "@/components/ui/progress";
+import { Badge } from "../ui/badge";
 
 export default function TrainingLevels() {
   return (
@@ -14,36 +15,27 @@ export default function TrainingLevels() {
           </CardTitle>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center items-center justify-items-center">
-            <div>
-              <DonutChart value={25} color="red" />
-              <div className="space-y-3">
-                <h2 className="text-2xl font-bold">Beginner</h2>
-                <Progress value={25} />
-              </div>
-            </div>
+            <Badge className="text-xl italic bg-[#ff9f9f] text-black">
+              Level 1 (Beginner): 0 - 29%
+            </Badge>
+            <Badge className="text-xl italic bg-[#ffbf94] text-black">
+              Level 1 (Beginner): 0 - 29%
+            </Badge>
+            <Badge className="text-xl italic bg-[#94f5ec] text-black">
+              Level 1 (Beginner): 0 - 29%
+            </Badge>
+            <Badge className="text-xl italic bg-[#a7d7ff] text-black">
+              Level 1 (Beginner): 0 - 29%
+            </Badge>
+          </div>
 
-            <div>
-              <DonutChart value={50} color="orange" />
-              <div className="space-y-3">
-                <h2 className="text-2xl font-bold">Novice</h2>
-                <Progress value={50} />
-              </div>
+          <div className="flex justify-center items-center space-x-8">
+            <div className="rounded-md text-6xl font-bold text-white bg-orange-400 px-3 py-5">
+              29%
             </div>
-
             <div>
-              <DonutChart value={75} color="blue" />
-              <div className="space-y-3">
-                <h2 className="text-2xl font-bold">Intermediate</h2>
-                <Progress value={75} />
-              </div>
-            </div>
-
-            <div>
-              <DonutChart value={100} color="green" />
-              <div className="space-y-3">
-                <h2 className="text-2xl font-bold">Advanced</h2>
-                <Progress value={100} />
-              </div>
+              <div className="text-2xl">Chest Press Assessment Score:</div>
+              <div className="text-center text-4xl font-bold">NOVICE</div>
             </div>
           </div>
         </CardContent>

@@ -12,8 +12,22 @@ export interface ExercisesResponse {
 }
 
 export interface RegressionResponse {
+  regression: Regression;
+  levels: Levels[];
+  training_level: number;
+}
+
+export interface Regression {
   left: DataSide;
   right: DataSide;
+}
+
+export interface Levels {
+  id: number;
+  body_part: string;
+  level: number;
+  min: number;
+  max: number;
 }
 
 export interface DataSide {

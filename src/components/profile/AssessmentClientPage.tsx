@@ -49,7 +49,8 @@ export default function AssessmentClientPage({
   const calculateValues = () => {
     if (!evaluationData) return;
 
-    const { left, right } = evaluationData as unknown as RegressionResponse;
+    const { regression } = evaluationData as unknown as RegressionResponse;
+    const { left, right } = regression;
 
     setSymmetryValue(
       calculateSymmetry(left.weightImpulse.weight, right.weightImpulse.weight)
@@ -93,9 +94,9 @@ export default function AssessmentClientPage({
                     (JSON.parse(exerciseSelected) as ExercisesResponse)
                       .body_part
                   }
-                  sex={evaluationData.left.sex}
-                  leftWeightImpulse={evaluationData.left.weightImpulse}
-                  rightWeightImpulse={evaluationData.right.weightImpulse}
+                  sex={evaluationData.regression.left.sex}
+                  leftWeightImpulse={evaluationData.regression.left.weightImpulse}
+                  rightWeightImpulse={evaluationData.regression.right.weightImpulse}
                 />
               ) : null}
 
