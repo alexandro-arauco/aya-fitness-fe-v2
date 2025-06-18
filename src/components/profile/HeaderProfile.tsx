@@ -6,15 +6,19 @@ import { MenuItem } from "@/interfaces/menu/menu";
 import { useQueryClient } from "@tanstack/react-query";
 import ButtonNewAssessment from "./ButtonNewAssessment";
 
-export default function HeaderProfile({ userId }: { userId: number }) {
+export default function HeaderProfile({
+  userId,
+  title,
+}: {
+  userId: number;
+  title: string;
+}) {
   const { getItem } = useLocalStorage<Record<string, any>>();
 
   const queryClient = useQueryClient();
   queryClient.setQueryData(["userId"], userId);
 
   const information = getItem("user-info");
-  const title =
-    information && information.type === "admin" ? "Customer" : "Member";
 
   const menuItems: MenuItem[] = [
     {
@@ -25,7 +29,7 @@ export default function HeaderProfile({ userId }: { userId: number }) {
 
   return (
     <Header
-      title={information ? title : ""}
+      title={title}
       actionsButtons={<ButtonNewAssessment />}
       menuItems={menuItems}
     />
