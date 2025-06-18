@@ -7,7 +7,7 @@ export default function Home() {
     <div className="flex justify-center items-center min-h-screen">
       <Card className="rounded-md shadow-2xl w-1/3 space-y-3">
         <CardHeader className="justify-center items-center space-y-3">
-          <Logo />
+          <Logo defaultLogo="/logo.png" />
 
           <div className="flex flex-row space-x-2 mx-auto items-center">
             <div className="text-2xl font-bold">AYA</div>
