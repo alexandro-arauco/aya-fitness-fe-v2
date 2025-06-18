@@ -1,5 +1,6 @@
 "use client";
 
+import { UploadAssessment } from "@/actions/assessment";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -9,8 +10,8 @@ import { GetAllExercises } from "@/request/profile-assessment";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import FileAssessment from "./FileAssessment";
-import { UploadAssessment } from "@/actions/assessment";
 
 interface AssessmentExercise {
   exerciseId: number;
@@ -18,7 +19,11 @@ interface AssessmentExercise {
   right: File[];
 }
 
-export default function ExercisesAssessment() {
+export default function ExercisesAssessment({
+  onClose,
+}: {
+  onClose?: () => void;
+}) {
   const queryClient = useQueryClient();
   const userId = queryClient.getQueryData(["userId"]);
   const [exerciseSelected, setExerciseSelected] = useState<ExercisesResponse[]>(
@@ -47,8 +52,19 @@ export default function ExercisesAssessment() {
         queryKey: ["assessments"],
         exact: false,
       });
+
+      await new Promise<void>((resolve) => setTimeout(resolve, 1000));
+      await handleOnSuccess();
     },
   });
+
+  const handleOnSuccess = async () => {
+    toast.success("Assessment Created successfully.", {
+      position: "top-right",
+    });
+
+    if (onClose) onClose();
+  };
 
   useEffect(() => {
     validateAssessmentsExercises();
@@ -258,6 +274,7 @@ export default function ExercisesAssessment() {
           <section>
             {exerciseSelected.length === 1 && (
               <Button
+                className="cursor-pointer"
                 disabled={errorsUploadAssessmentExercise.length > 0}
                 onClick={handleUploadAssessment}
               >

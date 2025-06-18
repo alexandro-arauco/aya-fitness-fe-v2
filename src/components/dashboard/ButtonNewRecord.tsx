@@ -28,7 +28,10 @@ export default function ButtonNewRecord() {
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="min-w-5/12">
+      <AlertDialogContent
+        className="min-w-5/12"
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
         <AlertDialogHeader>
           <div className="flex justify-between items-center">
             <AlertDialogTitle>

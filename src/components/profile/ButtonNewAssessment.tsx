@@ -9,28 +9,34 @@ import {
 import { Button } from "@/components/ui/button";
 import { PlusIcon, XIcon } from "lucide-react";
 import ExercisesAssessment from "./ExercisesAssessment";
+import { useState } from "react";
 
 export default function ButtonNewAssessment() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="font-bold focus:outline-none">
+        <Button className="font-bold focus:outline-none cursor-pointer">
           <PlusIcon />
           Upload Assessment
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent className="min-w-1/2">
+      <AlertDialogContent
+        className="min-w-1/2"
+        onEscapeKeyDown={(e) => e.preventDefault()}
+      >
         <AlertDialogHeader>
           <div className="flex justify-between items-center">
             <AlertDialogTitle>Upload Assessment</AlertDialogTitle>
-            <AlertDialogCancel className="border-none shadow-none">
+            <AlertDialogCancel className="border-none shadow-none cursor-pointer">
               <XIcon className="hover:opacity-55 cursor-pointer" />
             </AlertDialogCancel>
           </div>
         </AlertDialogHeader>
 
-        <ExercisesAssessment />
+        <ExercisesAssessment onClose={() => setOpen(false)} />
       </AlertDialogContent>
     </AlertDialog>
   );
