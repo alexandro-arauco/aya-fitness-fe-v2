@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import AssessmentClientPage from "@/components/profile/AssessmentClientPage";
+import { MenuItem } from "@/interfaces/menu/menu";
 import { HeartIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -13,9 +14,19 @@ interface PageProps {
 export default async function ClientAssessmentPage({ params }: PageProps) {
   const { id: client_id, assessment_id } = await params;
 
+  const menuItems: MenuItem[] = [
+    {
+      label: "Dashboard",
+      link: "/dashboard",
+    },
+  ];
+
   return (
     <div className="flex flex-col min-h-screen">
-      <Header title="Strength Assessment Summary Report" />
+      <Header
+        title="Strength Assessment Summary Report"
+        menuItems={menuItems}
+      />
 
       <AssessmentClientPage
         assessmentId={+assessment_id}

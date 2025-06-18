@@ -54,5 +54,17 @@ export function useLocalStorage<T>() {
     [isClient]
   );
 
-  return { getItem, setItem, removeItem, isClient };
+  const clearStorage = useCallback((): void => {
+    if (!isClient || typeof window === "undefined") {
+      return;
+    }
+
+    try {
+      window.localStorage.clear();
+    } catch (error) {
+      console.error("Error clearing localStorage:", error);
+    }
+  }, [isClient]);
+
+  return { getItem, setItem, removeItem, clearStorage, isClient };
 }

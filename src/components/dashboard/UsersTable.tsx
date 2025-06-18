@@ -93,7 +93,6 @@ export default function UsersTable() {
                 return;
               }
             },
-            onDelete: (item) => console.log("Delete", item),
           }}
         />
       )}

@@ -2,6 +2,11 @@
 
 import { EyeIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export interface Column<T> {
   key: keyof T;
@@ -113,9 +118,17 @@ export default function Table<T>({
                 {actions && (
                   <td className="px-6 py-4 flex space-x-2 justify-end">
                     {actions.onView && (
-                      <button onClick={() => actions.onView?.(item)}>
-                        <EyeIcon className="size-5 hover:stroke-black hover:scale-110" />
-                      </button>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <button
+                            className="cursor-pointer hover:scale-120 transition-transform duration-300"
+                            onClick={() => actions.onView?.(item)}
+                          >
+                            <EyeIcon className="size-5 hover:stroke-blackhover:stroke-black" />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent>View</TooltipContent>
+                      </Tooltip>
                     )}
                     {actions.onEdit && (
                       <button onClick={() => actions.onEdit?.(item)}>

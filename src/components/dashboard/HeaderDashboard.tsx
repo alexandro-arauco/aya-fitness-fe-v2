@@ -2,6 +2,7 @@
 
 import Header from "@/components/Header";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { MenuItem } from "@/interfaces/menu/menu";
 
 export default function HeaderDashboard() {
   const { getItem } = useLocalStorage<Record<string, any>>();
@@ -12,5 +13,5 @@ export default function HeaderDashboard() {
       ? `${information.gym_name} Dashboard`
       : "Admin Dashboard";
 
-  return <Header title={!information ? "---" : title} />;
+  return <Header title={!information ? "---" : title} menuItems={[]} />;
 }
