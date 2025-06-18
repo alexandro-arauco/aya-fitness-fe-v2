@@ -40,7 +40,7 @@ interface ApiResponse {
 export async function GetAssessmentByMemberId(
   clientId: number,
   page: number,
-  itemsPerPage: number
+  itemsPerPage: number = 10
 ) {
   try {
     const response = await axiosInstance.get<ApiResponse>(

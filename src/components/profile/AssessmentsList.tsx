@@ -16,8 +16,8 @@ export default function AssessmentsList({ userId }: AssessmentsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["assessments", userId],
-    queryFn: () => GetAssessmentByMemberId(userId, currentPage, 10),
+    queryKey: ["assessments", userId, currentPage],
+    queryFn: () => GetAssessmentByMemberId(userId, currentPage),
     refetchOnMount: true,
   });
 
