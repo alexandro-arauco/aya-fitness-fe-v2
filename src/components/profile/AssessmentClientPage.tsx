@@ -3,8 +3,8 @@
 import Dropdown from "@/components/Dropdown";
 import GaugeSymmetry from "@/components/profile/chart/Gauge";
 import ModelBody from "@/components/profile/ModelBody";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import {
   ExercisesResponse,
   RegressionResponse,
@@ -16,8 +16,8 @@ import {
 import calculateSymmetry from "@/utils/assessment/calculations";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import Logo from "../Logo";
 import TrainingLevels from "./TrainingLevels";
-import { Badge } from "@/components/ui/badge";
 
 interface AssessmentClientPageProps {
   assessmentId: number;
@@ -73,8 +73,14 @@ export default function AssessmentClientPage({
       <div className="px-10 py-3 space-y-3">
         <Card className="rounded-md shadow-xl">
           <CardHeader>
-            <CardTitle className="text-3xl mx-auto">
-              Strength Assessment Summary Report
+            <CardTitle className="text-3xl mx-auto flex items-center space-x-3">
+              <Logo width={150} height={150} defaultLogo="/logo.png" />
+              <div className="space-x-2 mx-auto items-center">
+                <div className="text-3xl font-bold text-[#FF7E06]">AYA</div>
+                <div className="text-3xl font-normal italic text-[#FF7E06]">
+                  FITNESS
+                </div>
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -86,7 +92,8 @@ export default function AssessmentClientPage({
             </p>
             <div className="text-center">
               <Badge className="text-2xl">
-                “Health is wealth, invest wisely. ” - <span className="font-normal italic">Unknown</span>
+                “Health is wealth, invest wisely. ” -{" "}
+                <span className="font-normal italic">Unknown</span>
               </Badge>
             </div>
           </CardContent>

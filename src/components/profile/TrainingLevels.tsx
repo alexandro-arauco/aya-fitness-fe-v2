@@ -36,6 +36,7 @@ export default function TrainingLevels({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center items-center justify-items-center">
             {levels.map((item, index) => (
               <Badge
+                key={item.id}
                 className={clsx(
                   "text-xl italic text-black",
                   `${levelColors[item.title as keyof typeof levelColors]}`
