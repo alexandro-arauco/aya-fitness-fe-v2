@@ -19,6 +19,7 @@ interface SelectWithValidationProps {
   name: string;
   label: string;
   data: { value: string; label: string }[];
+  disable?: boolean;
 }
 
 export default function SelectWithValidation({
@@ -26,6 +27,7 @@ export default function SelectWithValidation({
   name,
   label,
   data,
+  disable = false,
 }: SelectWithValidationProps) {
   return (
     <FormField
@@ -39,6 +41,7 @@ export default function SelectWithValidation({
               data={data}
               onChange={field.onChange}
               value={field.value}
+              disable={disable}
             />
           </FormControl>
         </FormItem>

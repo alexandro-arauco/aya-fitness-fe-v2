@@ -15,6 +15,7 @@ interface InputWithValidationProps {
   label: string;
   placeholder?: string;
   type?: "text" | "password" | "date" | "file";
+  disable?: boolean;
 }
 
 export default function InputWithValidation({
@@ -24,6 +25,7 @@ export default function InputWithValidation({
   label,
   placeholder = "",
   type = "text",
+  disable = false,
 }: InputWithValidationProps) {
   return (
     <FormField
@@ -46,14 +48,16 @@ export default function InputWithValidation({
                     e.target.files ? e.target.files[0] : null
                   );
                 }}
+                disabled={disable}
               />
             ) : (
               <Input
-                className="h-10 border-gray-300 rounded-md"
+                className="h-10 border-gray-300 rounded-md disabled:text-black disabled:opacity-100 disabled:bg-gray-300"
                 id={id}
                 placeholder={placeholder}
                 type={type}
                 autoComplete="off"
+                disabled={disable}
                 {...field}
               />
             )}

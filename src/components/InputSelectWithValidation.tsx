@@ -25,6 +25,7 @@ interface InputSelectWithValidationProps {
   dataSelect: { value: string; label: string }[];
   selectName: string;
   error: string;
+  disable?: boolean;
 }
 
 export default function InputSelectWithValidation({
@@ -36,6 +37,7 @@ export default function InputSelectWithValidation({
   dataSelect,
   selectName,
   error,
+  disable = false,
 }: InputSelectWithValidationProps) {
   return (
     <FormField
@@ -54,10 +56,11 @@ export default function InputSelectWithValidation({
           >
             <FormControl>
               <Input
-                className="h-10 border-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-none"
+                className="h-10 border-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-none disabled:bg-gray-300 disabled:opacity-100"
                 id={id}
                 placeholder={placeholder}
                 autoComplete="off"
+                disabled={disable}
                 {...field}
               />
             </FormControl>
@@ -65,8 +68,9 @@ export default function InputSelectWithValidation({
               <Select
                 onValueChange={(value) => form.setValue(selectName, value)}
                 value={form.getValues(selectName)}
+                disabled={disable}
               >
-                <SelectTrigger className="!h-10 border-t-0 border-r-0 border-b-0 border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-none">
+                <SelectTrigger className="!h-10 border-t-0 border-r-0 border-b-0 border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-none disabled:bg-gray-300 disabled:opacity-100">
                   <SelectValue placeholder="Select an option" />
                 </SelectTrigger>
 

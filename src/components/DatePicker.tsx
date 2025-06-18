@@ -7,16 +7,26 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { UseFormReturn } from "react-hook-form";
 import { cn } from "@/lib/utils";
 
 interface DatePickerProps {
   form: UseFormReturn<any, any, any>;
   label: string;
+  disable?: boolean;
 }
 
-export default function DatePicker({ form, label }: DatePickerProps) {
+export default function DatePicker({
+  form,
+  label,
+  disable = false,
+}: DatePickerProps) {
   return (
     <FormField
       control={form.control}
@@ -30,9 +40,10 @@ export default function DatePicker({ form, label }: DatePickerProps) {
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full pl-3 text-left font-normal h-10 border-gray-300",
+                    "w-full pl-3 text-left font-normal h-10 border-gray-300 disabled:bg-gray-300 disabled:opacity-100",
                     !field.value && "text-muted-foreground"
                   )}
+                  disabled={disable}
                 >
                   {field.value ? (
                     format(field.value, "PPP")

@@ -24,12 +24,14 @@ interface UserFormProps {
   userId: number;
   labelAction?: string;
   defaultValues?: ClientCreate | null;
+  disable?: boolean;
 }
 
 export default function UserForm({
   userId,
   labelAction = "Create",
   defaultValues = null,
+  disable = false,
 }: UserFormProps) {
   const { getItem } = useLocalStorage<Record<string, any>>();
   const information = getItem("user-info");
@@ -86,6 +88,7 @@ export default function UserForm({
               name="first_name"
               label="First Name"
               placeholder="Enter your First Name"
+              disable={disable}
             />
           </div>
           <div className="w-full">
@@ -95,6 +98,7 @@ export default function UserForm({
               name="last_name"
               label="Last Name"
               placeholder="Enter your Last Name"
+              disable={disable}
             />
           </div>
         </div>
@@ -106,6 +110,7 @@ export default function UserForm({
               name="sex"
               label="Sex"
               data={DATA_GENDERS}
+              disable={disable}
             />
           </div>
           <div className="w-full">
@@ -115,6 +120,7 @@ export default function UserForm({
               name="email"
               label="Email"
               placeholder="Ex. jhon.doe@test.com"
+              disable={disable}
             />
           </div>
         </div>
@@ -127,6 +133,7 @@ export default function UserForm({
               name="phone_number"
               label="Phone Number"
               placeholder="Ex. +1 12345678"
+              disable={disable}
             />
           </div>
         </div>
@@ -138,10 +145,11 @@ export default function UserForm({
               name="fitness_level"
               label="Fitness Level"
               data={DATA_FITNESS_LEVEL}
+              disable={disable}
             />
           </div>
           <div className="w-full">
-            <DatePicker form={form} label="Date of Birth" />
+            <DatePicker form={form} label="Date of Birth" disable={disable} />
           </div>
         </div>
 
@@ -156,6 +164,7 @@ export default function UserForm({
               dataSelect={DATA_HEIGHT_METRIC}
               selectName="height_metric"
               error={form.formState.errors.height?.message || ""}
+              disable={disable}
             />
           </div>
           <div className="w-full">
@@ -168,11 +177,14 @@ export default function UserForm({
               dataSelect={DATA_WEIGHT_METRIC}
               selectName="weight_metric"
               error={form.formState.errors.weight?.message || ""}
+              disable={disable}
             />
           </div>
         </div>
 
-        <Button className="w-full mt-4 cursor-pointer">{labelAction}</Button>
+        <Button className="w-full mt-4 cursor-pointer" disabled={disable}>
+          {labelAction}
+        </Button>
       </form>
     </Form>
   );

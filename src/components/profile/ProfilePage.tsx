@@ -1,12 +1,13 @@
 "use client";
 
+import AssessmentsList from "@/components/profile/AssessmentsList";
+import GymProfileForm from "@/components/profile/GymProfileForm";
 import HeaderProfile from "@/components/profile/HeaderProfile";
+import UserProfileForm from "@/components/profile/UserProfileForm";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useState } from "react";
-import AssessmentsList from "./AssessmentsList";
-import UserProfileForm from "./UserProfileForm";
 
 interface ProfoilePageProps {
   id: number;
@@ -60,7 +61,12 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
           <TabsContent value="profile">
             <Card className="rounded-md">
               <CardContent className="w-1/2 mx-auto">
-                <UserProfileForm userId={+id} />
+                {information?.type === "admin" && (
+                  <GymProfileForm userId={+id} />
+                )}
+                {information?.type === "gym" && (
+                  <UserProfileForm userId={+id} />
+                )}
               </CardContent>
             </Card>
           </TabsContent>

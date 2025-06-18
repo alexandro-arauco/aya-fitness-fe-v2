@@ -16,6 +16,17 @@ export async function GetClient(clientId: number) {
   }
 }
 
+export async function GetGym(clientId: number) {
+  try {
+    const response = await axiosInstance.get(`/users/${clientId}`);
+    return {
+      user: response.data,
+    };
+  } catch (error) {
+    throw error;
+  }
+}
+
 interface ApiResponse {
   data: AssessmentsResponse[];
   pagination: {

@@ -10,12 +10,22 @@ interface DropdownProps {
   onChange: (value: string) => void;
   value: string | null;
   data: { value: string; label: string }[];
+  disable?: boolean;
 }
 
-export default function Dropdown({ onChange, value, data }: DropdownProps) {
+export default function Dropdown({
+  onChange,
+  value,
+  data,
+  disable = false,
+}: DropdownProps) {
   return (
-    <Select onValueChange={onChange} value={value ? value : undefined}>
-      <SelectTrigger className="!h-10 w-full border border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]">
+    <Select
+      onValueChange={onChange}
+      value={value ? value : undefined}
+      disabled={disable}
+    >
+      <SelectTrigger className="!h-10 w-full border border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] disabled:bg-gray-300 disabled:opacity-100">
         <SelectValue placeholder="Select an option" />
       </SelectTrigger>
 

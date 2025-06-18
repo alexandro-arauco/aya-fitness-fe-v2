@@ -18,6 +18,6 @@ export default function UserProfileForm({ userId }: UserProfilePromProps) {
   if (error) return <>Error loading user</>;
 
   return (
-    <UserForm userId={userId} defaultValues={data?.user} labelAction="Update" />
+    <UserForm userId={userId} defaultValues={data?.user} labelAction="Update" disable />
   );
 }
