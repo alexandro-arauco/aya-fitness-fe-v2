@@ -94,8 +94,10 @@ export default function ExercisesAssessment() {
         (item) => item.exerciseId === tmp[index].id
       );
 
-      tmpAssessmentExercise.splice(indexTmpAssessmentExercise, 1);
-      setAssessmentExercise(tmpAssessmentExercise);
+      if (indexTmpAssessmentExercise !== -1) {
+        tmpAssessmentExercise.splice(indexTmpAssessmentExercise, 1);
+        setAssessmentExercise(tmpAssessmentExercise);
+      }
 
       tmp.splice(index, 1);
     }
