@@ -118,17 +118,12 @@ export default function Table<T>({
                 {actions && (
                   <td className="px-6 py-4 flex space-x-2 justify-end">
                     {actions.onView && (
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <button
-                            className="cursor-pointer hover:scale-120 transition-transform duration-300"
-                            onClick={() => actions.onView?.(item)}
-                          >
-                            <EyeIcon className="size-5 hover:stroke-blackhover:stroke-black" />
-                          </button>
-                        </TooltipTrigger>
-                        <TooltipContent>View</TooltipContent>
-                      </Tooltip>
+                      <button
+                        className="cursor-pointer hover:scale-120 transition-transform duration-300"
+                        onClick={() => actions.onView?.(item)}
+                      >
+                        <EyeIcon className="size-5 hover:stroke-blackhover:stroke-black" />
+                      </button>
                     )}
                     {actions.onEdit && (
                       <button onClick={() => actions.onEdit?.(item)}>
