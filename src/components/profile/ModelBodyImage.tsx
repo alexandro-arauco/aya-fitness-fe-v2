@@ -7,7 +7,7 @@ interface ModelBodyImageProps {
 }
 
 export default function ModelBodyImage({ sex, side, bodyPart }: ModelBodyImageProps) {
-  const source = `/model/${sex}/${bodyPart.toLowerCase()}_${side}.png`;
+  const source = `/model/${bodyPart.toLowerCase()}_${side}.png`;
 
   return <Image src={source} alt="Body Model" width={350} height={700} />;
 }
