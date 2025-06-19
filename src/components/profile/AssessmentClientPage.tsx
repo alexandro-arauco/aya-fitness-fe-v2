@@ -15,6 +15,8 @@ import {
 } from "@/request/profile-assessment";
 import calculateSymmetry from "@/utils/assessment/calculations";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Logo from "../Logo";
 import TrainingLevels from "./TrainingLevels";
@@ -30,6 +32,7 @@ export default function AssessmentClientPage({
 }: AssessmentClientPageProps) {
   const [exerciseSelected, setExerciseSelected] = useState<string | null>(null);
   const [symmetryValue, setSymmetryValue] = useState(0);
+  const pathname = usePathname();
 
   const { data } = useQuery({
     queryKey: ["assessment-exercises", assessmentId, clientId],
@@ -103,15 +106,26 @@ export default function AssessmentClientPage({
           <CardHeader>
             <CardTitle>Exercises</CardTitle>
           </CardHeader>
-          <CardContent className="w-1/3">
-            <Dropdown
-              data={data.map((item) => ({
-                value: JSON.stringify(item),
-                label: item.name,
-              }))}
-              onChange={(value) => setExerciseSelected(value)}
-              value={exerciseSelected}
-            />
+          <CardContent className="flex justify-between">
+            <div className="w-1/3">
+              <Dropdown
+                data={data.map((item) => ({
+                  value: JSON.stringify(item),
+                  label: item.name,
+                }))}
+                onChange={(value) => setExerciseSelected(value)}
+                value={exerciseSelected}
+              />
+            </div>
+
+            {exerciseSelected && evaluationData ? (
+              <Link
+                href={`${pathname}/recommendations`}
+                className="hover:border-b hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105"
+              >
+                See Recommendation
+              </Link>
+            ) : null}
           </CardContent>
         </Card>
 
