@@ -14,13 +14,15 @@ import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 import { PlusIcon, XIcon } from "lucide-react";
+import { useState } from "react";
 
 export default function ButtonNewRecord() {
+  const [open, setOpen] = useState(false);
   const { getItem } = useLocalStorage<Record<string, any>>();
   const information = getItem("user-info");
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button className="font-semibold cursor-pointer">
           <PlusIcon />
@@ -45,11 +47,11 @@ export default function ButtonNewRecord() {
         </AlertDialogHeader>
 
         {information && information.type === "admin" && (
-          <GymForm userId={information.id} />
+          <GymForm userId={information.id} onClose={() => setOpen(false)} />
         )}
 
         {information && information.type === "gym" && (
-          <UserForm userId={information.id} />
+          <UserForm userId={information.id} onClose={() => setOpen(false)} />
         )}
       </AlertDialogContent>
     </AlertDialog>

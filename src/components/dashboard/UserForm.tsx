@@ -19,12 +19,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface UserFormProps {
   userId: number;
   labelAction?: string;
   defaultValues?: ClientCreate | null;
   disable?: boolean;
+  onClose?: () => void;
 }
 
 export default function UserForm({
@@ -32,6 +34,7 @@ export default function UserForm({
   labelAction = "Create",
   defaultValues = null,
   disable = false,
+  onClose = () => {},
 }: UserFormProps) {
   const { getItem } = useLocalStorage<Record<string, any>>();
   const information = getItem("user-info");
@@ -61,17 +64,28 @@ export default function UserForm({
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (values: ClientCreate) => NewClientAction(values, userGymId),
-    onSuccess: async (data) =>
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: ["users"],
         exact: false,
-      }),
+      });
+      await new Promise<void>((resolve) => setTimeout(resolve, 1000));
+      await handleOnSuccess();
+    },
     onError: async (error) =>
       await queryClient.invalidateQueries({
         queryKey: ["users"],
         exact: false,
       }),
   });
+
+  const handleOnSuccess = async () => {
+    toast.success("Client Created successfully.", {
+      position: "top-right",
+    });
+
+    if (onClose) onClose();
+  };
 
   const onSubmit = (values: ClientCreate) => {
     mutate(values);

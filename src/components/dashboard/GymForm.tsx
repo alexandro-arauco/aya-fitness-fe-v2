@@ -9,12 +9,14 @@ import { GymCreate, GymSchema } from "@/schemas/dashboard-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface GymFormProps {
   userId: number;
   labelAction?: string;
   defaultValues?: GymCreate | null;
   disable?: boolean;
+  onClose?: () => void;
 }
 
 export default function GymForm({
@@ -22,6 +24,7 @@ export default function GymForm({
   labelAction = "Create",
   defaultValues = null,
   disable = false,
+  onClose = () => {},
 }: GymFormProps) {
   const form = useForm<GymCreate>({
     resolver: zodResolver(GymSchema.omit({ id: true })),
@@ -48,11 +51,15 @@ export default function GymForm({
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: (values: GymCreate) => NewGymAction(values, userId),
-    onSuccess: async (data) =>
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: ["users"],
         exact: false,
-      }),
+      });
+
+      await new Promise<void>((resolve) => setTimeout(resolve, 1000));
+      await handleOnSuccess();
+    },
     onError: async (error) =>
       await queryClient.invalidateQueries({
         queryKey: ["users"],
@@ -60,7 +67,13 @@ export default function GymForm({
       }),
   });
 
-  console.log({ defaultValues });
+  const handleOnSuccess = async () => {
+    toast.success("Gym User Created successfully.", {
+      position: "top-right",
+    });
+
+    if (onClose) onClose();
+  };
 
   const onSubmit = (values: GymCreate) => {
     mutate(values);
