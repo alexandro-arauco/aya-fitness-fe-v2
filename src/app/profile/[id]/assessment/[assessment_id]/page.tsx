@@ -19,6 +19,10 @@ export default async function ClientAssessmentPage({ params }: PageProps) {
       label: "Dashboard",
       link: "/dashboard",
     },
+    {
+      label: "Assessment Profile",
+      link: `/profile/${client_id}`,
+    },
   ];
 
   return (
