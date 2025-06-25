@@ -120,7 +120,9 @@ export default function AssessmentClientPage({
 
             {exerciseSelected && evaluationData ? (
               <Link
-                href={`${pathname}/recommendations`}
+                href={`${pathname}/recommendations/${
+                  JSON.parse(exerciseSelected).id
+                }`}
                 className="hover:border-b hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105"
               >
                 See Recommendation

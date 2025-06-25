@@ -35,7 +35,6 @@ export default async function ClientAssessmentPage({ params }: PageProps) {
 
       <footer className="flex flex-col px-10 py-5 text-gray-500 mt-auto">
         <div className="flex items-center">
-          <HeartIcon size={50} color="red" />
           <div className="mx-auto">
             Monitoring biometric data is crucial for health. Regular assessments
             can lead to better lifestyle choices and improved overall
