@@ -39,9 +39,36 @@ export default function UsersTable() {
     }
   }, [information?.id, information?.type]);
 
+  const { data: filterQuery = "" } = useQuery({
+    queryKey: ["filterQuery"],
+    queryFn: () => "", // dummy function
+    enabled: false, // prevents it from running
+    initialData: "",
+  });
+  const { data: filterCreatedAt = "" } = useQuery({
+    queryKey: ["filterCreatedAt"],
+    queryFn: () => "", // dummy function
+    enabled: false, // prevents it from running
+    initialData: "",
+  });
+
   const { data, isLoading } = useQuery({
-    queryKey: ["users", currentPage, information?.id, information?.type],
-    queryFn: () => fetchUsers(information!.id, information!.type, currentPage),
+    queryKey: [
+      "users",
+      currentPage,
+      information?.id,
+      information?.type,
+      filterQuery,
+      filterCreatedAt,
+    ],
+    queryFn: () =>
+      fetchUsers(
+        information!.id,
+        information!.type,
+        currentPage,
+        filterQuery,
+        filterCreatedAt
+      ),
     refetchOnMount: true,
     refetchOnWindowFocus: true,
     enabled: !!information?.id && !!information?.type,

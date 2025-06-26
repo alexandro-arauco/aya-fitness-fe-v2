@@ -88,8 +88,6 @@ export default function AssessmentClientPage({
     return leftWeight > weightRight ? symmetryValue : symmetryValue * -1;
   };
 
-  console.log(getWeakerSide());
-
   return (
     <>
       <div className="px-10 py-3 space-y-3">

@@ -1,11 +1,25 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 import ButtonNewRecord from "@/components/dashboard/ButtonNewRecord";
 import SelectFilter from "@/components/dashboard/SelectFilter";
 import { SearchIcon } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import useDebounce from "@/hooks/useDebounde";
 
 export default function Menu() {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.setQueryData(["filterQuery"], debouncedSearchQuery);
+  }, [debouncedSearchQuery]);
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row items-center justify-between">
@@ -21,10 +35,17 @@ export default function Menu() {
               className="h-10 border-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:border-none"
               type="text"
               placeholder="Search..."
+              onChange={(e) => setSearchQuery(e.target.value)}
+              value={searchQuery}
             />
           </div>
 
-          <SelectFilter />
+          <SelectFilter
+            onChange={(value) => {
+              console.log({ value });
+              queryClient.setQueryData(["filterCreatedAt"], value);
+            }}
+          />
         </CardContent>
       </Card>
     </div>

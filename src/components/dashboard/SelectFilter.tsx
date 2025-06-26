@@ -7,9 +7,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function SelectFilter() {
+interface SelectFilterProps {
+  onChange: (value: string) => void;
+}
+
+export default function SelectFilter({ onChange }: SelectFilterProps) {
   return (
-    <Select onValueChange={(value) => console.log(value)} defaultValue="all">
+    <Select onValueChange={onChange} defaultValue="all">
       <SelectTrigger className="!h-10 w-full md:w-1/3 border border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]">
         <SelectValue placeholder="Select an option" />
       </SelectTrigger>

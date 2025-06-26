@@ -4,6 +4,8 @@ export const fetchUsers = async (
   userId: number,
   userType: string,
   page: number,
+  filterQuery: string,
+  filterCreatedAt: string,
   itemsPerPage: number = 10
 ) => {
   if (!userId || !userType) throw new Error("Missing user info");
@@ -20,6 +22,8 @@ export const fetchUsers = async (
     params: {
       page,
       items_per_page: itemsPerPage,
+      filter: filterQuery,
+      filterCreatedAt: filterCreatedAt,
     },
     headers: { ...headers },
   });
