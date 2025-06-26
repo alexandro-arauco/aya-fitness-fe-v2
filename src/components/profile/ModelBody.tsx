@@ -9,6 +9,7 @@ interface ModelBodyProps {
   leftWeightImpulse: WeightImpulse;
   rightWeightImpulse: WeightImpulse;
   sex: string;
+  symmetryValue: number;
 }
 
 export default function ModelBody({
@@ -16,6 +17,7 @@ export default function ModelBody({
   leftWeightImpulse,
   rightWeightImpulse,
   sex,
+  symmetryValue,
 }: ModelBodyProps) {
   const side_1 = bodyPart.toLowerCase() === "back" ? "Left" : "Right";
   const side_2 = bodyPart.toLowerCase() === "back" ? "Right" : "Left";
@@ -44,10 +46,38 @@ export default function ModelBody({
     }
   };
 
+  const getWeakSideMuscleModelBody = () => {
+    const { weight: leftWeight } = leftWeightImpulse;
+    const { weight: weightRight } = rightWeightImpulse;
+
+    if (
+      bodyPart.toLowerCase() !== "back" &&
+      Math.abs(symmetryValue) >= 0 &&
+      Math.abs(symmetryValue) <= 10
+    )
+      return "both";
+
+    if (
+      bodyPart.toLowerCase() === "back" &&
+      Math.abs(symmetryValue) >= 0 &&
+      Math.abs(symmetryValue) <= 8
+    )
+      return "both";
+
+    if (bodyPart.toLowerCase() !== "back") {
+      return leftWeight > weightRight ? "right" : "left";
+    }
+
+    return weightRight > leftWeight ? "left" : "right";
+  };
+
   return (
     <Card className="rounded-md shadow-xl">
       <CardContent className="flex flex-row justify-between items-center space-x-4">
         <div className="flex flex-col space-y-5">
+          <div className="flex text-2xl space-x-2 justify-between">
+            <h2 className="font-bold mx-auto">{side_1}</h2>
+          </div>
           <div className="flex text-2xl space-x-2 justify-between">
             <h2 className="font-bold">1 RM:</h2>
             <h2>{getValueWeightBySide(side_1)}</h2>
@@ -58,9 +88,16 @@ export default function ModelBody({
           </div>
         </div>
 
-        <ModelBodyImage bodyPart={bodyPart} side="left" sex={sex} />
+        <ModelBodyImage
+          bodyPart={bodyPart}
+          side={getWeakSideMuscleModelBody()}
+          sex={sex}
+        />
 
         <div className="flex flex-col space-y-5">
+          <div className="flex text-2xl space-x-2 justify-between">
+            <h2 className="font-bold mx-auto">{side_2}</h2>
+          </div>
           <div className="flex text-2xl space-x-2 justify-between">
             <h2 className="font-bold">1 RM:</h2>
             <h2>{getValueWeightBySide(side_2)}</h2>

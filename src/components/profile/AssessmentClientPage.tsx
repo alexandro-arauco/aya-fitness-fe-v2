@@ -17,7 +17,7 @@ import calculateSymmetry from "@/utils/assessment/calculations";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Logo from "../Logo";
 import TrainingLevels from "./TrainingLevels";
 
@@ -70,6 +70,25 @@ export default function AssessmentClientPage({
   if (!data) {
     return <></>;
   }
+
+  const getWeakerSide = () => {
+    if (!exerciseSelected || !evaluationData) return 0;
+
+    const bodyPart = JSON.parse(exerciseSelected).body_part;
+
+    const { weight: leftWeight } =
+      evaluationData?.regression.left.weightImpulse;
+    const { weight: weightRight } =
+      evaluationData?.regression.right.weightImpulse;
+
+    if (bodyPart.toLowerCase() !== "back") {
+      return leftWeight > weightRight ? symmetryValue * -1 : symmetryValue;
+    }
+
+    return leftWeight > weightRight ? symmetryValue : symmetryValue * -1;
+  };
+
+  console.log(getWeakerSide());
 
   return (
     <>
@@ -155,6 +174,7 @@ export default function AssessmentClientPage({
                   rightWeightImpulse={
                     evaluationData.regression.right.weightImpulse
                   }
+                  symmetryValue={getWeakerSide()}
                 />
               ) : null}
 
@@ -167,7 +187,7 @@ export default function AssessmentClientPage({
                 </CardHeader>
                 <CardContent>
                   <GaugeSymmetry
-                    value={symmetryValue}
+                    value={getWeakerSide()}
                     bodyPart={
                       (JSON.parse(exerciseSelected) as ExercisesResponse)
                         .body_part

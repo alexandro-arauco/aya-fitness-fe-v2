@@ -30,7 +30,13 @@ export default function HeaderProfile({
   return (
     <Header
       title={title}
-      actionsButtons={<ButtonNewAssessment />}
+      actionsButtons={
+        information && information.type === "admin" ? (
+          <></>
+        ) : (
+          <ButtonNewAssessment />
+        )
+      }
       menuItems={menuItems}
     />
   );

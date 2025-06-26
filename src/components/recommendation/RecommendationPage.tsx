@@ -103,7 +103,7 @@ export default function RecommendationPage({
       {dataRecommendation && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {dataRecommendation.recommendation_values.map((item, idx) => (
-            <Card key={item.name + "-" + idx}>
+            <Card key={item.name + "-" + idx} className="rounded-md shadow-xl">
               <CardHeader>
                 <CardTitle>{item.name}</CardTitle>
                 <CardDescription>
@@ -134,7 +134,9 @@ export default function RecommendationPage({
                               HeaderTable(item.exercises.data[0]).map(
                                 (header) => (
                                   <TableCell key={header}>
-                                    {values[header]}
+                                    {values[header] === 0
+                                      ? "No data available."
+                                      : values[header]}
                                   </TableCell>
                                 )
                               )}
