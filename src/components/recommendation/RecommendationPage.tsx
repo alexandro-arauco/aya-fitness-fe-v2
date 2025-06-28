@@ -13,7 +13,7 @@ import {
   GetAssessmentRecommendation,
   GetExercisesRecommendation,
 } from "@/request/recommendation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Table,
   TableBody,
@@ -22,6 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "../ui/button";
+import { DownloadIcon } from "lucide-react";
+import generatePDF from "react-to-pdf";
 
 interface RecomendationPageProps {
   clientId: number;
@@ -40,6 +43,8 @@ export default function RecommendationPage({
 
   const [exerciseRecommendationSelected, setExerciseRecommendationSelected] =
     useState<string | null>(null);
+
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const { data } = useQuery({
     queryKey: ["exercise-recommendation", clientId, assessmentId, exerciseId],
@@ -97,18 +102,44 @@ export default function RecommendationPage({
               value={exerciseRecommendationSelected}
             />
           </div>
+          {exerciseRecommendationSelected ? (
+            <div className="flex items-center">
+              <div className="text-xl font-bold items-center">
+                {`1RM Value = 
+                ${
+                  exerciseRecommendationSelected &&
+                  (data?.strength_level as Record<string, any>)[
+                    exerciseRecommendationSelected
+                  ].toFixed(0)
+                } ${data?.strength_level.metric.toUpperCase()}`}
+              </div>
+              <Button
+                className="text-xl cursor-pointer hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105"
+                variant="link"
+                onClick={() =>
+                  generatePDF(contentRef, {
+                    filename: `assessments_recommendation_${
+                      exercisesRecommendation.find(
+                        (item) => item.value === exerciseRecommendationSelected
+                      )?.label
+                    }.pdf`,
+                  })
+                }
+              >
+                <DownloadIcon />
+                Download PDF
+              </Button>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
 
       {dataRecommendation && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" ref={contentRef}>
           {dataRecommendation.recommendation_values.map((item, idx) => (
             <Card key={item.name + "-" + idx} className="rounded-md shadow-xl">
               <CardHeader>
                 <CardTitle>{item.name}</CardTitle>
-                <CardDescription>
-                  {item.type} - {item.exercises.name}
-                </CardDescription>
               </CardHeader>
 
               <CardContent>
@@ -119,7 +150,9 @@ export default function RecommendationPage({
                         item.exercises.data[0] &&
                         HeaderTable(item.exercises.data[0]).map((header) => (
                           <TableHead key={header}>
-                            {header.toUpperCase()}
+                            {header.includes("weight")
+                              ? `${header.toUpperCase()} (${data?.strength_level.metric.toUpperCase()})`
+                              : header.toUpperCase()}
                           </TableHead>
                         ))}
                     </TableRow>

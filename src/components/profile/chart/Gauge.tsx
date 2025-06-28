@@ -34,9 +34,6 @@ export default function GaugeSymmetry({ value, bodyPart }: GaugeProps) {
     ];
   };
 
-  const side_1 = bodyPart.toLowerCase() === "back" ? "Left" : "Right";
-  const side_2 = bodyPart.toLowerCase() === "back" ? "Right" : "Left";
-
   useEffect(() => {
     const chart = init(chartRef.current, null);
 
@@ -59,7 +56,7 @@ export default function GaugeSymmetry({ value, bodyPart }: GaugeProps) {
           left: "15%",
           top: "10%",
           style: {
-            text: side_1,
+            text: "Left",
             fontSize: 26,
             fontWeight: "bold",
             fill: "#333",
@@ -70,7 +67,7 @@ export default function GaugeSymmetry({ value, bodyPart }: GaugeProps) {
           right: "15%",
           top: "10%",
           style: {
-            text: side_2,
+            text: "Right",
             fontSize: 26,
             fontWeight: "bold",
             fill: "#333",

@@ -4,6 +4,13 @@ export interface ExercisesRecommendation {
 
 interface StrengthLevel {
   data: { label: string; value: string }[];
+  cable?: number;
+  dumbbell?: number;
+  barbell?: number;
+  dumbbellSplitSquat?: number;
+  dumbbellSquat?: number;
+  deadlift?: number;
+  metric: string;
 }
 
 export interface RecommendationValues {

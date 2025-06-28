@@ -15,10 +15,13 @@ import {
 } from "@/request/profile-assessment";
 import calculateSymmetry from "@/utils/assessment/calculations";
 import { useQuery } from "@tanstack/react-query";
+import { DownloadIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import generatePDF from "react-to-pdf";
 import Logo from "../Logo";
+import { Button } from "../ui/button";
 import TrainingLevels from "./TrainingLevels";
 
 interface AssessmentClientPageProps {
@@ -32,6 +35,7 @@ export default function AssessmentClientPage({
 }: AssessmentClientPageProps) {
   const [exerciseSelected, setExerciseSelected] = useState<string | null>(null);
   const [symmetryValue, setSymmetryValue] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   const { data } = useQuery({
@@ -74,16 +78,10 @@ export default function AssessmentClientPage({
   const getWeakerSide = () => {
     if (!exerciseSelected || !evaluationData) return 0;
 
-    const bodyPart = JSON.parse(exerciseSelected).body_part;
-
     const { weight: leftWeight } =
       evaluationData?.regression.left.weightImpulse;
     const { weight: weightRight } =
       evaluationData?.regression.right.weightImpulse;
-
-    if (bodyPart.toLowerCase() !== "back") {
-      return leftWeight > weightRight ? symmetryValue * -1 : symmetryValue;
-    }
 
     return leftWeight > weightRight ? symmetryValue : symmetryValue * -1;
   };
@@ -136,20 +134,34 @@ export default function AssessmentClientPage({
             </div>
 
             {exerciseSelected && evaluationData ? (
-              <Link
-                href={`${pathname}/recommendations/${
-                  JSON.parse(exerciseSelected).id
-                }`}
-                className="hover:border-b hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105"
-              >
-                See Recommendation
-              </Link>
+              <div className="flex items-center space-x-2.5">
+                <Button
+                  className="cursor-pointer hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105 text-md"
+                  variant="link"
+                  onClick={() =>
+                    generatePDF(contentRef, {
+                      filename: "Strength-Assessment-Summary-Report.pdf",
+                    })
+                  }
+                >
+                  <DownloadIcon />
+                  Download PDF
+                </Button>
+                <Link
+                  href={`${pathname}/recommendations/${
+                    JSON.parse(exerciseSelected).id
+                  }`}
+                  className="hover:border-b hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105"
+                >
+                  See Recommendation
+                </Link>
+              </div>
             ) : null}
           </CardContent>
         </Card>
 
         {exerciseSelected && evaluationData ? (
-          <>
+          <div ref={contentRef}>
             <TrainingLevels
               levels={evaluationData.levels}
               exercise={
@@ -194,7 +206,7 @@ export default function AssessmentClientPage({
                 </CardContent>
               </Card>
             </div>
-          </>
+          </div>
         ) : null}
       </div>
     </>

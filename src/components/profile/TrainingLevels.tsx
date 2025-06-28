@@ -30,7 +30,7 @@ export default function TrainingLevels({
       <Card className="rounded-md shadow-xl">
         <CardContent className="space-y-10">
           <CardTitle className="text-center text-3xl font-semibold mb-4">
-            Strength Level
+            Strength Level (Based on % Body Weight)
           </CardTitle>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center items-center justify-items-center">
