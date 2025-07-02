@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 interface UsersTableProps {
   userId?: number;
-  onSelect: (item: ClientTable) => void | null;
+  onSelect?: (item: ClientTable) => void | null;
 }
 
 export default function UsersTable({ userId = 0, onSelect }: UsersTableProps) {
