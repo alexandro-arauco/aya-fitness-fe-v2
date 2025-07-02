@@ -8,6 +8,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useState } from "react";
+import UsersTable from "../dashboard/UsersTable";
+import { ClientTable } from "@/schemas/dashboard-schema";
 
 interface ProfoilePageProps {
   id: number;
@@ -20,6 +22,9 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
     information && information.type === "admin" ? "Customer" : "Member";
 
   const [tabSelected, setTabSelected] = useState<string>("Profile");
+  const [clientSelected, setClientSelected] = useState<ClientTable | null>(
+    null
+  );
 
   return (
     <>
@@ -28,6 +33,7 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
         <Tabs
           defaultValue="profile"
           onValueChange={(e) =>
+            information?.type !== "admin" &&
             setTabSelected(e.charAt(0).toUpperCase() + e.slice(1))
           }
         >
@@ -43,7 +49,8 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
             >
               Profile
             </TabsTrigger>
-            {information?.type !== "admin" ? (
+
+            {information?.type === "admin" ? (
               <TabsTrigger
                 className="flex-none
                data-[state=active]:bg-black 
@@ -51,11 +58,27 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
                data-[state=active]:font-bold 
                px-4 py-4 rounded-md
                bg-gray-300 text-black cursor-pointer hover:underline"
-                value="assessments"
+                value="members-gym"
               >
-                Assessments
+                Members by Gym
               </TabsTrigger>
             ) : null}
+
+            <TabsTrigger
+              className="flex-none
+               data-[state=active]:bg-black 
+               data-[state=active]:text-white 
+               data-[state=active]:font-bold 
+               px-4 py-4 rounded-md
+               bg-gray-300 text-black cursor-pointer hover:underline"
+              value="assessments"
+            >
+              {`Assessments${
+                information?.type === "admin" && clientSelected
+                  ? ` from ${clientSelected.first_name} ${clientSelected.last_name}`
+                  : ""
+              }`}
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile">
@@ -70,15 +93,21 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
               </CardContent>
             </Card>
           </TabsContent>
-          {information?.type !== "admin" ? (
-            <TabsContent value="assessments">
-              <Card className="rounded-md">
-                <CardContent className="w-full mx-auto">
-                  <AssessmentsList userId={+id} />
-                </CardContent>
-              </Card>
-            </TabsContent>
-          ) : null}
+
+          <TabsContent value="members-gym">
+            <UsersTable
+              userId={id}
+              onSelect={(item: ClientTable) => setClientSelected(item)}
+            />
+          </TabsContent>
+
+          <TabsContent value="assessments">
+            <Card className="rounded-md">
+              <CardContent className="w-full mx-auto">
+                <AssessmentsList userId={clientSelected ? clientSelected.id : +id} />
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
     </>

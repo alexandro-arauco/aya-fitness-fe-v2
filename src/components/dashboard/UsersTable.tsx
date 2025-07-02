@@ -9,7 +9,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function UsersTable() {
+interface UsersTableProps {
+  userId?: number;
+  onSelect: (item: ClientTable) => void | null;
+}
+
+export default function UsersTable({ userId = 0, onSelect }: UsersTableProps) {
   const { getItem } = useLocalStorage<Record<string, any>>();
   const [information, setInformation] = useState<{
     id: number;
@@ -56,15 +61,15 @@ export default function UsersTable() {
     queryKey: [
       "users",
       currentPage,
-      information?.id,
-      information?.type,
+      userId ? userId : information?.id,
+      userId ? "gym" : information?.type,
       filterQuery,
       filterCreatedAt,
     ],
     queryFn: () =>
       fetchUsers(
-        information!.id,
-        information!.type,
+        userId ? userId : information!.id,
+        userId ? "gym" : information!.type,
         currentPage,
         filterQuery,
         filterCreatedAt
@@ -84,14 +89,18 @@ export default function UsersTable() {
   let columnsResponse: Column<TableEntity>[] = [];
   let dataResponse: TableEntity[] = [];
 
-  if (information!.type === "admin") {
-    columnsResponse = columnsGymsList as Column<TableEntity>[];
-    dataResponse = (data.data as Gym[]) || [];
-  } else if (information!.type === "gym") {
+  if (userId) {
     columnsResponse = columnsClientsList as Column<TableEntity>[];
     dataResponse = (data.data as ClientTable[]) || [];
+  } else {
+    if (information!.type === "admin") {
+      columnsResponse = columnsGymsList as Column<TableEntity>[];
+      dataResponse = (data.data as Gym[]) || [];
+    } else if (information!.type === "gym") {
+      columnsResponse = columnsClientsList as Column<TableEntity>[];
+      dataResponse = (data.data as ClientTable[]) || [];
+    }
   }
-
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -110,6 +119,11 @@ export default function UsersTable() {
           currentPage={currentPage}
           actions={{
             onView: (item) => {
+              if (userId && onSelect) {
+                onSelect(item as ClientTable);
+                return;
+              }
+
               if (information.type === "admin") {
                 router.push(`/profile/${item.id}`);
                 return;
