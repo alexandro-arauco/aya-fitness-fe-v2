@@ -2,11 +2,6 @@
 
 import { EyeIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export interface Column<T> {
   key: keyof T;
@@ -25,7 +20,9 @@ export interface TableProps<T> {
     onView?: (item: T) => void;
     onEdit?: (item: T) => void;
     onDelete?: (item: T) => void;
+    onDowlonad?: (item: T) => void;
   };
+  customActions?: (item: T) => React.ReactNode[];
   className?: string;
   showPagination?: boolean;
 }
@@ -40,6 +37,7 @@ export default function Table<T>({
   actions,
   className = "",
   showPagination = true,
+  customActions,
 }: TableProps<T>) {
   const [internalCurrentPage, setInternalCurrentPage] = useState(1);
   const currentPage = externalCurrentPage ?? internalCurrentPage;
@@ -135,6 +133,10 @@ export default function Table<T>({
                         <TrashIcon className="size-5 hover:stroke-black hover:scale-110" />
                       </button>
                     )}
+
+                    {customActions?.(item).map((component, idx) => (
+                      <span key={idx}>{component}</span>
+                    ))}
                   </td>
                 )}
               </tr>

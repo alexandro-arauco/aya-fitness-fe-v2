@@ -1,11 +1,14 @@
 "use client";
 
-import { columns } from "@/utils/profile/columns";
 import Table from "@/components/Table";
-import { useQuery } from "@tanstack/react-query";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { AssessmentsResponse } from "@/interfaces/profile-assessment/profile-assessment";
 import { GetAssessmentByMemberId } from "@/request/profile-assessment";
-import { useState } from "react";
+import { columns } from "@/utils/profile/columns";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import DownloadButton from "../DownloadButton";
 
 interface AssessmentsListProps {
   userId: number;
@@ -13,6 +16,9 @@ interface AssessmentsListProps {
 
 export default function AssessmentsList({ userId }: AssessmentsListProps) {
   const router = useRouter();
+  const { getItem } = useLocalStorage<Record<string, any>>();
+  const information = getItem("user-info");
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, isLoading, error } = useQuery({
@@ -29,6 +35,22 @@ export default function AssessmentsList({ userId }: AssessmentsListProps) {
     setCurrentPage(page);
   };
 
+  const CustomActionsElements = (item: AssessmentsResponse) => {
+    return [
+      <DownloadButton
+        data={{
+          assessment_id: item.id,
+        }}
+        url="/assessments/download-files/"
+        fileName={`${getFileName(item.exercises)}_${item.created_at}.zip`}
+      />,
+    ];
+  };
+
+  const getFileName = (input: string) => {
+    return input.replace(/, /g, "_").toLowerCase();
+  };
+
   return (
     <Table
       className="text-sm text-left rtl:text-right text-gray-500"
@@ -43,6 +65,11 @@ export default function AssessmentsList({ userId }: AssessmentsListProps) {
           router.push(`/profile/${userId}/assessment/${item.id}`);
         },
       }}
+      customActions={
+        information?.type === "admin"
+          ? (item) => CustomActionsElements(item)
+          : undefined
+      }
     />
   );
 }

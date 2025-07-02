@@ -1,19 +1,8 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
 import Dropdown from "@/components/Dropdown";
-import {
-  GetAssessmentRecommendation,
-  GetExercisesRecommendation,
-} from "@/request/recommendation";
-import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -22,8 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "../ui/button";
+import {
+  GetAssessmentRecommendation,
+  GetExercisesRecommendation,
+} from "@/request/recommendation";
+import { useQuery } from "@tanstack/react-query";
 import { DownloadIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import generatePDF from "react-to-pdf";
 
 interface RecomendationPageProps {

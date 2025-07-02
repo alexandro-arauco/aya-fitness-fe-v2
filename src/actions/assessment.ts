@@ -28,3 +28,16 @@ export async function UploadAssessment(
     throw error;
   }
 }
+
+export async function DownloadAssessmentFiles(values: Record<string, any>) {
+  try {
+    const { data, url } = values;
+    const response = await axiosInstance.post(url, data, {
+      responseType: "blob", // This is crucial for file downloads
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

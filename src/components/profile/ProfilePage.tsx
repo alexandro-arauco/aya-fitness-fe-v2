@@ -1,5 +1,6 @@
 "use client";
 
+import UsersTable from "@/components/dashboard/UsersTable";
 import AssessmentsList from "@/components/profile/AssessmentsList";
 import GymProfileForm from "@/components/profile/GymProfileForm";
 import HeaderProfile from "@/components/profile/HeaderProfile";
@@ -7,9 +8,8 @@ import UserProfileForm from "@/components/profile/UserProfileForm";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { useState } from "react";
-import UsersTable from "../dashboard/UsersTable";
 import { ClientTable } from "@/schemas/dashboard-schema";
+import { useState } from "react";
 
 interface ProfoilePageProps {
   id: number;
@@ -94,17 +94,25 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
             </Card>
           </TabsContent>
 
-          <TabsContent value="members-gym">
-            <UsersTable
-              userId={id}
-              onSelect={(item: ClientTable) => setClientSelected(item)}
-            />
-          </TabsContent>
+          {information?.type === "admin" ? (
+            <TabsContent value="members-gym">
+              <Card className="rounded-md">
+                <CardContent className="w-full mx-auto">
+                  <UsersTable
+                    userId={id}
+                    onSelect={(item: ClientTable) => setClientSelected(item)}
+                  />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          ) : null}
 
           <TabsContent value="assessments">
             <Card className="rounded-md">
               <CardContent className="w-full mx-auto">
-                <AssessmentsList userId={clientSelected ? clientSelected.id : +id} />
+                <AssessmentsList
+                  userId={clientSelected ? clientSelected.id : +id}
+                />
               </CardContent>
             </Card>
           </TabsContent>

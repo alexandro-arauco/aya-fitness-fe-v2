@@ -1,9 +1,12 @@
 "use client";
 
 import Dropdown from "@/components/Dropdown";
+import Logo from "@/components/Logo";
 import GaugeSymmetry from "@/components/profile/chart/Gauge";
 import ModelBody from "@/components/profile/ModelBody";
+import TrainingLevels from "@/components/profile/TrainingLevels";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ExercisesResponse,
@@ -20,9 +23,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import generatePDF from "react-to-pdf";
-import Logo from "../Logo";
-import { Button } from "../ui/button";
-import TrainingLevels from "./TrainingLevels";
 
 interface AssessmentClientPageProps {
   assessmentId: number;
