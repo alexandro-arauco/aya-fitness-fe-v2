@@ -11,6 +11,7 @@ interface DropdownProps {
   value: string | null;
   data: { value: string; label: string }[];
   disable?: boolean;
+  placeholder?: string;
 }
 
 export default function Dropdown({
@@ -18,6 +19,7 @@ export default function Dropdown({
   value,
   data,
   disable = false,
+  placeholder = "Select an option",
 }: DropdownProps) {
   return (
     <Select
@@ -26,7 +28,7 @@ export default function Dropdown({
       disabled={disable}
     >
       <SelectTrigger className="!h-10 w-full border border-gray-300 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] disabled:bg-gray-300 disabled:opacity-100">
-        <SelectValue placeholder="Select an option" />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
 
       <SelectContent>

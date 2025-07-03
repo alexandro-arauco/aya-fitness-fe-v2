@@ -45,14 +45,15 @@ export default function ButtonNewRecord() {
             </AlertDialogCancel>
           </div>
         </AlertDialogHeader>
+        <div className="overflow-y-auto max-h-[70vh]">
+          {information && information.type === "admin" && (
+            <GymForm userId={information.id} onClose={() => setOpen(false)} />
+          )}
 
-        {information && information.type === "admin" && (
-          <GymForm userId={information.id} onClose={() => setOpen(false)} />
-        )}
-
-        {information && information.type === "gym" && (
-          <UserForm userId={information.id} onClose={() => setOpen(false)} />
-        )}
+          {information && information.type === "gym" && (
+            <UserForm userId={information.id} onClose={() => setOpen(false)} />
+          )}
+        </div>
       </AlertDialogContent>
     </AlertDialog>
   );

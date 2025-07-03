@@ -1,7 +1,6 @@
 "use client";
 
 import { DownloadAssessmentFiles } from "@/actions/assessment";
-import { AssessmentsResponse } from "@/interfaces/profile-assessment/profile-assessment";
 import { useMutation } from "@tanstack/react-query";
 import { DownloadIcon, Loader2 } from "lucide-react";
 
@@ -36,7 +35,11 @@ export default function DownloadButton({
   };
 
   return (
-    <button onClick={() => downloadAssessmentFiles()}>
+    <button
+      className="cursor-pointer hover:scale-120 transition-transform duration-300"
+      onClick={() => downloadAssessmentFiles()}
+      disabled={isPending}
+    >
       {isPending ? (
         <Loader2 className="size-5 animate-spin text-slate-400" />
       ) : (

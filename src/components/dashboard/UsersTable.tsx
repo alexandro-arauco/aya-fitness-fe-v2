@@ -8,6 +8,7 @@ import { columnsClientsList, columnsGymsList } from "@/utils/dashboard/columns";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import SkeletonTable from "../SkeletonTable";
 
 interface UsersTableProps {
   userId?: number;
@@ -81,7 +82,7 @@ export default function UsersTable({ userId = 0, onSelect }: UsersTableProps) {
 
   // Handle no data
   if (!data) {
-    return <></>;
+    return <SkeletonTable />;
   }
 
   type TableEntity = Gym | ClientTable;

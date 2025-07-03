@@ -8,8 +8,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { PlusIcon, XIcon } from "lucide-react";
-import ExercisesAssessment from "./ExercisesAssessment";
 import { useState } from "react";
+import ExercisesAssessment from "./ExercisesAssessment";
 
 export default function ButtonNewAssessment() {
   const [open, setOpen] = useState(false);

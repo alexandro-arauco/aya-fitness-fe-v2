@@ -26,16 +26,21 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
     null
   );
 
+  const [currentTab, setCurrentTab] = useState<string>("profile");
+
   return (
     <>
       <HeaderProfile userId={id} title={`${title} ${tabSelected}`} />
       <div className="px-3 py-5 md:px-10">
         <Tabs
-          defaultValue="profile"
-          onValueChange={(e) =>
+          defaultValue={currentTab}
+          value={currentTab}
+          onValueChange={(e) => {
             information?.type !== "admin" &&
-            setTabSelected(e.charAt(0).toUpperCase() + e.slice(1))
-          }
+              setTabSelected(e.charAt(0).toUpperCase() + e.slice(1));
+
+            setCurrentTab(e);
+          }}
         >
           <TabsList className="mx-auto flex w-full bg-white p-8 space-x-3 rounded-md shadow-md">
             <TabsTrigger
@@ -75,7 +80,7 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
             >
               {`Assessments${
                 information?.type === "admin" && clientSelected
-                  ? ` from ${clientSelected.first_name} ${clientSelected.last_name}`
+                  ? ` of ${clientSelected.first_name} ${clientSelected.last_name}`
                   : ""
               }`}
             </TabsTrigger>
@@ -100,7 +105,10 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
                 <CardContent className="w-full mx-auto">
                   <UsersTable
                     userId={id}
-                    onSelect={(item: ClientTable) => setClientSelected(item)}
+                    onSelect={(item: ClientTable) => {
+                      setClientSelected(item);
+                      setCurrentTab("assessments");
+                    }}
                   />
                 </CardContent>
               </Card>

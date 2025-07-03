@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DownloadButton from "../DownloadButton";
+import SkeletonTable from "../SkeletonTable";
 
 interface AssessmentsListProps {
   userId: number;
@@ -28,7 +29,7 @@ export default function AssessmentsList({ userId }: AssessmentsListProps) {
   });
 
   if (!data) {
-    return <></>;
+    return <SkeletonTable />;
   }
 
   const onPageChange = (page: number) => {

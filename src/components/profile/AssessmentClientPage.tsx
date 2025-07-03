@@ -93,13 +93,7 @@ export default function AssessmentClientPage({
           <Card className="rounded-md shadow-xl">
             <CardHeader>
               <CardTitle className="text-3xl mx-auto flex items-center space-x-3">
-                <Logo width={150} height={150} defaultLogo="/logo.png" />
-                <div className="space-x-2 mx-auto items-center">
-                  <div className="text-3xl font-bold text-[#FF7E06]">AYA</div>
-                  <div className="text-3xl font-normal italic text-[#FF7E06]">
-                    FITNESS
-                  </div>
-                </div>
+                <Logo width={200} defaultLogo="/secondary-logo.png" />
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-justify md:text-normal">
@@ -112,7 +106,7 @@ export default function AssessmentClientPage({
               </p>
               <div className="text-center">
                 <Badge className="text-sm flex-1 flex-wrap">
-                  “Health is wealth, invest wisely. ” {" "}
+                  “Health is wealth, invest wisely. ”{" "}
                   <span className="font-normal italic">- Unknown</span>
                 </Badge>
               </div>
@@ -133,6 +127,7 @@ export default function AssessmentClientPage({
                 }))}
                 onChange={(value) => setExerciseSelected(value)}
                 value={exerciseSelected}
+                placeholder="Select an Exercise"
               />
             </div>
 

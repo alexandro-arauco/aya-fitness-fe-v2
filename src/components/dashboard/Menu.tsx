@@ -9,8 +9,12 @@ import { SearchIcon } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounde";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export default function Menu() {
+  const { getItem } = useLocalStorage<Record<string, any>>();
+  const information = getItem("user-info");
+
   const [searchQuery, setSearchQuery] = useState<string>("");
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -23,7 +27,9 @@ export default function Menu() {
   return (
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row items-center justify-between">
-        <div className="text-3xl">Member List</div>
+        <div className="text-3xl">
+          {information?.type === "admin" ? "Gym" : "Member"} List
+        </div>
         <ButtonNewRecord />
       </div>
 

@@ -94,6 +94,7 @@ export default function RecommendationPage({
               data={exercisesRecommendation}
               onChange={(value) => setExerciseRecommendationSelected(value)}
               value={exerciseRecommendationSelected}
+              placeholder="Select an Exercise"
             />
           </div>
           {exerciseRecommendationSelected ? (
