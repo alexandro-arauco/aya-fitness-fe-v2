@@ -21,7 +21,7 @@ export default function Header({
       <CardHeader className="flex flex-col md:flex-row items-center md:justify-between px-10">
         <div className="flex items-center gap-3">
           <Logo width={80} height={80} />
-          <h2 className="text-4xl font-normal">{title}</h2>
+          <h2 className="text-xl md:text-4xl font-normal">{title}</h2>
         </div>
 
         <div className="flex items-center space-x-4">

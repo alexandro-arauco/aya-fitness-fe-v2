@@ -192,7 +192,7 @@ export default function ExercisesAssessment({
 
   return (
     <>
-      <div className="flex rounded-md border border-dashed border-gray-500 py-5 px-2 space-x-4 items-center">
+      <div className="flex flex-wrap md:flex-row rounded-md border border-dashed border-gray-500 py-5 px-2 space-x-4 space-y-2 md:space-y-0 items-center justify-around md:justify-normal">
         {data?.map((item, index) => {
           return (
             <div

@@ -83,12 +83,12 @@ export default function RecommendationPage({
   };
 
   return (
-    <div className="px-10 py-3 space-y-3">
+    <div className="px-3 md:px-10 py-3 space-y-3">
       <Card className="rounded-md shadow-xl">
         <CardHeader>
           <CardTitle>Exercises</CardTitle>
         </CardHeader>
-        <CardContent className="flex justify-between">
+        <CardContent className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0">
           <div className="w-full md:w-1/3">
             <Dropdown
               data={exercisesRecommendation}
@@ -97,7 +97,7 @@ export default function RecommendationPage({
             />
           </div>
           {exerciseRecommendationSelected ? (
-            <div className="flex items-center">
+            <div className="flex justify-between md:justify-normal items-center">
               <div className="text-xl font-bold items-center">
                 {`1RM Value = 
                 ${

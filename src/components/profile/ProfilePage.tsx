@@ -29,7 +29,7 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
   return (
     <>
       <HeaderProfile userId={id} title={`${title} ${tabSelected}`} />
-      <div className="py-5 px-10">
+      <div className="px-3 py-5 md:px-10">
         <Tabs
           defaultValue="profile"
           onValueChange={(e) =>
@@ -60,7 +60,7 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
                bg-gray-300 text-black cursor-pointer hover:underline"
                 value="members-gym"
               >
-                Members by Gym
+                Members List
               </TabsTrigger>
             ) : null}
 
@@ -83,7 +83,7 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
 
           <TabsContent value="profile">
             <Card className="rounded-md">
-              <CardContent className="w-1/2 mx-auto">
+              <CardContent className="w-full md:w-1/2 mx-auto">
                 {information?.type === "admin" && (
                   <GymProfileForm userId={+id} />
                 )}
@@ -110,9 +110,11 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
           <TabsContent value="assessments">
             <Card className="rounded-md">
               <CardContent className="w-full mx-auto">
-                <AssessmentsList
-                  userId={clientSelected ? clientSelected.id : +id}
-                />
+                <div className="overflow-x-auto">
+                  <AssessmentsList
+                    userId={clientSelected ? clientSelected.id : +id}
+                  />
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

@@ -124,13 +124,20 @@ export default function GaugeSymmetry({ value, bodyPart }: GaugeProps) {
     };
 
     chart.setOption(option);
+    chart.resize();
+
+    const handleResize = () => chart.resize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [value]);
 
   return (
-    <div className="flex items-center justify-center w-full h-150">
-      <div className="flex h-full w-full ">
+    <div className="flex items-center justify-center w-full h-110">
+      <div className="flex h-full w-full">
         <div
-          className="mt-30"
           ref={chartRef}
           style={{
             height: "100%",

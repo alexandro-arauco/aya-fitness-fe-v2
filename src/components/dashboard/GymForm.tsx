@@ -229,7 +229,7 @@ export default function GymForm({
               form={form}
               id="logo"
               name="logo"
-              label="Personal Logo"
+              label="Gym Logo"
               type="file"
               disable={disable}
             />

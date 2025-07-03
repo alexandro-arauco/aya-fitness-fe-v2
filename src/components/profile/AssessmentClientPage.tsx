@@ -88,41 +88,44 @@ export default function AssessmentClientPage({
 
   return (
     <>
-      <div className="px-10 py-3 space-y-3">
-        <Card className="rounded-md shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-3xl mx-auto flex items-center space-x-3">
-              <Logo width={150} height={150} defaultLogo="/logo.png" />
-              <div className="space-x-2 mx-auto items-center">
-                <div className="text-3xl font-bold text-[#FF7E06]">AYA</div>
-                <div className="text-3xl font-normal italic text-[#FF7E06]">
-                  FITNESS
+      <div className="px-3 md:px-10 py-3 space-y-3">
+        {!exerciseSelected ? (
+          <Card className="rounded-md shadow-xl">
+            <CardHeader>
+              <CardTitle className="text-3xl mx-auto flex items-center space-x-3">
+                <Logo width={150} height={150} defaultLogo="/logo.png" />
+                <div className="space-x-2 mx-auto items-center">
+                  <div className="text-3xl font-bold text-[#FF7E06]">AYA</div>
+                  <div className="text-3xl font-normal italic text-[#FF7E06]">
+                    FITNESS
+                  </div>
                 </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-justify md:text-normal">
+              <p className="text-md md:text-xl">
+                This assessment summary report provides a comprehensive overview
+                of an individual's{" "}
+                <span className="font-bold">strength capacity</span>.
+                Understanding these data points helps in maintaining and
+                improving overall health, fitness, and wellness.
+              </p>
+              <div className="text-center">
+                <Badge className="text-sm flex-1 flex-wrap">
+                  “Health is wealth, invest wisely. ” {" "}
+                  <span className="font-normal italic">- Unknown</span>
+                </Badge>
               </div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="text-2xl">
-              This infographic provides a comprehensive overview of an
-              individual's <span className="font-bold">strength capacity</span>.
-              Understanding these data points helps in maintaining and improving
-              overall health, fitness, and wellness.
-            </p>
-            <div className="text-center">
-              <Badge className="text-2xl">
-                “Health is wealth, invest wisely. ” -{" "}
-                <span className="font-normal italic">Unknown</span>
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        ) : null}
 
         <Card className="rounded-md shadow-xl">
           <CardHeader>
             <CardTitle>Exercises</CardTitle>
           </CardHeader>
-          <CardContent className="flex justify-between">
-            <div className="w-1/3">
+          <CardContent className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0">
+            <div className="w-full md:w-1/3">
               <Dropdown
                 data={data.map((item) => ({
                   value: JSON.stringify(item),
@@ -136,7 +139,7 @@ export default function AssessmentClientPage({
             {exerciseSelected && evaluationData ? (
               <div className="flex items-center space-x-2.5">
                 <Button
-                  className="cursor-pointer hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105 text-md"
+                  className="cursor-pointer hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105 text-sm md:text-md"
                   variant="link"
                   onClick={() =>
                     generatePDF(contentRef, {
@@ -151,7 +154,7 @@ export default function AssessmentClientPage({
                   href={`${pathname}/recommendations/${
                     JSON.parse(exerciseSelected).id
                   }`}
-                  className="hover:border-b hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105"
+                  className="hover:border-b hover:text-blue-500 font-bold transition-transform duration-300 hover:scale-105 text-center text-sm md:text-md"
                 >
                   See Recommendation
                 </Link>

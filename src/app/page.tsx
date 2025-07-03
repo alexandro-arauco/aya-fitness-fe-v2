@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default function Home() {
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <Card className="rounded-md shadow-2xl w-1/3 space-y-3">
+    <div className="flex justify-center items-center min-h-screen px-4 md:px-0">
+      <Card className="rounded-md shadow-2xl w-full md:w-1/3 space-y-3">
         <CardHeader className="justify-center items-center space-y-3">
           <Logo defaultLogo="/logo.png" />
 

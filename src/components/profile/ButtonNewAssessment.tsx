@@ -24,7 +24,7 @@ export default function ButtonNewAssessment() {
       </AlertDialogTrigger>
 
       <AlertDialogContent
-        className="min-w-1/2"
+        className="md:min-w-1/2 max-h-[80vh] overflow-y-auto min-w-[400px]"
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         <AlertDialogHeader>

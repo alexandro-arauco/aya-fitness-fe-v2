@@ -7,9 +7,11 @@ export default function DashboardPage() {
     <>
       <HeaderDashboard />
 
-      <div className="px-10 py-5 space-y-4">
+      <div className="px-3 md:px-10 py-5 space-y-4">
         <Menu />
-        <UsersTable />
+        <div className="overflow-x-auto">
+          <UsersTable />
+        </div>
       </div>
     </>
   );
