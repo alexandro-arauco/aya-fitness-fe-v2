@@ -83,13 +83,13 @@ export default function RecommendationPage({
   };
 
   return (
-    <div className="px-3 md:px-10 py-3 space-y-3">
+    <div className="px-3 lg:px-10 py-3 space-y-3">
       <Card className="rounded-md shadow-xl">
         <CardHeader>
           <CardTitle>Exercises</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0">
-          <div className="w-full md:w-1/3">
+        <CardContent className="flex flex-col lg:flex-row justify-between space-y-4 lg:space-y-0">
+          <div className="w-full lg:w-1/3">
             <Dropdown
               data={exercisesRecommendation}
               onChange={(value) => setExerciseRecommendationSelected(value)}
@@ -98,7 +98,7 @@ export default function RecommendationPage({
             />
           </div>
           {exerciseRecommendationSelected ? (
-            <div className="flex justify-between md:justify-normal items-center">
+            <div className="flex justify-between lg:justify-normal items-center">
               <div className="text-xl font-bold items-center">
                 {`1RM Value = 
                 ${
@@ -130,7 +130,7 @@ export default function RecommendationPage({
       </Card>
 
       {dataRecommendation && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4" ref={contentRef}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4" ref={contentRef}>
           {dataRecommendation.recommendation_values.map((item, idx) => (
             <Card key={item.name + "-" + idx} className="rounded-md shadow-xl">
               <CardHeader>

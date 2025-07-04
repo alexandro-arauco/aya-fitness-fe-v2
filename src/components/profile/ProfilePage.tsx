@@ -39,6 +39,7 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
             information?.type !== "admin" &&
               setTabSelected(e.charAt(0).toUpperCase() + e.slice(1));
 
+            e === "members-gym" && setClientSelected(null);
             setCurrentTab(e);
           }}
         >
@@ -69,21 +70,23 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
               </TabsTrigger>
             ) : null}
 
-            <TabsTrigger
-              className="flex-none
-               data-[state=active]:bg-black 
-               data-[state=active]:text-white 
-               data-[state=active]:font-bold 
-               px-4 py-4 rounded-md
-               bg-gray-300 text-black cursor-pointer hover:underline"
-              value="assessments"
-            >
-              {`Assessments${
-                information?.type === "admin" && clientSelected
-                  ? ` of ${clientSelected.first_name} ${clientSelected.last_name}`
-                  : ""
-              }`}
-            </TabsTrigger>
+            {(clientSelected || information?.type === "gym") && (
+              <TabsTrigger
+                className="flex-none
+     data-[state=active]:bg-black 
+     data-[state=active]:text-white 
+     data-[state=active]:font-bold 
+     px-4 py-4 rounded-md
+     bg-gray-300 text-black cursor-pointer hover:underline"
+                value="assessments"
+              >
+                {`Assessments${
+                  information?.type === "admin" && clientSelected
+                    ? ` of ${clientSelected.first_name} ${clientSelected.last_name}`
+                    : ""
+                }`}
+              </TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="profile">
@@ -115,17 +118,19 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
             </TabsContent>
           ) : null}
 
-          <TabsContent value="assessments">
-            <Card className="rounded-md">
-              <CardContent className="w-full mx-auto">
-                <div className="overflow-x-auto">
-                  <AssessmentsList
-                    userId={clientSelected ? clientSelected.id : +id}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+          {clientSelected || information?.type === "gym" ? (
+            <TabsContent value="assessments">
+              <Card className="rounded-md">
+                <CardContent className="w-full mx-auto">
+                  <div className="overflow-x-auto">
+                    <AssessmentsList
+                      userId={clientSelected ? clientSelected.id : +id}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          ) : null}
         </Tabs>
       </div>
     </>

@@ -118,8 +118,8 @@ export default function AssessmentClientPage({
           <CardHeader>
             <CardTitle>Exercises</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0">
-            <div className="w-full md:w-1/3">
+          <CardContent className="flex flex-col lg:flex-row justify-between space-y-3 lg:space-y-0">
+            <div className="w-full lg:w-1/3">
               <Dropdown
                 data={data.map((item) => ({
                   value: JSON.stringify(item),

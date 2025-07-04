@@ -1,5 +1,7 @@
 "use client";
 
+import DownloadButton from "@/components/DownloadButton";
+import SkeletonTable from "@/components/SkeletonTable";
 import Table from "@/components/Table";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { AssessmentsResponse } from "@/interfaces/profile-assessment/profile-assessment";
@@ -8,8 +10,6 @@ import { columns } from "@/utils/profile/columns";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import DownloadButton from "../DownloadButton";
-import SkeletonTable from "../SkeletonTable";
 
 interface AssessmentsListProps {
   userId: number;

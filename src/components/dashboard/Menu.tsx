@@ -48,7 +48,6 @@ export default function Menu() {
 
           <SelectFilter
             onChange={(value) => {
-              console.log({ value });
               queryClient.setQueryData(["filterCreatedAt"], value);
             }}
           />

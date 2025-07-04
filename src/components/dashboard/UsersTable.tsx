@@ -8,7 +8,7 @@ import { columnsClientsList, columnsGymsList } from "@/utils/dashboard/columns";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import SkeletonTable from "../SkeletonTable";
+import SkeletonTable from "@/components/SkeletonTable";
 
 interface UsersTableProps {
   userId?: number;

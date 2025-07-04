@@ -74,8 +74,8 @@ export default function ModelBody({
 
   return (
     <Card className="rounded-md shadow-xl">
-      <CardContent className="flex flex-col md:flex-row justify-center md:justify-between items-center md:space-x-4">
-        <div className="hidden md:flex flex-col space-y-2 md:space-y-5">
+      <CardContent className="flex flex-col lg:flex-row justify-center md:justify-between items-center md:space-x-4">
+        <div className="hidden lg:flex flex-col space-y-2 lg:space-y-5">
           <div className="flex text-2xl space-x-2 justify-between">
             <h2 className="font-bold mx-auto">{side_1}</h2>
           </div>
@@ -95,7 +95,7 @@ export default function ModelBody({
           sex={sex}
         />
 
-        <div className="hidden md:flex flex-col space-y-2 md:space-y-5">
+        <div className="hidden lg:flex flex-col space-y-2 lg:space-y-5">
           <div className="flex text-2xl space-x-2 justify-between">
             <h2 className="font-bold mx-auto">{side_2}</h2>
           </div>
@@ -109,7 +109,7 @@ export default function ModelBody({
           </div>
         </div>
 
-        <div className="flex md:hidden justify-between w-full">
+        <div className="flex lg:hidden justify-between w-full">
           <div className="flex flex-col space-y-2 w-1/2 pr-2">
             <div className="flex text-2xl space-x-2 justify-between">
               <h2 className="font-bold mx-auto">{side_1}</h2>
