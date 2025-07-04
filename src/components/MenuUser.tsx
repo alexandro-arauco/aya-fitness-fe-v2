@@ -17,6 +17,9 @@ interface MenuUserProps {
 }
 export default function MenuUser({ children, menuItems }: MenuUserProps) {
   const { clearStorage } = useLocalStorage();
+  const { getItem } = useLocalStorage<Record<string, any>>();
+  const information = getItem("user-info");
+
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -26,6 +29,8 @@ export default function MenuUser({ children, menuItems }: MenuUserProps) {
 
     router.push("/");
   };
+
+  console.log(menuItems);
 
   return (
     <Popover>
@@ -38,7 +43,10 @@ export default function MenuUser({ children, menuItems }: MenuUserProps) {
               key={item.label}
               href={item.link}
             >
-              {item.label}
+              {information?.type === "admin" &&
+              ["Assessment Profile"].includes(item.label)
+                ? "Member Profile"
+                : item.label}
             </Link>
           ))}
 

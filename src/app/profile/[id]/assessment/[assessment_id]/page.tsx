@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import AssessmentClientPage from "@/components/profile/AssessmentClientPage";
 import { MenuItem } from "@/interfaces/menu/menu";
-import { HeartIcon } from "lucide-react";
 import Link from "next/link";
 
 interface PageProps {
