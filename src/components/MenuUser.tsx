@@ -30,8 +30,6 @@ export default function MenuUser({ children, menuItems }: MenuUserProps) {
     router.push("/");
   };
 
-  console.log(menuItems);
-
   return (
     <Popover>
       <PopoverTrigger className="cursor-pointer">{children}</PopoverTrigger>
