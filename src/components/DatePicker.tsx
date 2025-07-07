@@ -33,7 +33,7 @@ export default function DatePicker({
       name="dob"
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>{label} xx</FormLabel>
+          <FormLabel>{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
