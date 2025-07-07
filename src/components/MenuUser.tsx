@@ -43,10 +43,7 @@ export default function MenuUser({ children, menuItems }: MenuUserProps) {
               key={item.label}
               href={item.link}
             >
-              {information?.type === "admin" &&
-              ["Assessment Profile"].includes(item.label)
-                ? "Member Profile"
-                : item.label}
+              {item.label}
             </Link>
           ))}
 

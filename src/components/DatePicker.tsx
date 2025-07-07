@@ -33,7 +33,7 @@ export default function DatePicker({
       name="dob"
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>{label} xx</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
@@ -62,7 +62,7 @@ export default function DatePicker({
                 disabled={(date) =>
                   date > new Date() || date < new Date("1900-01-01")
                 }
-                initialFocus
+                captionLayout="dropdown"
               />
             </PopoverContent>
           </Popover>
