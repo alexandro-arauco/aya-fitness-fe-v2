@@ -18,6 +18,6 @@ export default function GymProfileForm({ userId }: GymProfileFormProps) {
   if (error) return <>Error loading user</>;
 
   return (
-    <GymForm userId={userId} labelAction="Update" defaultValues={data?.user} disable />
+    <GymForm userId={userId} labelAction="Update" defaultValues={data?.user} />
   );
 }

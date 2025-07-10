@@ -1,6 +1,6 @@
 "use client";
 
-import { NewGymAction } from "@/actions/dashboard";
+import { NewGymAction, UpdateGymAction } from "@/actions/dashboard";
 import InputWithValidation from "@/components/InputWithValidation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -44,13 +44,17 @@ export default function GymForm({
           postal_code: "",
           country: "",
           logo: "",
+          password: "",
         },
     mode: "onBlur",
   });
 
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
-    mutationFn: (values: GymCreate) => NewGymAction(values, userId),
+    mutationFn: (values: GymCreate) =>
+      labelAction.toLowerCase() === "update"
+        ? UpdateGymAction(values, userId)
+        : NewGymAction(values, userId),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: ["users"],
@@ -81,7 +85,10 @@ export default function GymForm({
 
   return (
     <Form {...form}>
-      <form className="space-y-4 py-3" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="space-y-4 py-3 px-2"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <Label>Primary Contact Information</Label>
         <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
           <div className="w-full">
@@ -110,6 +117,30 @@ export default function GymForm({
           <div className="w-full">
             <InputWithValidation
               form={form}
+              id="emial"
+              name="email"
+              label="Email"
+              placeholder="Ex. jhon.doe@example.com"
+              disable={disable}
+            />
+          </div>
+          <div className="w-full">
+            <InputWithValidation
+              form={form}
+              id="password"
+              name="password"
+              label="Password"
+              placeholder="********"
+              type="password"
+              disable={disable}
+            />
+          </div>
+        </div>
+
+        <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
+          <div className="w-full">
+            <InputWithValidation
+              form={form}
               id="job_title"
               name="job_title"
               label="Job Title"
@@ -120,24 +151,10 @@ export default function GymForm({
           <div className="w-full">
             <InputWithValidation
               form={form}
-              id="email"
-              name="email"
-              label="Email"
-              placeholder="Ex. jhon.doe@test.com"
-              disable={disable}
-            />
-          </div>
-        </div>
-
-        <div className="flex md:space-x-4 flex-col md:flex-row space-y-4 md:space-y-0">
-          <div className="w-full">
-            <InputWithValidation
-              form={form}
               id="phone_number"
               name="phone_number"
               label="Phone Number"
               placeholder="Ex. +1 123456789"
-              type="text"
               disable={disable}
             />
           </div>
@@ -239,7 +256,7 @@ export default function GymForm({
           </div>
         </div>
 
-        <Button className="w-full mt-4  cursor-pointer" disabled={disable}>
+        <Button className="w-full mt-4  cursor-pointer" disabled={isPending}>
           {labelAction}
         </Button>
       </form>

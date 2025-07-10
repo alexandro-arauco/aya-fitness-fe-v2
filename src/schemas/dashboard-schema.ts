@@ -29,7 +29,7 @@ const BaseUserSchema = z.object({
   first_name: z.string().min(3, { message: "Required" }),
   last_name: z.string().min(3, { message: "Required" }),
   email: z.string().email({ message: "Enter a valid email" }),
-  phone_number: z.string().optional(),
+  phone_number: z.string().optional().nullable(),
 });
 
 export const GymSchema = BaseUserSchema.extend({
@@ -41,7 +41,11 @@ export const GymSchema = BaseUserSchema.extend({
   state_province: z.string().min(2, { message: "Required" }),
   postal_code: z.string().min(5, { message: "Required" }),
   country: z.string().min(5, { message: "Required" }),
-  logo: fileSchema.nullable().default(null).or(z.string().optional()),
+  logo: fileSchema
+    .nullable()
+    .default(null)
+    .or(z.string().optional().nullable()),
+  password: z.string().min(6, { message: "Required, min 6 characters" }),
 });
 
 export const ClientSchema = BaseUserSchema.extend({
