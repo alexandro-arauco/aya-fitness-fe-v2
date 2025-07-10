@@ -72,9 +72,14 @@ export default function GymForm({
   });
 
   const handleOnSuccess = async () => {
-    toast.success("Gym User Created successfully.", {
-      position: "top-right",
-    });
+    toast.success(
+      `Gym User ${
+        labelAction.toLowerCase() === "update" ? "Updated" : "Created"
+      } successfully.`,
+      {
+        position: "top-right",
+      }
+    );
 
     if (onClose) onClose();
   };
