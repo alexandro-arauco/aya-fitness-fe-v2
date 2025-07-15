@@ -65,18 +65,16 @@ export default function UserForm({
     mutationFn: (values: ClientCreate) => NewClientAction(values, userGymId),
     onSuccess: async (data) => {
       await handleOnSuccess();
-      
+
       await queryClient.invalidateQueries({
         queryKey: ["users"],
         exact: false,
       });
     },
-    onError: async (error) => {
-      if (error.message.includes("400")) {
-        form.setError("email", {
-          message: "The user with this email already exist.",
-        });
-      }
+    onError: async (error: any) => {
+      form.setError("email", {
+        message: "The user with this email already exist.",
+      });
 
       await queryClient.invalidateQueries({
         queryKey: ["users"],

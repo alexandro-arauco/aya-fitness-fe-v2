@@ -64,11 +64,9 @@ export default function GymForm({
       });
     },
     onError: async (error) => {
-      if (error.message.includes("400")) {
-        form.setError("email", {
-          message: "The user with this email already exist.",
-        });
-      }
+      form.setError("email", {
+        message: "The user with this email already exist.",
+      });
 
       await queryClient.invalidateQueries({
         queryKey: ["users"],
