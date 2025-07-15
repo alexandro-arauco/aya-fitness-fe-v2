@@ -72,8 +72,6 @@ export default function ModelBody({
     return weightRight > leftWeight ? "left" : "right";
   };
 
-  console.log({ bodyPart }, getWeakSideMuscleModelBody());
-
   return (
     <Card className="rounded-md shadow-xl">
       <CardContent className="flex flex-col lg:flex-row justify-center md:justify-between items-center md:space-x-4">

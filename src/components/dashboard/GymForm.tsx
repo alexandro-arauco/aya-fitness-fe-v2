@@ -56,19 +56,25 @@ export default function GymForm({
         ? UpdateGymAction(values, userId)
         : NewGymAction(values, userId),
     onSuccess: async (data) => {
+      await handleOnSuccess();
+
       await queryClient.invalidateQueries({
         queryKey: ["users"],
         exact: false,
       });
-
-      await new Promise<void>((resolve) => setTimeout(resolve, 1000));
-      await handleOnSuccess();
     },
-    onError: async (error) =>
+    onError: async (error) => {
+      if (error.message.includes("400")) {
+        form.setError("email", {
+          message: "The user with this email already exist.",
+        });
+      }
+
       await queryClient.invalidateQueries({
         queryKey: ["users"],
         exact: false,
-      }),
+      });
+    },
   });
 
   const handleOnSuccess = async () => {

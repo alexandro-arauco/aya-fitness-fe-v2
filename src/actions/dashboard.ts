@@ -7,6 +7,7 @@ import {
   GymCreate,
   GymSchema,
 } from "@/schemas/dashboard-schema";
+import { AxiosError } from "axios";
 
 export async function NewClientAction(values: ClientCreate, userId: number) {
   const parsed = ClientSchema.omit({ id: true }).safeParse(values);
@@ -28,8 +29,7 @@ export async function NewClientAction(values: ClientCreate, userId: number) {
       user: response.data,
     };
   } catch (error) {
-    console.log({ error });
-    return error;
+    throw error;
   }
 }
 

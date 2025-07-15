@@ -64,18 +64,25 @@ export default function UserForm({
   const { mutate, isPending } = useMutation({
     mutationFn: (values: ClientCreate) => NewClientAction(values, userGymId),
     onSuccess: async (data) => {
+      await handleOnSuccess();
+      
       await queryClient.invalidateQueries({
         queryKey: ["users"],
         exact: false,
       });
-      await new Promise<void>((resolve) => setTimeout(resolve, 1000));
-      await handleOnSuccess();
     },
-    onError: async (error) =>
+    onError: async (error) => {
+      if (error.message.includes("400")) {
+        form.setError("email", {
+          message: "The user with this email already exist.",
+        });
+      }
+
       await queryClient.invalidateQueries({
         queryKey: ["users"],
         exact: false,
-      }),
+      });
+    },
   });
 
   const handleOnSuccess = async () => {
@@ -195,7 +202,7 @@ export default function UserForm({
           </div>
         </div>
 
-        <Button className="w-full mt-4 cursor-pointer" disabled={disable}>
+        <Button className="w-full mt-4 cursor-pointer" disabled={isPending}>
           {labelAction}
         </Button>
       </form>

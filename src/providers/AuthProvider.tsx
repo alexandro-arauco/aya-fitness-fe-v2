@@ -18,7 +18,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (information) {
-      console.log(information);
       setUserInfo(information);
     }
   }, [JSON.stringify(information)]);

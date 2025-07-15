@@ -86,8 +86,6 @@ export default function AssessmentClientPage({
     return leftWeight > weightRight ? symmetryValue : symmetryValue * -1;
   };
 
-  console.log({ symmetryValue });
-
   return (
     <>
       <div className="px-3 md:px-10 py-3 space-y-3">
