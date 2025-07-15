@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useAuth } from "@/providers/AuthProvider";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,8 +15,7 @@ export default function Logo({
   height = 120,
   defaultLogo = null,
 }: LogoProps) {
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const information = getItem("user-info");
+  const { userInfo: information } = useAuth();
 
   const logo =
     information && information.logo

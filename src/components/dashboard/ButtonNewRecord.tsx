@@ -11,15 +11,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useAuth } from "@/providers/AuthProvider";
 
 import { PlusIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 
 export default function ButtonNewRecord() {
+  const { userInfo: information } = useAuth();
   const [open, setOpen] = useState(false);
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const information = getItem("user-info");
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>

@@ -17,8 +17,6 @@ interface MenuUserProps {
 }
 export default function MenuUser({ children, menuItems }: MenuUserProps) {
   const { clearStorage } = useLocalStorage();
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const information = getItem("user-info");
 
   const queryClient = useQueryClient();
   const router = useRouter();

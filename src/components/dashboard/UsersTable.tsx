@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import SkeletonTable from "@/components/SkeletonTable";
+import { useAuth } from "@/providers/AuthProvider";
 
 interface UsersTableProps {
   userId?: number;
@@ -16,34 +17,10 @@ interface UsersTableProps {
 }
 
 export default function UsersTable({ userId = 0, onSelect }: UsersTableProps) {
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const [information, setInformation] = useState<{
-    id: number;
-    type: string;
-  } | null>(null);
+  const { userInfo: information } = useAuth();
+
   const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
-
-  // Load user information on mount and when localStorage changes
-  useEffect(() => {
-    const userInfo = getItem("user-info");
-
-    if (userInfo && userInfo.id && userInfo.type) {
-      setInformation({
-        id: Number(userInfo.id), // Ensure it's a number
-        type: userInfo.type,
-      });
-    } else {
-      setInformation(null);
-    }
-  }, [getItem]);
-
-  // Reset page when user info changes
-  useEffect(() => {
-    if (information) {
-      setCurrentPage(1);
-    }
-  }, [information?.id, information?.type]);
 
   const { data: filterQuery = "" } = useQuery({
     queryKey: ["filterQuery"],

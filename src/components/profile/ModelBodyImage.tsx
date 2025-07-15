@@ -13,5 +13,12 @@ export default function ModelBodyImage({
 }: ModelBodyImageProps) {
   const source = `/model/${bodyPart.toLowerCase()}_${side}.png`;
 
-  return <Image src={source} alt="Body Model" width={350} height={700} />;
+  return (
+    <Image
+      src={source}
+      alt="Body Model"
+      width={bodyPart.toLowerCase() === "legs" ? 200 : 350}
+      height={700}
+    />
+  );
 }

@@ -7,7 +7,7 @@ import HeaderProfile from "@/components/profile/HeaderProfile";
 import UserProfileForm from "@/components/profile/UserProfileForm";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useAuth } from "@/providers/AuthProvider";
 import { ClientTable } from "@/schemas/dashboard-schema";
 import { useState } from "react";
 
@@ -16,8 +16,8 @@ interface ProfoilePageProps {
 }
 
 export default function ProfilePage({ id }: ProfoilePageProps) {
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const information = getItem("user-info");
+  const { userInfo: information } = useAuth();
+
   const title =
     information && information.type === "admin" ? "Customer" : "Member";
 

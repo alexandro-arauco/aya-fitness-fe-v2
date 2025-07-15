@@ -1,12 +1,10 @@
 "use client";
 
 import Header from "@/components/Header";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { MenuItem } from "@/interfaces/menu/menu";
+import { useAuth } from "@/providers/AuthProvider";
 
 export default function HeaderDashboard() {
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const information = getItem("user-info");
+  const { userInfo: information } = useAuth();
 
   const title =
     information && information.type === "gym"

@@ -5,15 +5,14 @@ import { Input } from "@/components/ui/input";
 
 import ButtonNewRecord from "@/components/dashboard/ButtonNewRecord";
 import SelectFilter from "@/components/dashboard/SelectFilter";
-import { SearchIcon } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounde";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useAuth } from "@/providers/AuthProvider";
+import { useQueryClient } from "@tanstack/react-query";
+import { SearchIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Menu() {
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const information = getItem("user-info");
+  const { userInfo: information } = useAuth();
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const debouncedSearchQuery = useDebounce(searchQuery, 300);

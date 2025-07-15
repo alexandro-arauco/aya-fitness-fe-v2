@@ -3,8 +3,8 @@
 import DownloadButton from "@/components/DownloadButton";
 import SkeletonTable from "@/components/SkeletonTable";
 import Table from "@/components/Table";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { AssessmentsResponse } from "@/interfaces/profile-assessment/profile-assessment";
+import { useAuth } from "@/providers/AuthProvider";
 import { GetAssessmentByMemberId } from "@/request/profile-assessment";
 import { columns } from "@/utils/profile/columns";
 import { useQuery } from "@tanstack/react-query";
@@ -17,8 +17,7 @@ interface AssessmentsListProps {
 
 export default function AssessmentsList({ userId }: AssessmentsListProps) {
   const router = useRouter();
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const information = getItem("user-info");
+  const { userInfo: information } = useAuth();
 
   const [currentPage, setCurrentPage] = useState(1);
 

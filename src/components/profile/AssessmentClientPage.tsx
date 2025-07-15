@@ -34,7 +34,7 @@ export default function AssessmentClientPage({
   clientId,
 }: AssessmentClientPageProps) {
   const [exerciseSelected, setExerciseSelected] = useState<string | null>(null);
-  const [symmetryValue, setSymmetryValue] = useState(0);
+  const [symmetryValue, setSymmetryValue] = useState(-1);
   const contentRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -85,6 +85,8 @@ export default function AssessmentClientPage({
 
     return leftWeight > weightRight ? symmetryValue : symmetryValue * -1;
   };
+
+  console.log({ symmetryValue });
 
   return (
     <>
@@ -169,7 +171,7 @@ export default function AssessmentClientPage({
               percentage_BW={evaluationData.percentage_BW}
             />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-2">
-              {symmetryValue ? (
+              {symmetryValue !== -1 ? (
                 <ModelBody
                   bodyPart={
                     (JSON.parse(exerciseSelected) as ExercisesResponse)

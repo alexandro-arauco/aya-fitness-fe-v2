@@ -7,7 +7,7 @@ import InputWithValidation from "@/components/InputWithValidation";
 import SelectWithValidation from "@/components/SelectWithValidation";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useAuth } from "@/providers/AuthProvider";
 import { ClientCreate, ClientSchema } from "@/schemas/dashboard-schema";
 import {
   DATA_FITNESS_LEVEL,
@@ -36,8 +36,7 @@ export default function UserForm({
   disable = false,
   onClose = () => {},
 }: UserFormProps) {
-  const { getItem } = useLocalStorage<Record<string, any>>();
-  const information = getItem("user-info");
+  const { userInfo: information } = useAuth();
 
   const userGymId = information?.id;
 

@@ -39,14 +39,14 @@ export default function InputWithValidation({
           className="mr-3 cursor-pointer relative w-5 h-5 flex items-center justify-center"
           onClick={() => setVisible((v) => !v)}
         >
-          <EyeIcon
+          <EyeClosed
             className={clsx(
               "absolute transition-all duration-200 ease-in-out",
               visible ? "opacity-100 scale-100" : "opacity-0 scale-90"
             )}
             style={{ pointerEvents: visible ? "auto" : "none" }}
           />
-          <EyeClosed
+          <EyeIcon
             className={clsx(
               "absolute transition-all duration-200 ease-in-out",
               !visible ? "opacity-100 scale-100" : "opacity-0 scale-90"
