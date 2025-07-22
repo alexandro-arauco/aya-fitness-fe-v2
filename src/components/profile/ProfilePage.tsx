@@ -73,11 +73,11 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
             {(clientSelected || information?.type === "gym") && (
               <TabsTrigger
                 className="flex-none
-     data-[state=active]:bg-black 
-     data-[state=active]:text-white 
-     data-[state=active]:font-bold 
-     px-4 py-4 rounded-md
-     bg-gray-300 text-black cursor-pointer hover:underline"
+                data-[state=active]:bg-black 
+                data-[state=active]:text-white 
+                data-[state=active]:font-bold 
+                px-4 py-4 rounded-md
+                bg-gray-300 text-black cursor-pointer hover:underline"
                 value="assessments"
               >
                 {`Assessments${
@@ -124,6 +124,7 @@ export default function ProfilePage({ id }: ProfoilePageProps) {
                 <CardContent className="w-full mx-auto">
                   <div className="overflow-x-auto">
                     <AssessmentsList
+                      gymId={information?.type === "admin" ? +id : undefined}
                       userId={clientSelected ? clientSelected.id : +id}
                     />
                   </div>

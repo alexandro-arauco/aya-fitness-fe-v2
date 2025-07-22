@@ -1,3 +1,4 @@
+import HeaderAssessmentList from "@/components/assessment-list/HeaderAssessmentList";
 import Header from "@/components/Header";
 import AssessmentClientPage from "@/components/profile/AssessmentClientPage";
 import { MenuItem } from "@/interfaces/menu/menu";
@@ -12,24 +13,9 @@ interface PageProps {
 
 export default async function ClientAssessmentPage({ params }: PageProps) {
   const { id: client_id, assessment_id } = await params;
-
-  const menuItems: MenuItem[] = [
-    {
-      label: "Dashboard",
-      link: "/dashboard",
-    },
-    {
-      label: "Member Profile",
-      link: `/profile/${client_id}`,
-    },
-  ];
-
   return (
     <div className="flex flex-col min-h-screen">
-      <Header
-        title="Strength Assessment Summary Report"
-        menuItems={menuItems}
-      />
+      <HeaderAssessmentList client_id={+client_id} />
 
       <AssessmentClientPage
         assessmentId={+assessment_id}

@@ -13,9 +13,13 @@ import { useState } from "react";
 
 interface AssessmentsListProps {
   userId: number;
+  gymId?: number; // Optional gymId for gym profiles
 }
 
-export default function AssessmentsList({ userId }: AssessmentsListProps) {
+export default function AssessmentsList({
+  userId,
+  gymId = 0,
+}: AssessmentsListProps) {
   const router = useRouter();
   const { userInfo: information } = useAuth();
 
@@ -62,7 +66,11 @@ export default function AssessmentsList({ userId }: AssessmentsListProps) {
       onPageChange={onPageChange}
       actions={{
         onView: (item) => {
-          router.push(`/profile/${userId}/assessment/${item.id}`);
+          router.push(
+            `/profile/${userId}/assessment/${item.id}${
+              gymId ? `?gym=${gymId}` : ""
+            }`
+          );
         },
       }}
       customActions={
